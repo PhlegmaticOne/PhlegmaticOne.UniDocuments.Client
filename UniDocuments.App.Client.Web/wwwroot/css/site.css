@@ -1,0 +1,15 @@
+html { font-size: 14px; }
+
+@media (min-width: 768px) {
+  html { font-size: 16px; }
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  background: rgb(24, 24, 24);
+  margin-bottom: 60px;
+}
