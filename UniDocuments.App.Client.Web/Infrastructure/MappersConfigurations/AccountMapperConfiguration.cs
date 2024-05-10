@@ -10,11 +10,12 @@ public class AccountMapperConfiguration : Profile
     {
         CreateMap<RegisterViewModel, RegisterObject>();
         CreateMap<LoginViewModel, LoginObject>();
+        
         CreateMap<UpdateAccountViewModel, UpdateProfileObject>()
-            .ForMember(x => x.FirstName, o => o.MapFrom(x => x.FirstName ?? ""))
-            .ForMember(x => x.LastName, o => o.MapFrom(x => x.LastName ?? ""))
-            .ForMember(x => x.UserName, o => o.MapFrom(x => x.UserName ?? ""))
-            .ForMember(x => x.NewPassword, o => o.MapFrom(x => x.NewPassword ?? ""))
-            .ForMember(x => x.OldPassword, o => o.MapFrom(x => x.OldPassword ?? ""));
+            .ForMember(x => x.FirstName, o => o.MapFrom(x => x.FirstName ?? string.Empty))
+            .ForMember(x => x.LastName, o => o.MapFrom(x => x.LastName ?? string.Empty))
+            .ForMember(x => x.UserName, o => o.MapFrom(x => x.UserName ?? string.Empty))
+            .ForMember(x => x.NewPassword, o => o.MapFrom(x => x.NewPassword ?? string.Empty))
+            .ForMember(x => x.OldPassword, o => o.MapFrom(x => x.OldPassword ?? string.Empty));
     }
 }

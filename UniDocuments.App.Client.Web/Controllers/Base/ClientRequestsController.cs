@@ -37,31 +37,28 @@ public class ClientRequestsController : Controller
     protected async Task<IActionResult> FromAuthorizedGet<TRequest, TResponse>(
         ClientGetRequest<TRequest, TResponse> clientGetRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null,
-        Func<ServerResponse, IActionResult>? onServerResponseFailed = null)
+        Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
         var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onOperationFailed, onServerResponseFailed);
+        return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
     protected async Task<IActionResult> FromAuthorizedPost<TRequest, TResponse>(
         ClientPostRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null,
-        Func<ServerResponse, IActionResult>? onServerResponseFailed = null)
+        Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
         var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onOperationFailed, onServerResponseFailed);
+        return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
     protected async Task<IActionResult> FromAuthorizedPut<TRequest, TResponse>(
         ClientPutRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null,
-        Func<ServerResponse, IActionResult>? onServerResponseFailed = null)
+        Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
         var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onOperationFailed, onServerResponseFailed);
+        return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
     protected IActionResult LoginView()
@@ -101,6 +98,7 @@ public class ClientRequestsController : Controller
 
     protected Task SignOutAsync()
     {
+        SetJwtToken(User.Id(), JwtTokenObject.Empty);
         return HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
@@ -131,8 +129,7 @@ public class ClientRequestsController : Controller
     private async Task<IActionResult> HandleResponse<TResponse>(
         ServerResponse<TResponse> serverResponse,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null,
-        Func<ServerResponse, IActionResult>? onServerResponseFailed = null)
+        Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
         if (serverResponse.IsUnauthorized)
         {
@@ -140,19 +137,12 @@ public class ClientRequestsController : Controller
             return LoginView();
         }
 
+        var operationResult = serverResponse.OperationResult!;
+        
         if (serverResponse.IsSuccess == false)
         {
-            return onServerResponseFailed is not null
-                ? onServerResponseFailed(serverResponse)
-                : ErrorView(serverResponse.ToString());
-        }
-
-        var operationResult = serverResponse.OperationResult!;
-
-        if (operationResult.IsSuccess == false)
-        {
             return onOperationFailed is not null
-                ? onOperationFailed(operationResult)
+                ? onOperationFailed(operationResult!)
                 : ErrorView(operationResult.ErrorMessage!);
         }
 

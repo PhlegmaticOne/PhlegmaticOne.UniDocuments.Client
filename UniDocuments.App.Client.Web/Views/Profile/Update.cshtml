@@ -35,8 +35,7 @@
                                     <div class="form-group">
                                         <label asp-for="FirstName" class="text-white-50 mb-2">Обновить имя</label><br/>
                                         <input type="text" asp-for="FirstName" class="form-control placeholder-glow"
-                                               value="@(Model.OldFirstName == Model.FirstName ? "" : Model.FirstName)"
-                                               placeholder="@Model.OldFirstName"/>
+                                               value="@(Model.OldFirstName)"/>
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -44,7 +43,7 @@
                                     <div class="form-group">
                                         <label asp-for="LastName" class="text-white-50 mb-2">Обновить фамилию</label><br/>
                                         <input type="text" asp-for="LastName" class="form-control"
-                                               value="@(Model.LastName == Model.OldLastName ? "" : Model.LastName)"
+                                               value="@(Model.OldLastName)"
                                                placeholder="@Model.OldLastName"/>
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
@@ -53,7 +52,7 @@
                                     <div class="form-group">
                                         <label asp-for="UserName" class="text-white-50 mb-2">Обновить ник</label><br/>
                                         <input type="text" asp-for="UserName" class="form-control"
-                                               value="@(Model.UserName == Model.OldUserName ? "" : Model.UserName)"
+                                               value="@(Model.OldUserName)"
                                                placeholder="@Model.UserName"/>
                                         <span asp-validation-for="UserName" class="text-danger"></span>
                                     </div>
@@ -65,7 +64,7 @@
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
-                                        <label asp-for="OldPassword" class="text-white-50 mb-2">Старый пароль</label><br/>
+                                        <label asp-for="OldPassword" class="text-white-50 mb-2">Подтвердите пароль</label><br/>
                                         <input type="password" class="form-control" asp-for="OldPassword"/>
                                         <span asp-validation-for="OldPassword" class="text-danger"></span>
                                     </div>

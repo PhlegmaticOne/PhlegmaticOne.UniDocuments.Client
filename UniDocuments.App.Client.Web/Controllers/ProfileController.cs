@@ -62,7 +62,7 @@ public class ProfileController : ClientRequestsController
 
         var updateProfileObject = Mapper.Map<UpdateProfileObject>(updateAccountViewModel);
 
-        return await FromAuthorizedPut(new UpdateProfileRequest(updateProfileObject), async profile =>
+        return await FromAuthorizedPost(new UpdateProfileRequest(updateProfileObject), async profile =>
         {
             await SignOutAsync();
             await AuthenticateAsync(profile);

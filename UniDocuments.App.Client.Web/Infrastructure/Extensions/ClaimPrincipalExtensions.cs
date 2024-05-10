@@ -7,7 +7,8 @@ public static class ProfileClaimsConstants
 {
     internal const string FirstNameClaimName = "FirstName";
     internal const string LastNameClaimName = "LastName";
-    internal const string RoleClaimName = "Role";
+    internal const string AppRoleClaimName = "AppRole";
+    internal const string StudyRoleClaimName = "StudyRole";
     internal const string IdClaimName = "Id";
 }
 
@@ -16,7 +17,7 @@ public static class ClaimPrincipalExtensions
     public static StudyRole Role(this ClaimsPrincipal claimsPrincipal)
     {
         var claimValue = claimsPrincipal.Claims
-            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.RoleClaimName);
+            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.AppRoleClaimName);
 
         if (claimValue is null)
         {
