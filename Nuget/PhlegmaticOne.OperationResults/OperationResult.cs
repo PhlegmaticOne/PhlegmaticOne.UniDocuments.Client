@@ -5,7 +5,6 @@ public class OperationResult
 {
     public bool IsSuccess { get; init; }
     public string? ErrorMessage { get; init; }
-
     public string? ErrorCode { get; init; }
 
     public static OperationResult Success => new()

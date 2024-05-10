@@ -46,17 +46,15 @@ public class ClientRequestsService : IClientRequestsService
         var requestUrl = BuildRequestQuery(request);
         var httpClient = CreateHttpClientWithToken(jwtToken);
 
-        HttpResponseMessage httpResponseMessage;
         try
         {
-            httpResponseMessage = await httpClient.DeleteAsync(requestUrl);
+            var httpResponseMessage = await httpClient.DeleteAsync(requestUrl);
+            return await GetServerResponse<TResponse>(httpResponseMessage);
         }
         catch (HttpRequestException httpRequestException)
         {
             return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
-
-        return await GetServerResponse<TResponse>(httpResponseMessage);
     }
 
     public async Task<ServerResponse<TResponse>> PutAsync<TRequest, TResponse>(
@@ -65,17 +63,15 @@ public class ClientRequestsService : IClientRequestsService
         var requestUrl = GetRequestUrl(request);
         var httpClient = CreateHttpClientWithToken(jwtToken);
 
-        HttpResponseMessage httpResponseMessage;
         try
         {
-            httpResponseMessage = await httpClient.PutAsJsonAsync(requestUrl, request.RequestData);
+            var httpResponseMessage = await httpClient.PutAsJsonAsync(requestUrl, request.RequestData);
+            return await GetServerResponse<TResponse>(httpResponseMessage);
         }
         catch (HttpRequestException httpRequestException)
         {
             return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
-
-        return await GetServerResponse<TResponse>(httpResponseMessage);
     }
 
     public async Task<ServerResponse<TResponse>> GetAsync<TRequest, TResponse>(
@@ -84,17 +80,15 @@ public class ClientRequestsService : IClientRequestsService
         var requestUrl = BuildGetQuery(getRequest);
         var httpClient = CreateHttpClientWithToken(jwtToken);
 
-        HttpResponseMessage httpResponseMessage;
         try
         {
-            httpResponseMessage = await httpClient.GetAsync(requestUrl);
+            var httpResponseMessage = await httpClient.GetAsync(requestUrl);
+            return await GetServerResponse<TResponse>(httpResponseMessage);
         }
         catch (HttpRequestException httpRequestException)
         {
             return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
-
-        return await GetServerResponse<TResponse>(httpResponseMessage);
     }
 
     private HttpClient CreateHttpClientWithToken(string? jwtToken)
@@ -120,16 +114,17 @@ public class ClientRequestsService : IClientRequestsService
         return _requestUrls[clientRequest.GetType()];
     }
 
-    private static async Task<ServerResponse<TResponse>> GetServerResponse<TResponse>(
-        HttpResponseMessage httpResponseMessage)
+    private static async Task<ServerResponse<TResponse>> GetServerResponse<TResponse>(HttpResponseMessage response)
     {
-        var httpStatusCode = httpResponseMessage.StatusCode;
-        var reasonPhrase = httpResponseMessage.ReasonPhrase;
+        var httpStatusCode = response.StatusCode;
+        var reasonPhrase = response.ReasonPhrase;
 
-        if (httpResponseMessage.IsSuccessStatusCode == false)
+        if (response.IsSuccessStatusCode == false)
+        {
             return ServerResponse.FromError<TResponse>(httpStatusCode, reasonPhrase);
+        }
 
-        var result = await httpResponseMessage.Content.ReadFromJsonAsync<OperationResult<TResponse>>();
+        var result = await response.Content.ReadFromJsonAsync<OperationResult<TResponse>>();
         return ServerResponse.FromSuccess(result!, httpStatusCode, reasonPhrase);
     }
 }

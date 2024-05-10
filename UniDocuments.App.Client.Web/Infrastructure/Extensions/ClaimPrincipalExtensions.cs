@@ -14,19 +14,6 @@ public static class ProfileClaimsConstants
 
 public static class ClaimPrincipalExtensions
 {
-    public static StudyRole Role(this ClaimsPrincipal claimsPrincipal)
-    {
-        var claimValue = claimsPrincipal.Claims
-            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.AppRoleClaimName);
-
-        if (claimValue is null)
-        {
-            return StudyRole.Student;
-        }
-        
-        return (StudyRole)int.Parse(claimValue.Value);
-    }
-    
     public static Guid Id(this ClaimsPrincipal claimsPrincipal)
     {
         var claim = claimsPrincipal.Claims
@@ -34,7 +21,7 @@ public static class ClaimPrincipalExtensions
 
         return claim is null ? Guid.Empty : Guid.Parse(claim.Value);
     }
-    
+
     public static string? IdString(this ClaimsPrincipal claimsPrincipal)
     {
         var claim = claimsPrincipal.Claims
@@ -42,7 +29,33 @@ public static class ClaimPrincipalExtensions
 
         return claim?.Value;
     }
-    
+
+    public static StudyRole StudyRole(this ClaimsPrincipal claimsPrincipal)
+    {
+        var claimValue = claimsPrincipal.Claims
+            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.StudyRoleClaimName);
+
+        if (claimValue is null)
+        {
+            return Shared.Users.Enums.StudyRole.Student;
+        }
+        
+        return (StudyRole)int.Parse(claimValue.Value);
+    }
+
+    public static AppRole AppRole(this ClaimsPrincipal claimsPrincipal)
+    {
+        var claimValue = claimsPrincipal.Claims
+            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.AppRoleClaimName);
+
+        if (claimValue is null)
+        {
+            return Shared.Users.Enums.AppRole.Default;
+        }
+        
+        return (AppRole)int.Parse(claimValue.Value);
+    }
+
     public static string Username(this ClaimsPrincipal claimsPrincipal)
     {
         var claim = claimsPrincipal.Claims

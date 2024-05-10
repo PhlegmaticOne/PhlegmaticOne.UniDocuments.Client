@@ -10,6 +10,6 @@ public class UpdateViewModelValidator : AbstractValidator<UpdateAccountViewModel
         RuleFor(x => x.NewPasswordConfirm)
             .Equal(x => x.NewPassword)
             .When(x => string.IsNullOrEmpty(x.OldPassword) == false)
-            .WithMessage("Пароли не равны");
+            .WithMessage("Пароли не совпадают!");
     }
 }

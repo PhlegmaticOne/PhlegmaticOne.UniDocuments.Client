@@ -26,15 +26,17 @@ public class ProfileController : ClientRequestsController
     [HttpGet]
     public IActionResult Details()
     {
-        var profileViewModel = new ProfileViewModel
+        var profileObject = new ProfileObject
         {
+            Id = User.Id(),
             FirstName = User.Firstname(),
-            Role = User.Role(),
             LastName = User.Lastname(),
-            UserName = User.Username()
+            UserName = User.Username(),
+            AppRole = User.AppRole(),
+            StudyRole = User.StudyRole()
         };
 
-        return View(nameof(Details), profileViewModel);
+        return View(nameof(Details), profileObject);
     }
     
     [HttpGet]
