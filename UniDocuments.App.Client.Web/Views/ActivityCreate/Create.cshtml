@@ -1,0 +1,122 @@
+@model UniDocuments.App.Client.Web.Infrastructure.ViewModels.Activities.ActivityCreateViewModel
+
+@{
+    ViewData["Title"] = "Создание";
+}
+
+<div class="d-flex justify-content-center mt-1" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+        @await Html.PartialAsync("~/Views/_Partial_Views/Shared/PageTitle.cshtml", "Создать активность")
+        
+        <form asp-action="Create" id="form" class="mt-2 text-white">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-6 align-self-center">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control form-control-lg my-1" rows="4" style="resize: none"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="col-6">
+                    <div class="row mt-2">
+                        <label asp-for="Name" class="control-label"></label>
+                        <div class="input-group">
+                            <input asp-for="Name" class="form-control my-1"/>
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="row mt-2">
+                        <label asp-for="StartDate" class="control-label"></label>
+                        <div class="input-group date" id="datepicker_start">
+                            <input asp-for="StartDate" type="text" class="form-control my-1" value="@Model.StartDate.ToString("MM/dd/yyyy")"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="row mt-2">
+                        <label asp-for="EndDate" class="control-label"></label>
+                        <div class="input-group date" id="datepicker_end">
+                            <input asp-for="EndDate" type="text" class="form-control my-1" value="@Model.EndDate.ToString("MM/dd/yyyy")"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <label asp-for="Students" class="control-label text-center col-form-label-lg"></label>
+                <div id="students_container" class="text-white">
+                    @Html.EditorFor(model => model.Students)
+                </div>
+                <span asp-validation-for="Students.Count" class="text-danger text-center"></span>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6 d-flex justify-content-center">
+                    <input class="btn btn-outline-light btn-lg" type="button" id="button_add_student" value="Добавить студента"/>
+                </div>
+                <div class="col-md-6 d-flex justify-content-center">
+                    <input class="btn btn-outline-light btn-lg" type="button" id="button_delete_student" value="Удалить студента"/>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <input class="btn btn-outline-light btn-lg" type="submit" value="Создать"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+}
+
+@section Scripts
+{
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/moment/moment.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('#datepicker_start').datepicker();
+        });
+        
+        $(function () {
+            $('#datepicker_end').datepicker();
+        });
+        
+        $("#button_add_student").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/ActivityCreate/AddStudent',
+                success: function (partialView) {
+                    $('#students_container').html(partialView);
+                }
+            });
+        });
+        
+        $("#button_delete_student").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/ActivityCreate/RemoveStudent',
+                success: function (partialView) {
+                    $('#students_container').html(partialView);
+                }
+            });
+        });
+    </script>
+}

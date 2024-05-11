@@ -17,6 +17,11 @@ public class OperationResult
         return null;
     }
 
+    public T GetResult<T>()
+    {
+        return (T)GetResult()!;
+    }
+
     public static OperationResult<T> Successful<T>(T result)
     {
         return new OperationResult<T>

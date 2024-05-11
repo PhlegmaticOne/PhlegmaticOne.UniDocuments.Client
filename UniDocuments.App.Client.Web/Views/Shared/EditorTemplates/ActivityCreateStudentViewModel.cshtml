@@ -1,0 +1,12 @@
+@model UniDocuments.App.Client.Web.Infrastructure.ViewModels.Activities.ActivityCreateStudentViewModel
+
+<div class="row mt-2">
+    <div class="col-md-12 d-flex justify-content-center">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group w-50">
+            <label asp-for="UserName" class="control-label"></label>
+            <input asp-for="UserName" class="form-control my-2" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+    </div>
+</div>

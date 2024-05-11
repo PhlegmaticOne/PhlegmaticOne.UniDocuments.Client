@@ -13,7 +13,7 @@ public static class AppInitializer
 {
     public static WebApplication BuildApplication(this WebApplicationBuilder builder)
     {
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         
         builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
@@ -28,6 +28,8 @@ public static class AppInitializer
             a.ConfigureRequest<RequestUpdateProfile>("Profiles/Update");
             
             a.ConfigureRequest<RequestGetActivitiesTeacher>("Activities/GetForTeacher");
+            a.ConfigureRequest<RequestGetDetailedActivity>("Activities/GetDetailed");
+            a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
         });
 
         builder.Services

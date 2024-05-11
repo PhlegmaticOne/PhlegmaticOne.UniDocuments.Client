@@ -15,11 +15,96 @@
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+      <PackageReference Include="jQuery.UI.Combined" Version="1.13.2" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.18" />
     </ItemGroup>
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Profile\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Profile\Update.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker-en-CA.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ar-tn.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ar.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.az.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.bg.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.bm.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.bn.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.br.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.bs.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ca.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.cs.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.cy.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.da.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.de.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.el.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.en-AU.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.en-CA.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.en-GB.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.en-IE.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.en-NZ.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.en-ZA.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.eo.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.es.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.et.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.eu.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.fa.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.fi.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.fo.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.fr-CH.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.fr.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.gl.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.he.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.hi.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.hr.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.hu.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.hy.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.id.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.is.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.it-CH.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.it.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ja.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ka.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.kh.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.kk.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.km.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ko.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.kr.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.lt.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.lv.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.me.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.mk.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.mn.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ms.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.nl-BE.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.nl.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.no.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.oc.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.pl.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.pt-BR.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.pt.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ro.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.rs-latin.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.rs.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ru.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.si.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sk.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sl.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sq.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sr-latin.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sr.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sv.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.sw.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.ta.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.tg.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.th.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.tk.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.tr.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.uk.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.uz-cyrl.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.uz-latn.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.vi.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.zh-CN.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.zh-TW.min.js" />
     </ItemGroup>
 
 </Project>

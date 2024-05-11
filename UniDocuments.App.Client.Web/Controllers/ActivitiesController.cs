@@ -20,6 +20,7 @@ public class ActivitiesController : ClientRequestsController
         IMapper mapper) : base(clientRequestsService, storageService, mapper) { }
 
     
+    [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]
     public Task<IActionResult> CreatedActivities(int? pageIndex, int? pageSize)
     {
@@ -37,8 +38,10 @@ public class ActivitiesController : ClientRequestsController
         });
     }
 
-    public IActionResult Watch()
+    [HttpGet]
+    [RequireStudyRoles(StudyRole.Student)]
+    public Task<IActionResult> MyActivities(int? pageIndex, int? pageSize)
     {
-        return Redirect("/Home/Index");
+        return null;
     }
 }

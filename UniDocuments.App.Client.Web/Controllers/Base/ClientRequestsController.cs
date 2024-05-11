@@ -20,8 +20,8 @@ namespace UniDocuments.App.Client.Web.Controllers.Base;
 public class ClientRequestsController : Controller
 {
     protected readonly IMapper Mapper;
+    protected readonly IClientRequestsService ClientRequestsService;
     
-    private readonly IClientRequestsService _clientRequestsService;
     private readonly IStorageService _storageService;
 
     public ClientRequestsController(
@@ -31,7 +31,7 @@ public class ClientRequestsController : Controller
     {
         Mapper = mapper;
         _storageService = storageService;
-        _clientRequestsService = clientRequestsService;
+        ClientRequestsService = clientRequestsService;
     }
 
     protected async Task<IActionResult> AuthorizedGet<TRequest, TResponse>(
@@ -39,7 +39,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
-        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
+        var serverResponse = await ClientRequestsService.GetAsync(clientGetRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
@@ -48,7 +48,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
-        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
+        var serverResponse = await ClientRequestsService.PostAsync(clientPostRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
@@ -57,7 +57,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
-        var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, JwtToken());
+        var serverResponse = await ClientRequestsService.PutAsync(clientPostRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 

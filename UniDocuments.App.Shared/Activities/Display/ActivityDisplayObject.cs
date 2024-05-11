@@ -1,4 +1,6 @@
-﻿namespace UniDocuments.App.Shared.Activities.Display;
+﻿using System.Text.Json.Serialization;
+
+namespace UniDocuments.App.Shared.Activities.Display;
 
 public class ActivityDisplayObject
 {
@@ -10,5 +12,5 @@ public class ActivityDisplayObject
     public DateTime EndDate { get; set; }
     public int StudentsCount { get; set; }
     public int DocumentsCount { get; set; }
-    public bool IsExpired { get; set; }
+    [JsonIgnore] public bool IsExpired => DateTime.UtcNow > EndDate;
 }
