@@ -1,0 +1,56 @@
+class .vgr-cards .card {
+    display: flex;
+    flex: 100%;
+    flex-flow: row;
+    margin-bottom: 40px;
+}
+
+
+@media (max-width: 576px) {
+    .vgr-cards .card { display: block; }
+}
+
+.card-body { background: wheat; }
+
+.card-img-body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+@media (max-width: 576px) {
+    .card-img-body {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+}
+
+.card-img {
+    height: auto;
+    margin-left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+@media (max-width: 1140px) {
+    .card-img {
+        height: auto;
+        margin: 0;
+        transform: none;
+        width: 100%;
+    }
+}
+
+
+.card-body {
+    border-radius: 0.3rem;
+    flex: 2;
+    padding: 0 1.25rem 0 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .card-body { height: 190px }
+
+    .body-links { padding-top: 1rem; padding-bottom: 0.5rem }
+}

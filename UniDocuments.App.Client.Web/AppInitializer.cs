@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using PhlegmaticOne.ApiRequesting.Extensions;
 using PhlegmaticOne.LocalStorage.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
+using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
+using UniDocuments.App.Client.Web.Infrastructure.Roles;
+using UniDocuments.App.Client.Web.Infrastructure.TagHelpers.PagedList.Helpers;
 
 namespace UniDocuments.App.Client.Web;
 
@@ -20,9 +23,11 @@ public static class AppInitializer
 
         builder.Services.AddClientRequestsService("http://localhost:5109/api/", a =>
         {
-            a.ConfigureRequest<RegisterProfileRequest>("Auth/Register");
-            a.ConfigureRequest<LoginProfileRequest>("Auth/Login");
-            a.ConfigureRequest<UpdateProfileRequest>("Profiles/Update");
+            a.ConfigureRequest<RequestRegister>("Auth/Register");
+            a.ConfigureRequest<RequestLogin>("Auth/Login");
+            a.ConfigureRequest<RequestUpdateProfile>("Profiles/Update");
+            
+            a.ConfigureRequest<RequestGetActivitiesTeacher>("Activities/GetForTeacher");
         });
 
         builder.Services
@@ -31,6 +36,8 @@ public static class AppInitializer
             {
                 x.LoginPath = new PathString("/Auth/Login");
             });
+        
+        builder.Services.AddScoped<IPagedListPagesGenerator, PagedListPagesGenerator>();
         
         return builder.Build();
     }
@@ -48,6 +55,8 @@ public static class AppInitializer
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<RequireAppRolesMiddleware>();
+        app.UseMiddleware<RequireStudyRolesMiddleware>();
 
         app.MapControllerRoute(
             name: "default",

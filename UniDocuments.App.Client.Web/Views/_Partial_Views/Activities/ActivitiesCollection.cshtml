@@ -1,0 +1,10 @@
+@model IList<UniDocuments.App.Shared.Activities.Display.ActivityDisplayObject>
+
+<div class="card-group vgr-cards mt-2 justify-content-around">
+    @foreach (var activityDisplayObject in Model)
+    {
+        <div>
+            @await Html.PartialAsync("~/Views/_Partial_Views/Activities/ActivityItem.cshtml", activityDisplayObject, ViewData)
+        </div>
+    }
+</div>

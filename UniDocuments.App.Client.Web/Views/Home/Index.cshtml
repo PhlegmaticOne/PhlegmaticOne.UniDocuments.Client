@@ -34,82 +34,48 @@ else
 {
     <div class="container-fluid text-white">
         <section>
-        <div class="row">
-            <div class="col-12 mt-3 mb-1">
-                <h5 class="text-uppercase ps-2">Навигация</h5>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-xl-6 col-sm-6 col-12 mb-4">
-                <div class="card text-white bg-dark">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between px-md-1">
-                            <div class="align-self-center">
-                                <i class="fa-solid fa-plus text-warning fa-3x"></i>
-                            </div>
-                            <div class="text-end">
-                                <h5 class="h5">Upload document</h5>
-                                <a class="btn btn-grad mt-2 text-center"
-                                   asp-action="Index" asp-controller="Home">Start creating</a>
-                            </div>
-                        </div>
-                    </div>
+            
+            <div class="row">
+                <div class="col-12 mt-3 mb-1">
+                    <h5 class="text-uppercase ps-2">Навигация</h5>
                 </div>
             </div>
-            <div class="col-xl-6 col-sm-6 col-12 mb-4">
-                <div class="card text-white bg-dark">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between px-md-1">
-                            <div class="align-self-center">
-                                <i class="fa-solid fa-house text-warning fa-3x"></i>
-                            </div>
-                            <div class="text-end">
-                                <h5 class="h5">See your documents</h5>
 
-                                <a class="btn btn-grad mt-2 text-center"
-                                   asp-action="Index" asp-controller="Home">Manage my farm</a>
+            <div class="row mt-2">
+                <div class="col-xl-6 col-sm-6 col-12 mb-4">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div class="align-self-center">
+                                    <i class="fa-solid fa-plus text-warning fa-3x"></i>
+                                </div>
+                                <div class="text-end">
+                                    <h5 class="h5">Профиль</h5>
+                                    <a class="btn btn-grad mt-2 text-center"
+                                       asp-action="Details" asp-controller="Profile">Посмотреть</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-xl-6 col-sm-6 col-12 mb-4">
+                    <div class="card text-white bg-dark">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div class="align-self-center">
+                                    <i class="fa-solid fa-house text-warning fa-3x"></i>
+                                </div>
+                                <div class="text-end">
+                                    <h5 class="h5">Профиль</h5>
 
-        <div class="row mt-1">
-            <div class="col-xl-6 col-sm-6 col-12 mb-4">
-                <div class="card text-white bg-dark">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between px-md-1">
-                            <div class="align-self-center">
-                                <i class="fa-solid fa-chart-line text-warning fa-3x"></i>
-                            </div>
-                            <div class="text-end">
-                                <h5 class="h5">See statistic for your and collaborated farms</h5>
-                                <a class="btn btn-grad mt-2 text-center"
-                                   asp-action="Index" asp-controller="Home">Statistics</a>
+                                    <a class="btn btn-grad mt-2 text-center"
+                                       asp-action="Update" asp-controller="Profile">Редактировать</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-sm-6 col-12 mb-4">
-                <div class="card text-white bg-dark">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between px-md-1">
-                            <div class="align-self-center">
-                                <i class="fa-solid fa-chart-area text-warning fa-3x"></i>
-                            </div>
-                            <div class="text-end">
-                                <h5 class="h5">Manage collaborated farms</h5>
-
-                                <a class="btn btn-grad mt-2 text-center"
-                                   asp-action="Index" asp-controller="Home">Collaborations</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         </section>
     </div>
 }

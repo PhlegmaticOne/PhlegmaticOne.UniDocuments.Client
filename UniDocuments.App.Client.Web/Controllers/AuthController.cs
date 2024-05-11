@@ -52,7 +52,7 @@ public class AuthController : ClientRequestsController
 
         var registerObject = Mapper.Map<RegisterObject>(registerViewModel);
 
-        return await AuthorizedPost(new RegisterProfileRequest(registerObject), async profile =>
+        return await AuthorizedPost(new RequestRegister(registerObject), async profile =>
         {
             await AuthenticateAsync(profile);
             return RedirectToAction("Details", "Profile");
@@ -64,7 +64,7 @@ public class AuthController : ClientRequestsController
     {
         var loginObject = Mapper.Map<LoginObject>(loginViewModel);
         
-        return AuthorizedPost(new LoginProfileRequest(loginObject), async profile =>
+        return AuthorizedPost(new RequestLogin(loginObject), async profile =>
         {
             await AuthenticateAsync(profile);
             

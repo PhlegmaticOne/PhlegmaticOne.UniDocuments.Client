@@ -1,0 +1,25 @@
+@model UniDocuments.App.Shared.Activities.Display.ActivityDisplayObject
+
+@{
+    var resultColor = !Model.IsExpired ? "#f5deb3" : "#9e8b65";
+}
+
+<div class="row mt-4 ms-2 me-2 pet-card">
+    <div class="card-body" style="background: @resultColor">
+        <input class="pet_id" hidden asp-for="Id"/>
+        <h4 class="card-title pt-1">@Model.Name</h4>
+        <div>
+            <label><b>Создатель:</b> @Model.CreatorFirstName @Model.CreatorLastName</label><br />
+            <label><b>Сроки:</b> @Model.StartDate.ToLocalTime().ToShortDateString() - @Model.EndDate.ToLocalTime().ToShortDateString()</label><br />
+            <label><b>Студентов:</b> @Model.StudentsCount</label><br/>
+            <label><b>Документов:</b> @Model.DocumentsCount</label><br/>
+        </div>
+        
+        <div class="mt-3 mb-1 body-links d-flex justify-content-center">
+            <a asp-controller="Activities" asp-action="Watch" asp-route-petId="@Model.Id"
+               class="btn btn-outline-secondary btn-dark">
+                Перейти
+            </a>
+        </div>
+    </div>
+</div>

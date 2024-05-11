@@ -3,9 +3,9 @@ using UniDocuments.App.Shared.Users;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 
-public class LoginProfileRequest : ClientPostRequest<LoginObject, ProfileObject>
+public class RequestUpdateProfile : ClientPostRequest<UpdateProfileObject, ProfileObject>
 {
-    public LoginProfileRequest(LoginObject requestData) : base(requestData)
+    public RequestUpdateProfile(UpdateProfileObject requestData) : base(requestData)
     {
     }
 }

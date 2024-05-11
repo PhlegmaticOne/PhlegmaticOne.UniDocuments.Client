@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using UniDocuments.App.Shared.Users.Enums
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - InnoGotchi</title>
+    <title>@ViewData["Title"] - UniDocuments</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/PhlegmaticOne.InnoGotchi.Web.styles.css" asp-append-version="true"/>
     @await RenderSectionAsync("Styles", false)
 </head>
 <body>
@@ -21,26 +21,40 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Constructor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">My farm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Collaborated farms</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Farms overview</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">InnoGotchies</a>
-                    </li>
+                    
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        @switch (User.StudyRole())
+                        {
+                            case StudyRole.Student:
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Мои активности</a>
+                                </li>
+                                break;
+                            case StudyRole.Teacher:
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Activities" asp-action="CreatedActivities">Созданные активности</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Создать активность</a>
+                                </li>
+                                break;
+                        }
+
+                        @switch (User.AppRole())
+                        {
+                            case AppRole.Admin:
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Панель управления системой</a>
+                                </li>
+                                break;
+                        }
+                    }
                 </ul>
                 <div class="d-flex align-items-center">
-                    @if (User.Identity!.IsAuthenticated)
+                    @if (User.Identity?.IsAuthenticated ?? false)
                     {
                         <div class="me-2">
                             <span class="text-white-50">@User.Identity.Name</span>
@@ -53,9 +67,9 @@
                                     aria-expanded="false">
                             </button>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Profile" asp-action="Details">Details</a>
-                                <a class="dropdown-item" asp-controller="Home" asp-action="Index">Settings</a>
-                                <a class="dropdown-item" asp-controller="Profile" asp-action="Logout">Logout</a>
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Details">Профиль</a>
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Update">Редактировать порфиль</a>
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Logout">Выйти</a>
                             </div>
                         </div>
                     }
@@ -63,10 +77,10 @@
                     {
                         <div class="btn-group" role="group">
                             <button class="btn btn-dark" onclick="location.href = '@Url.Action("Login", "Auth")'">
-                                Login
+                                Войти
                             </button>
                             <button class="btn btn-dark" onclick="location.href = '@Url.Action("Register", "Auth")'">
-                                Register
+                                Зарегистрироваться
                             </button>
                         </div>
                     }
@@ -84,7 +98,7 @@
 
 <footer class="footer text-muted">
     <div class="container">
-        &copy; @DateTime.UtcNow.Year - PhlegmaticOne
+        &copy; @DateTime.UtcNow.Year - Александр Кротов
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

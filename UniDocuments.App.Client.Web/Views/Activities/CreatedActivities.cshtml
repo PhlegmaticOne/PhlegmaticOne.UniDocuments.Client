@@ -1,0 +1,40 @@
+@model PhlegmaticOne.PagedLists.Implementation.PagedList<UniDocuments.App.Shared.Activities.Display.ActivityDisplayObject>
+
+@{
+    ViewData["Title"] = "Активности";
+    var pageSize = (int)ViewData["PageSize"]!;
+}
+
+@if (Model.Items.Count == 0)
+{
+    @await Html.PartialAsync("~/Views/_Partial_Views/Shared/PageTitle.cshtml", "Вы не создали ни одной активности")
+}
+else
+{
+    @await Html.PartialAsync("~/Views/_Partial_Views/Shared/PageTitle.cshtml", "Активности")
+
+    @await Html.PartialAsync("~/Views/_Partial_Views/Activities/ActivitiesCollection.cshtml", Model.Items)
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <pager asp-controller="Activities"
+                       asp-paged-list-page-index="@Model.PageIndex"
+                       asp-paged-list-page-size="@Model.PageSize"
+                       asp-paged-list-total-count="@Model.TotalCount"
+                       asp-paged-list-url="CreatedActivities"
+                       asp-route-data="@(new { pageSize })"
+                       asp-route-parameter="pageIndex">
+                </pager>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/farm_details.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/pagination.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css"/>
+}

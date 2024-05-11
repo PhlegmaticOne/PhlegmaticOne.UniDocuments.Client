@@ -12,6 +12,11 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult UserUnauthorized()
+    {
+        return View();
+    }
+
     public IActionResult Error(string errorMessage)
     {
         return View(new ErrorViewModel { ErrorMessage = errorMessage });
