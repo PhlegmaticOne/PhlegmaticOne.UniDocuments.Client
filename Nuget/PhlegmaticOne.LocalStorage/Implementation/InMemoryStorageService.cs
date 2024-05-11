@@ -2,7 +2,7 @@
 
 namespace PhlegmaticOne.LocalStorage.Implementation;
 
-public class InMemoryLocalStorageService : ILocalStorageService
+public class InMemoryStorageService : IStorageService
 {
     public void SetValue<T>(string key, T value, TimeSpan time)
     {

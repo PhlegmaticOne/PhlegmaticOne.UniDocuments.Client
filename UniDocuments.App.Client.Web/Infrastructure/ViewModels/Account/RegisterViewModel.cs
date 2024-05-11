@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Base;
+using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Account.Base;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Account;
 
-public class RegisterViewModel : ErrorHavingViewModel
+public class RegisterViewModel : RoleListHaving
 {
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;

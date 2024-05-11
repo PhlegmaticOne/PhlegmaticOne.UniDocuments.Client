@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Account;
 using UniDocuments.App.Shared.Users;
+using UniDocuments.App.Shared.Users.Enums;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.MappersConfigurations;
 
@@ -8,8 +9,11 @@ public class AccountMapperConfiguration : Profile
 {
     public AccountMapperConfiguration()
     {
-        CreateMap<RegisterViewModel, RegisterObject>();
-        CreateMap<LoginViewModel, LoginObject>();
+        CreateMap<RegisterViewModel, RegisterObject>()
+            .ForMember(x => x.StudyRole, o => o.MapFrom(x => Enum.Parse<StudyRole>(x.Role)));
+        
+        CreateMap<LoginViewModel, LoginObject>()
+            .ForMember(x => x.StudyRole, o => o.MapFrom(x => Enum.Parse<StudyRole>(x.Role)));
         
         CreateMap<UpdateAccountViewModel, UpdateProfileObject>()
             .ForMember(x => x.FirstName, o => o.MapFrom(x => x.FirstName ?? string.Empty))

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
 using PhlegmaticOne.LocalStorage;
@@ -11,14 +12,15 @@ using UniDocuments.App.Shared.Users;
 
 namespace UniDocuments.App.Client.Web.Controllers;
 
+[Authorize]
 public class ProfileController : ClientRequestsController
 {
     private readonly IValidator<UpdateAccountViewModel> _updateAccountViewModel;
 
     public ProfileController(IClientRequestsService clientRequestsService,
-        ILocalStorageService localStorageService, IMapper mapper,
+        IStorageService storageService, IMapper mapper,
         IValidator<UpdateAccountViewModel> updateAccountViewModel) :
-        base(clientRequestsService, localStorageService, mapper)
+        base(clientRequestsService, storageService, mapper)
     {
         _updateAccountViewModel = updateAccountViewModel;
     }
@@ -26,16 +28,23 @@ public class ProfileController : ClientRequestsController
     [HttpGet]
     public IActionResult Details()
     {
-        var profileObject = new ProfileObject
+        var profileObject = new ProfileViewModel
         {
             Id = User.Id(),
             FirstName = User.Firstname(),
             LastName = User.Lastname(),
             UserName = User.Username(),
+            Role = User.StudyRole(),
             AppRole = User.AppRole(),
-            StudyRole = User.StudyRole()
+            JoinDate = User.JoinDate()
         };
 
+        return Details(profileObject);
+    }
+
+    [HttpPost]
+    public IActionResult Details(ProfileViewModel profileObject)
+    {
         return View(nameof(Details), profileObject);
     }
     
@@ -46,7 +55,10 @@ public class ProfileController : ClientRequestsController
         {
             OldFirstName = User.Firstname(),
             OldLastName = User.Lastname(),
-            OldUserName = User.Username()
+            OldUserName = User.Username(),
+            AppRole = User.AppRole(),
+            Role = User.StudyRole(),
+            JoinDate = User.JoinDate()
         };
 
         return View(nameof(Update), viewModel);
@@ -64,7 +76,7 @@ public class ProfileController : ClientRequestsController
 
         var updateProfileObject = Mapper.Map<UpdateProfileObject>(updateAccountViewModel);
 
-        return await FromAuthorizedPost(new UpdateProfileRequest(updateProfileObject), async profile =>
+        return await AuthorizedPost(new UpdateProfileRequest(updateProfileObject), async profile =>
         {
             await SignOutAsync();
             await AuthenticateAsync(profile);

@@ -5,11 +5,12 @@ namespace UniDocuments.App.Client.Web.Infrastructure.Extensions;
 
 public static class ProfileClaimsConstants
 {
+    internal const string IdClaimName = "Id";
     internal const string FirstNameClaimName = "FirstName";
     internal const string LastNameClaimName = "LastName";
     internal const string AppRoleClaimName = "AppRole";
     internal const string StudyRoleClaimName = "StudyRole";
-    internal const string IdClaimName = "Id";
+    internal const string JoinDateClaimName = "JoinDate";
 }
 
 public static class ClaimPrincipalExtensions
@@ -29,6 +30,20 @@ public static class ClaimPrincipalExtensions
 
         return claim?.Value;
     }
+    
+    public static DateTime JoinDate(this ClaimsPrincipal claimsPrincipal)
+    {
+        var claimValue = claimsPrincipal.Claims
+            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.JoinDateClaimName);
+
+        if (claimValue is null)
+        {
+            return DateTime.MinValue;
+        }
+        
+        return DateTime.Parse(claimValue.Value);
+    }
+
 
     public static StudyRole StudyRole(this ClaimsPrincipal claimsPrincipal)
     {

@@ -1,6 +1,6 @@
 ﻿namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Base;
 
-public class ErrorHavingViewModel
+public class ErrorHaving
 {
     public string? ErrorMessage { get; set; }
 }

@@ -7,6 +7,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddStorage(this IServiceCollection serviceCollection)
     {
-        return serviceCollection.AddSingleton<ILocalStorageService, InMemoryLocalStorageService>();
+        return serviceCollection.AddSingleton<IStorageService, InMemoryStorageService>();
     }
 }

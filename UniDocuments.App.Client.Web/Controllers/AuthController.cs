@@ -18,10 +18,10 @@ public class AuthController : ClientRequestsController
 
     public AuthController(
         IClientRequestsService clientRequestsService, 
-        ILocalStorageService localStorageService,
+        IStorageService storageService,
         IMapper mapper,
         IValidator<RegisterViewModel> registerValidator) :
-        base(clientRequestsService, localStorageService, mapper)
+        base(clientRequestsService, storageService, mapper)
     {
         _registerValidator = registerValidator;
     }
@@ -29,13 +29,15 @@ public class AuthController : ClientRequestsController
     [HttpGet]
     public IActionResult Login(string returnUrl)
     {
-        return View();
+        var model = new LoginViewModel();
+        return View(model);
     }
 
     [HttpGet]
     public IActionResult Register()
     {
-        return View();
+        var model = new RegisterViewModel();
+        return View(model);
     }
 
     [HttpPost]
@@ -50,7 +52,7 @@ public class AuthController : ClientRequestsController
 
         var registerObject = Mapper.Map<RegisterObject>(registerViewModel);
 
-        return await FromAuthorizedPost(new RegisterProfileRequest(registerObject), async profile =>
+        return await AuthorizedPost(new RegisterProfileRequest(registerObject), async profile =>
         {
             await AuthenticateAsync(profile);
             return RedirectToAction("Details", "Profile");
@@ -62,12 +64,12 @@ public class AuthController : ClientRequestsController
     {
         var loginObject = Mapper.Map<LoginObject>(loginViewModel);
         
-        return FromAuthorizedPost(new LoginProfileRequest(loginObject), async profile =>
+        return AuthorizedPost(new LoginProfileRequest(loginObject), async profile =>
         {
             await AuthenticateAsync(profile);
             
             return loginViewModel.ReturnUrl is null
-                ? RedirectToAction("Details", "Profile")
+                ? RedirectToAction("Details", "Profile", profile)
                 : LocalRedirect(loginViewModel.ReturnUrl);
         }, result => ViewWithErrorsFromOperationResult(result, nameof(Login), loginViewModel));
     }

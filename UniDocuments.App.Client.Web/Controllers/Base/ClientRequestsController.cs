@@ -22,19 +22,19 @@ public class ClientRequestsController : Controller
     protected readonly IMapper Mapper;
     
     private readonly IClientRequestsService _clientRequestsService;
-    private readonly ILocalStorageService _localStorageService;
+    private readonly IStorageService _storageService;
 
     public ClientRequestsController(
         IClientRequestsService clientRequestsService, 
-        ILocalStorageService localStorageService,
+        IStorageService storageService,
         IMapper mapper)
     {
         Mapper = mapper;
-        _localStorageService = localStorageService;
+        _storageService = storageService;
         _clientRequestsService = clientRequestsService;
     }
 
-    protected async Task<IActionResult> FromAuthorizedGet<TRequest, TResponse>(
+    protected async Task<IActionResult> AuthorizedGet<TRequest, TResponse>(
         ClientGetRequest<TRequest, TResponse> clientGetRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
@@ -43,7 +43,7 @@ public class ClientRequestsController : Controller
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
-    protected async Task<IActionResult> FromAuthorizedPost<TRequest, TResponse>(
+    protected async Task<IActionResult> AuthorizedPost<TRequest, TResponse>(
         ClientPostRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
@@ -52,7 +52,7 @@ public class ClientRequestsController : Controller
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
-    protected async Task<IActionResult> FromAuthorizedPut<TRequest, TResponse>(
+    protected async Task<IActionResult> AuthorizedPut<TRequest, TResponse>(
         ClientPutRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
@@ -77,14 +77,14 @@ public class ClientRequestsController : Controller
     }
 
     protected IActionResult ViewWithErrorsFromOperationResult(
-        OperationResult operationResult, string viewName, ErrorHavingViewModel viewModel)
+        OperationResult operationResult, string viewName, ErrorHaving viewModel)
     {
         viewModel.ErrorMessage = operationResult.ErrorMessage;
         return View(viewName, viewModel);
     }
 
     protected IActionResult ViewWithErrorsFromValidationResult(
-        ValidationResult validationResult, string viewName, ErrorHavingViewModel viewModel)
+        ValidationResult validationResult, string viewName, ErrorHaving viewModel)
     {
         validationResult.AddToModelState(ModelState);
         return View(viewName, viewModel);
@@ -117,13 +117,13 @@ public class ClientRequestsController : Controller
             return null;
         }
         
-        var token = _localStorageService.GetValue<JwtTokenObject>(id);
+        var token = _storageService.GetValue<JwtTokenObject>(id);
         return token?.Token;
     }
 
     private void SetJwtToken(Guid id, JwtTokenObject jwtToken)
     {
-        _localStorageService.SetValue(id.ToString(), jwtToken, TimeSpan.FromMinutes(jwtToken.ExpirationInMinutes));
+        _storageService.SetValue(id.ToString(), jwtToken, TimeSpan.FromMinutes(jwtToken.ExpirationInMinutes));
     }
 
     private async Task<IActionResult> HandleResponse<TResponse>(

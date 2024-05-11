@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Globalization;
+using System.Security.Claims;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Shared.Users;
 
@@ -15,7 +16,8 @@ public class ClaimsPrincipalGenerator
             new(ProfileClaimsConstants.LastNameClaimName, profileObject.LastName),
             new(ProfileClaimsConstants.AppRoleClaimName, ((int)profileObject.AppRole).ToString()),
             new(ProfileClaimsConstants.StudyRoleClaimName, ((int)profileObject.StudyRole).ToString()),
-            new(ProfileClaimsConstants.IdClaimName, profileObject.Id.ToString())
+            new(ProfileClaimsConstants.IdClaimName, profileObject.Id.ToString()),
+            new(ProfileClaimsConstants.JoinDateClaimName, profileObject.JoinDate.ToString(CultureInfo.InvariantCulture))
         };
 
         var claimsIdentity = new ClaimsIdentity(claims,

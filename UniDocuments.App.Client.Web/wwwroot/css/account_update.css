@@ -14,16 +14,14 @@
     width: 90px;
 }
 
-.account-settings .user-profile h5.user-name {
+.account-settings .user-profile h5.info {
     color: #fffff0;
     margin: 0 0 0.5rem 0;
 }
 
-.account-settings .user-profile h6.user-email {
+.account-settings .user-profile h6.info {
     color: #fffff0;
-    font-size: 0.8rem;
-    font-weight: 400;
-    margin: 0;
+    margin: 0 0 0.5rem 0;
 }
 
 .account-settings .about {

@@ -33,6 +33,11 @@
                                     <input type="password" asp-for="Password" class="form-control form-control-lg"/>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
+                                
+                                <div class="form-outline mb-2">
+                                    <label class="mb-2">Статус</label><br/>
+                                    <select asp-for="Role" asp-items="Model.Roles" class="form-select-lg"></select>
+                                </div>
 
                                 <h5 class="h5 text-danger">@Model?.ErrorMessage</h5>
                                 <button class="btn btn-outline-light btn-lg my-4" type="submit">Войти</button>
