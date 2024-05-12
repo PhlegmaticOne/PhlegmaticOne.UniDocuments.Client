@@ -1,7 +1,7 @@
 @model ActivityCreateViewModel
 
 @{
-    ViewData["Title"] = "Создание";
+    ViewData["Title"] = "Создание активности";
 }
 
 <div class="d-flex justify-content-center mt-1" xmlns="http://www.w3.org/1999/html">
@@ -86,37 +86,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/moment/moment.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.min.js"></script>
-    <script>
-        $(function () {
-            $('#datepicker_start').datepicker();
-        });
-        
-        $(function () {
-            $('#datepicker_end').datepicker();
-        });
-        
-        $("#button_add_student").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/ActivityCreate/AddStudent',
-                success: function (partialView) {
-                    $('#students_container').html(partialView);
-                }
-            });
-        });
-        
-        $("#button_delete_student").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/ActivityCreate/RemoveStudent',
-                success: function (partialView) {
-                    $('#students_container').html(partialView);
-                }
-            });
-        });
-    </script>
+    <script src="~/js/activity_create.js"></script>
 }

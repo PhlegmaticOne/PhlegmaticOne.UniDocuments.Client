@@ -60,13 +60,11 @@ public static class AppInitializer
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseMiddleware<RequireAppRolesMiddleware>();
-        app.UseMiddleware<RequireStudyRolesMiddleware>();
-
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-
+        app.UseRequireAppRoles();
+        app.UseRequireStudyRoles();
+        
+        app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+        
         app.Run();
     }
 }

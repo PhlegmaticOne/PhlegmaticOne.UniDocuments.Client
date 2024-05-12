@@ -6,12 +6,12 @@ public class ActivityCreateViewModel
 {
     [Required]
     [StringLength(50)]
-    [Display(Name = "Название")]
+    [Display(Name = "Название:")]
     public string Name { get; set; } = null!;
     
     [Required]
     [StringLength(150)]
-    [Display(Name = "Описание")]
+    [Display(Name = "Описание:")]
     public string Description { get; set; } = null!;
 
     [Required]

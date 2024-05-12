@@ -5,7 +5,5 @@ namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 
 public class RequestRegister : ClientPostRequest<RegisterObject, ProfileObject>
 {
-    public RequestRegister(RegisterObject requestData) : base(requestData)
-    {
-    }
+    public RequestRegister(RegisterObject requestData) : base(requestData) { }
 }

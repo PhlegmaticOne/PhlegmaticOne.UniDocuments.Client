@@ -7,9 +7,7 @@ namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 
 public class RequestGetActivitiesStudent : ClientGetRequest<PagedListData, ActivityMyList>
 {
-    public RequestGetActivitiesStudent(PagedListData requestData) : base(requestData)
-    {
-    }
+    public RequestGetActivitiesStudent(PagedListData requestData) : base(requestData) { }
 
     public override string BuildQueryString()
     {

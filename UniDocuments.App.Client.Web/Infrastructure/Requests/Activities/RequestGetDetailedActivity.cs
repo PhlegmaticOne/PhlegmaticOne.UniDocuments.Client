@@ -6,9 +6,7 @@ namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 
 public class RequestGetDetailedActivity : ClientGetRequest<Guid, ActivityDetailedObject>
 {
-    public RequestGetDetailedActivity(Guid requestData) : base(requestData)
-    {
-    }
+    public RequestGetDetailedActivity(Guid requestData) : base(requestData) { }
 
     public override string BuildQueryString()
     {

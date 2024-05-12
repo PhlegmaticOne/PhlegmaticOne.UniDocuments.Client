@@ -5,7 +5,5 @@ namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 
 public class RequestLogin : ClientPostRequest<LoginObject, ProfileObject>
 {
-    public RequestLogin(LoginObject requestData) : base(requestData)
-    {
-    }
+    public RequestLogin(LoginObject requestData) : base(requestData) { }
 }

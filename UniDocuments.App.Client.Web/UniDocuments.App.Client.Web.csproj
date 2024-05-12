@@ -111,8 +111,4 @@
       <None Include="wwwroot\css\Activities\detailed.css" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Infrastructure\ViewModels\Documents\" />
-    </ItemGroup>
-
 </Project>
