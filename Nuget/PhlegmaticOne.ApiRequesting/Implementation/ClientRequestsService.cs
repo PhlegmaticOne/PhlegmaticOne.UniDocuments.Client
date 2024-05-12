@@ -91,6 +91,23 @@ public class ClientRequestsService : IClientRequestsService
         }
     }
 
+    public async Task<ServerResponse<FileResponse>> DownloadFileAsync<TRequest>(
+        ClientGetFileRequest<TRequest> getRequest, string? jwtToken)
+    {
+        var requestUrl = BuildGetQuery(getRequest);
+        var httpClient = CreateHttpClientWithToken(jwtToken);
+
+        try
+        {
+            var httpResponseMessage = await httpClient.GetAsync(requestUrl);
+            return await GetServerResponseFile(httpResponseMessage);
+        }
+        catch (HttpRequestException httpRequestException)
+        {
+            return ServerResponse.FromError<FileResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+        }
+    }
+
     private HttpClient CreateHttpClientWithToken(string? jwtToken)
     {
         var httpClient = _httpClientFactory.CreateClient(_httpClientName);
@@ -114,17 +131,37 @@ public class ClientRequestsService : IClientRequestsService
         return _requestUrls[clientRequest.GetType()];
     }
 
-    private static async Task<ServerResponse<TResponse>> GetServerResponse<TResponse>(HttpResponseMessage response)
+    private static async Task<ServerResponse<FileResponse>> GetServerResponseFile(HttpResponseMessage response)
     {
         var httpStatusCode = response.StatusCode;
         var reasonPhrase = response.ReasonPhrase;
 
         if (response.IsSuccessStatusCode == false)
         {
-            return ServerResponse.FromError<TResponse>(httpStatusCode, reasonPhrase);
+            return ServerResponse.FromError<FileResponse>(httpStatusCode, reasonPhrase);
         }
+        
+        var operationResult = OperationResult.Successful(new FileResponse
+        {
+            Stream = await response.Content.ReadAsStreamAsync(),
+            FileName = response.Content.Headers.ContentDisposition!.FileName!,
+            ContentType = response.Content.Headers.ContentType!
+        });
+        
+        return ServerResponse.FromSuccess(operationResult, httpStatusCode, reasonPhrase);
+    }
 
+    private static async Task<ServerResponse<TResponse>> GetServerResponse<TResponse>(HttpResponseMessage response)
+    {
+        var httpStatusCode = response.StatusCode;
+        var reasonPhrase = response.ReasonPhrase;
         var result = await response.Content.ReadFromJsonAsync<OperationResult<TResponse>>();
+        
+        if (response.IsSuccessStatusCode == false)
+        {
+            return ServerResponse.FromError(httpStatusCode, reasonPhrase, result);
+        }
+        
         return ServerResponse.FromSuccess(result!, httpStatusCode, reasonPhrase);
     }
 }

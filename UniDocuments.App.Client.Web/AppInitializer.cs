@@ -4,6 +4,7 @@ using PhlegmaticOne.ApiRequesting.Extensions;
 using PhlegmaticOne.LocalStorage.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
+using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
 using UniDocuments.App.Client.Web.Infrastructure.TagHelpers.PagedList.Helpers;
 
@@ -20,7 +21,7 @@ public static class AppInitializer
         builder.Services.AddAutoMapper(_ => { }, typeof(Program).Assembly);
         
         builder.Services.AddStorage();
-
+        
         builder.Services.AddClientRequestsService("http://localhost:5109/api/", a =>
         {
             a.ConfigureRequest<RequestRegister>("Auth/Register");
@@ -30,6 +31,9 @@ public static class AppInitializer
             a.ConfigureRequest<RequestGetActivitiesTeacher>("Activities/GetForTeacher");
             a.ConfigureRequest<RequestGetDetailedActivity>("Activities/GetDetailed");
             a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
+            
+            a.ConfigureRequest<RequestDownloadDocument>("Documents/GetFileById");
+            a.ConfigureRequest<RequestCheckDocument>("Documents/GetFileById");
         });
 
         builder.Services

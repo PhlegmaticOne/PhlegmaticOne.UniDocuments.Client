@@ -1,0 +1,121 @@
+@model UniDocuments.App.Shared.Activities.Detailed.ActivityDetailedObject
+
+@{
+    ViewData["Title"] = "Активность";
+}
+
+@await Html.PartialAsync("~/Views/_Partial_Views/Shared/PageTitle.cshtml", Model.Name)
+
+<div class="container mt-4">
+    <h6 class="text-center mb-0 text-white">Активность: @Model.GetTitle()</h6>
+</div>
+
+<div class="container mt-4">
+    <h6 class="text-center mb-0 text-white">@Model.Description</h6>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center activity text-white">
+                
+                @if (Model.IsEnd())
+                {
+                    <div>
+                        <span class="ml-2" style="color: green">Активность завершена</span>
+                    </div>
+                }
+                else if (Model.IsStarted())
+                {
+                    <div>
+                        <i class="fa fa-clock"></i>
+                        <span class="ml-2 me-2">Идет: @Model.GetLastTime()</span><br/>
+                        
+                        <i class="fa fa-clock"></i>
+                        <span class="ml-2 me-2">Осталось: @Model.GetRemainTime()</span>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <span class="ml-2" style="color: indianred">Активность не начата</span>
+                    </div>
+                }
+
+                <div>
+                    <span class="activity-done">Активность студентов</span>
+                </div>
+            </div>
+            <div class="mt-1">
+                <ul class="list list-inline">
+                    @foreach (var student in Model.Students)
+                    {
+                        <li class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                                @if (student.Document is not null)
+                                {
+                                    <i class="fa fa-check-circle checkicon"></i>
+                                    <div class="m-2">
+                                        <h6 class="mb-0">@student.Document.Name</h6>
+                                        <div class="d-flex flex-row mt-1 text-black-50 date-time">
+                                            <div>
+                                                <i class="fa fa-calendar-o"></i>
+                                                <span class="ml-2 text-black">@student.Document.GetDateLoadedView()</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-xmark-circle xmark"></i>
+                                    <div class="m-2">
+                                        <h6 class="mb-0">Студент не загрузил документ</h6>
+                                    </div>
+                                }
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="d-flex flex-column pe-2">
+                                    <h6 class="mb-0">@student.GetView()</h6>
+                                </div>
+                                
+                                @if (student.Document is not null)
+                                {
+                                    <div class="d-flex flex-column pe-2">
+                                        <a class="btn btn-outline-dark btn-sm"
+                                           asp-controller="Activities"
+                                           asp-action="DetailedCheck"
+                                           asp-route-documentId="@student.Document.Id">
+                                            Подробная проверка
+                                        </a>
+                                    </div>
+                                    <div class="d-flex flex-column pe-2">
+                                        <a class="btn btn-outline-dark btn-sm"
+                                                asp-controller="Activities"
+                                                asp-action="Check"
+                                                asp-route-documentId="@student.Document.Id">
+                                            Проверить
+                                        </a>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <a class="btn btn-outline-dark btn-sm"
+                                           asp-controller="Activities"
+                                           asp-action="Download"
+                                           asp-route-documentId="@student.Document.Id">
+                                            Скачать
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css"/>
+    <link rel="stylesheet" href="~/css/activity_detailed.css" asp-append-version="true"/>
+}

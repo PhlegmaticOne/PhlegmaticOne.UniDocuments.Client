@@ -25,7 +25,11 @@ public static class ClientRequestsSenderExtensions
     private static void ConfigureHttpClient(IServiceCollection serviceCollection, string serverAddress)
     {
         serviceCollection.AddHttpClient(HttpClientName,
-            httpClient => { httpClient.BaseAddress = new Uri(serverAddress); });
+            httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(serverAddress);
+                httpClient.Timeout = TimeSpan.MaxValue;
+            });
     }
 
     private static void AddClientRequestsService(IServiceCollection serviceCollection,

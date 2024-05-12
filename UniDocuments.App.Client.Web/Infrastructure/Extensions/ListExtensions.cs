@@ -7,4 +7,9 @@ public static class ListExtensions
         source.AddRange(data);
         return source;
     }
+
+    public static void RemoveLast<T>(this IList<T> source)
+    {
+        source.RemoveAt(source.Count - 1);
+    }
 }

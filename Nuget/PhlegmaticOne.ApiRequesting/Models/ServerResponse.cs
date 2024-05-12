@@ -11,14 +11,14 @@ public class ServerResponse
     public bool IsSuccess { get; init; }
     public bool IsUnauthorized => StatusCode == HttpStatusCode.Unauthorized;
 
-    public static ServerResponse<T> FromError<T>(HttpStatusCode? statusCode, string? reasonPhrase)
+    public static ServerResponse<T> FromError<T>(HttpStatusCode? statusCode, string? reasonPhrase, OperationResult<T>? result = null)
     {
         return new()
         {
             ReasonPhrase = reasonPhrase ?? string.Empty,
             StatusCode = statusCode,
             IsSuccess = false,
-            OperationResult = default
+            OperationResult = result
         };
     }
 

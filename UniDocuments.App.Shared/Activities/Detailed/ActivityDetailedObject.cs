@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace UniDocuments.App.Shared.Activities.Detailed;
+﻿namespace UniDocuments.App.Shared.Activities.Detailed;
 
 public class ActivityDetailedObject
 {
@@ -11,8 +9,42 @@ public class ActivityDetailedObject
     public string Description { get; set; } = null!;
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public List<ActivityDetailedStudentObject> Students { get; set; } = null!;
-    public List<ActivityDetailedDocumentObject> Documents { get; set; } = null!;
+    public DateTime CreationDate { get; set; }
+    public List<ActivityDetailedStudentObject> Students { get; set; } = new();
 
-    [JsonIgnore] public bool IsExpired => DateTime.UtcNow > EndDate;
+    public string GetTitle()
+    {
+        return $"{CreatorFirstName} {CreatorLastName}, {GetCreationDate()}";
+    }
+    
+    public string GetCreationDate()
+    {
+        var time = CreationDate.ToLocalTime();
+        return time.ToString("f");
+    }
+    
+    public bool IsStarted()
+    {
+        return DateTime.UtcNow > StartDate;
+    }
+    
+    public bool IsEnd()
+    {
+        return DateTime.UtcNow > EndDate;
+    }
+    
+    public string GetLastTime()
+    {
+        return FormatTime(DateTime.Now - StartDate.ToLocalTime());
+    }
+
+    public string GetRemainTime()
+    {
+        return FormatTime(EndDate.ToLocalTime() - DateTime.Now);
+    }
+
+    private static string FormatTime(TimeSpan timeSpan)
+    {
+        return $"{timeSpan.Days} д {timeSpan.Hours} ч {timeSpan.Minutes} м";
+    }
 }

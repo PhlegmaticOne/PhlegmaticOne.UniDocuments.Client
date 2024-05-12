@@ -17,6 +17,7 @@
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
       <PackageReference Include="jQuery.UI.Combined" Version="1.13.2" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.18" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -105,6 +106,10 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.vi.min.js" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.zh-CN.min.js" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\locales\bootstrap-datepicker.zh-TW.min.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\css\activity_detailed.css" />
     </ItemGroup>
 
 </Project>

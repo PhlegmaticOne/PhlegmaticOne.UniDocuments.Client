@@ -1,12 +1,11 @@
-﻿using System.Linq.Expressions;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PhlegmaticOne.ApiRequesting.Services;
 using PhlegmaticOne.LocalStorage;
-using PhlegmaticOne.OperationResults;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
@@ -48,18 +47,18 @@ public class ActivityCreateController : ClientRequestsController
             return Task.FromResult(view);
         }
         
-        return Task.FromResult<IActionResult>(View(viewModel));
-        // var activityCreateObject = Mapper.Map<ActivityCreateObject>(viewModel);
-        //
-        // return AuthorizedPost(new RequestCreateActivity(activityCreateObject), result =>
-        // {
-        //     var view = HomeView();
-        //     return Task.FromResult(view);
-        // }, onOperationFailed: result =>
-        // {
-        //     ProcessViewModelOnError(viewModel, result);
-        //     return View(viewModel);
-        // });
+        var activityCreateObject = Mapper.Map<ActivityCreateObject>(viewModel);
+        
+        return AuthorizedPost(new RequestCreateActivity(activityCreateObject), result =>
+        {
+            var view = HomeView();
+            return Task.FromResult(view);
+        }, onOperationFailed: result =>
+        {
+            var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorMessage!)!;
+            ProcessViewModelOnError(viewModel, errorStudents);
+            return View(viewModel);
+        });
     }
 
     [HttpPost]
@@ -74,20 +73,18 @@ public class ActivityCreateController : ClientRequestsController
     [ValidateAntiForgeryToken]
     public IActionResult RemoveStudent([Bind("Students")] ActivityCreateViewModel activity)
     {
-        activity.Students.RemoveAt(activity.Students.Count - 1);
+        activity.Students.RemoveLast();
         return PartialView("ActivityCreateStudentsList", activity);
     }
 
-    private void ProcessViewModelOnError(ActivityCreateViewModel viewModel, OperationResult result)
+    private void ProcessViewModelOnError(ActivityCreateViewModel viewModel, List<string> errorData)
     {
-        var errorData = result.GetResult<List<string>>();
         var studentNames = viewModel.Students.Select(x => x.UserName).ToList();
         var indexes = errorData.Select(x => studentNames.IndexOf(x));
 
         foreach (var index in indexes)
         {
-            Expression<Func<ActivityCreateViewModel, string>> expression = x => x.Students[index].UserName;
-            var key = expression.GetExpressionText();
+            var key = $"Students[{index}].UserName";
             ModelState.AddModelError(key, "Студент не найден!");
         }
     }

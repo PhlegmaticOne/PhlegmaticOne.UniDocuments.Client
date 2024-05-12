@@ -60,6 +60,14 @@ public class ClientRequestsController : Controller
         var serverResponse = await ClientRequestsService.PutAsync(clientPostRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
+    
+    protected async Task<IActionResult> AuthorizedDownloadFile<TRequest>(
+        ClientGetFileRequest<TRequest> clientGetRequest)
+    {
+        var serverResponse = await ClientRequestsService.DownloadFileAsync(clientGetRequest, JwtToken());
+        var fileData = serverResponse.GetData()!;
+        return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
+    }
 
     protected IActionResult LoginView()
     {

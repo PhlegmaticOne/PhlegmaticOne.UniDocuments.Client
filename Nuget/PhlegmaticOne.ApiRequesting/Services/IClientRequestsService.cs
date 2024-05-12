@@ -16,4 +16,7 @@ public interface IClientRequestsService
 
     Task<ServerResponse<TResponse>> GetAsync<TRequest, TResponse>(
         ClientGetRequest<TRequest, TResponse> request, string? jwtToken = null);
+
+    Task<ServerResponse<FileResponse>> DownloadFileAsync<TRequest>(
+        ClientGetFileRequest<TRequest> request, string? jwtToken);
 }
