@@ -4,7 +4,7 @@
     @foreach (var activityDisplayObject in Model)
     {
         <div>
-            @await Html.PartialAsync("~/Views/_Partial_Views/Activities/ActivityItem.cshtml", activityDisplayObject, ViewData)
+            @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityItem.cshtml", activityDisplayObject, ViewData)
         </div>
     }
 </div>

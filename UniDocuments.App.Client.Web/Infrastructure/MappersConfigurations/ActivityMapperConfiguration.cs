@@ -10,7 +10,7 @@ public class ActivityMapperConfiguration : Profile
     {
         CreateMap<ActivityCreateViewModel, ActivityCreateObject>()
             .ForMember(x => x.Students, o => o.MapFrom(x => x.Students.Select(s => s.UserName.ToLower()).ToList()))
-            .ForMember(x => x.StartDate, o => o.MapFrom(x => x.StartDate.ToUniversalTime()))
-            .ForMember(x => x.EndDate, o => o.MapFrom(x => x.EndDate.ToUniversalTime()));
+            .ForMember(x => x.StartDate, o => o.MapFrom(x => x.StartDate.Date.ToUniversalTime()))
+            .ForMember(x => x.EndDate, o => o.MapFrom(x => x.EndDate.Date.ToUniversalTime()));
     }
 }

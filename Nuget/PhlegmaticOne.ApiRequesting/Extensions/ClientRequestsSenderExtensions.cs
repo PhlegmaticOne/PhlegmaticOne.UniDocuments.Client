@@ -28,7 +28,7 @@ public static class ClientRequestsSenderExtensions
             httpClient =>
             {
                 httpClient.BaseAddress = new Uri(serverAddress);
-                httpClient.Timeout = TimeSpan.MaxValue;
+                httpClient.Timeout = TimeSpan.FromMinutes(60);
             });
     }
 

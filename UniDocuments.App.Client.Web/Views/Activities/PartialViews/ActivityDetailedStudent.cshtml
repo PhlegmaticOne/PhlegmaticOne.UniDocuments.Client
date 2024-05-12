@@ -1,0 +1,59 @@
+@model UniDocuments.App.Shared.Activities.Detailed.ActivityDetailedStudentObject
+
+<li class="d-flex justify-content-between">
+    <div class="d-flex flex-row align-items-center">
+        @if (Model.HasLoadedDocument())
+        {
+            <i class="fa fa-check-circle checkicon"></i>
+            <div class="m-2">
+                <h6 class="mb-0">@Model.Document!.Name</h6>
+                <div class="d-flex flex-row mt-1 text-black-50 date-time">
+                    <div>
+                        <i class="fa fa-calendar-o"></i>
+                        <span class="ml-2 text-black">@Model.Document.GetDateLoadedView()</span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <i class="fa fa-xmark-circle xmark"></i>
+            <div class="m-2">
+                <h6 class="mb-0">Студент не загрузил документ</h6>
+            </div>
+        }
+    </div>
+    <div class="d-flex flex-row align-items-center">
+        <div class="d-flex flex-column pe-2">
+            <h6 class="mb-0">@Model.GetView()</h6>
+        </div>
+        
+        @if (Model.HasLoadedDocument())
+        {
+            <div class="d-flex flex-column pe-2">
+                <a class="btn btn-outline-dark btn-sm"
+                   asp-controller="Activities"
+                   asp-action="DetailedCheck"
+                   asp-route-documentId="@Model.Document!.Id">
+                    Подробная проверка
+                </a>
+            </div>
+            <div class="d-flex flex-column pe-2">
+                <a class="btn btn-outline-dark btn-sm"
+                        asp-controller="Activities"
+                        asp-action="Check"
+                        asp-route-documentId="@Model.Document!.Id">
+                    Проверить
+                </a>
+            </div>
+            <div class="d-flex flex-column">
+                <a class="btn btn-outline-dark btn-sm"
+                   asp-controller="Activities"
+                   asp-action="Download"
+                   asp-route-documentId="@Model.Document!.Id">
+                    Скачать
+                </a>
+            </div>
+        }
+    </div>
+</li>

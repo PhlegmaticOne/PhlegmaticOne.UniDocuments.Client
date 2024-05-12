@@ -9,8 +9,10 @@ using PhlegmaticOne.LocalStorage;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
+using UniDocuments.App.Client.Web.Infrastructure.Roles;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Activities;
 using UniDocuments.App.Shared.Activities.Create;
+using UniDocuments.App.Shared.Users.Enums;
 
 namespace UniDocuments.App.Client.Web.Controllers;
 
@@ -29,6 +31,7 @@ public class ActivityCreateController : ClientRequestsController
     }
     
     [HttpGet]
+    [RequireStudyRoles(StudyRole.Teacher)]
     public IActionResult Create()
     {
         return View(new ActivityCreateViewModel());
@@ -36,6 +39,7 @@ public class ActivityCreateController : ClientRequestsController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireStudyRoles(StudyRole.Teacher)]
     public Task<IActionResult> Create(
         [Bind("TeacherId,Name,Description,StartDate,EndDate,Students")] ActivityCreateViewModel viewModel)
     {
@@ -49,9 +53,9 @@ public class ActivityCreateController : ClientRequestsController
         
         var activityCreateObject = Mapper.Map<ActivityCreateObject>(viewModel);
         
-        return AuthorizedPost(new RequestCreateActivity(activityCreateObject), result =>
+        return Post(new RequestCreateActivity(activityCreateObject), result =>
         {
-            var view = HomeView();
+            IActionResult view = View("~/Views/Activities/Detailed.cshtml", result);
             return Task.FromResult(view);
         }, onOperationFailed: result =>
         {
@@ -63,6 +67,7 @@ public class ActivityCreateController : ClientRequestsController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireStudyRoles(StudyRole.Teacher)]
     public IActionResult AddStudent([Bind("Students")] ActivityCreateViewModel activity)
     {
         activity.Students.Add(new ActivityCreateStudentViewModel());
@@ -71,6 +76,7 @@ public class ActivityCreateController : ClientRequestsController
     
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireStudyRoles(StudyRole.Teacher)]
     public IActionResult RemoveStudent([Bind("Students")] ActivityCreateViewModel activity)
     {
         activity.Students.RemoveLast();

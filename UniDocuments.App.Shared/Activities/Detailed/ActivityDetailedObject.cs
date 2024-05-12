@@ -1,4 +1,6 @@
-﻿namespace UniDocuments.App.Shared.Activities.Detailed;
+﻿using System.Globalization;
+
+namespace UniDocuments.App.Shared.Activities.Detailed;
 
 public class ActivityDetailedObject
 {
@@ -14,13 +16,18 @@ public class ActivityDetailedObject
 
     public string GetTitle()
     {
-        return $"{CreatorFirstName} {CreatorLastName}, {GetCreationDate()}";
+        return $"{CreatorFirstName} {CreatorLastName}";
+    }
+    
+    public string GetTerms()
+    {
+        return $"{StartDate.ToLocalTime():MM/dd/yyyy} - {EndDate.ToLocalTime():MM/dd/yyyy}";
     }
     
     public string GetCreationDate()
     {
         var time = CreationDate.ToLocalTime();
-        return time.ToString("f");
+        return time.ToString("f", CultureInfo.CurrentCulture);
     }
     
     public bool IsStarted()

@@ -7,7 +7,6 @@ using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
-using UniDocuments.App.Shared.Activities.Detailed;
 using UniDocuments.App.Shared.Shared;
 using UniDocuments.App.Shared.Users.Enums;
 
@@ -32,7 +31,7 @@ public class ActivitiesController : ClientRequestsController
             PageSize = pageSize ?? 15
         };
         
-        return AuthorizedGet(new RequestGetActivitiesTeacher(pageData), result =>
+        return Get(new RequestGetActivitiesTeacher(pageData), result =>
         {
             ViewData["PageSize"] = pageData.PageSize;
             IActionResult view = View(result.Activities);
@@ -41,40 +40,14 @@ public class ActivitiesController : ClientRequestsController
     }
 
     [HttpGet]
-    public IActionResult Detailed()
+    [RequireStudyRoles(StudyRole.Teacher)]
+    public Task<IActionResult> Detailed(Guid activityId)
     {
-        var activity = new ActivityDetailedObject
+        return Get(new RequestGetDetailedActivity(activityId), result =>
         {
-            Name = "ИТИ-41",
-            Description = "Сдать срочно",
-            EndDate = DateTime.UtcNow.AddDays(4),
-            StartDate = DateTime.UtcNow.AddDays(1),
-            CreatorFirstName = "Курочка",
-            CreatorLastName = "Курочка",
-            CreationDate = DateTime.MinValue,
-            Students = new List<ActivityDetailedStudentObject>()
-            {
-                new()
-                {
-                    FirstName = "Александр",
-                    LastName = "Невский",
-                    Document = new ActivityDetailedDocumentObject
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "test.docx",
-                        DateLoaded = DateTime.UtcNow
-                    }
-                },
-                new()
-                {
-                    FirstName = "Александр",
-                    LastName = "Невский",
-                    Document = null
-                },
-            }
-        };
-
-        return View(activity);
+            IActionResult view = View(result);
+            return Task.FromResult(view);
+        });
     }
 
     [HttpGet]
@@ -86,12 +59,12 @@ public class ActivitiesController : ClientRequestsController
 
     public Task<IActionResult> Download(Guid documentId)
     {
-        return AuthorizedDownloadFile(new RequestDownloadDocument(documentId));
+        return DownloadFile(new RequestDownloadDocument(documentId));
     }
 
     public Task<IActionResult> Check(Guid documentId)
     {
-        return AuthorizedDownloadFile(new RequestCheckDocument(documentId));
+        return DownloadFile(new RequestCheckDocument(documentId));
     }
 
     public IActionResult DetailedCheck()

@@ -7,13 +7,13 @@
 
 @if (Model.Items.Count == 0)
 {
-    @await Html.PartialAsync("~/Views/_Partial_Views/Shared/PageTitle.cshtml", "Вы не создали ни одной активности")
+    @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Вы не создали ни одной активности!")
 }
 else
 {
-    @await Html.PartialAsync("~/Views/_Partial_Views/Shared/PageTitle.cshtml", "Активности")
+    @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Активности")
 
-    @await Html.PartialAsync("~/Views/_Partial_Views/Activities/ActivitiesCollection.cshtml", Model.Items)
+    @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivitiesCollection.cshtml", Model.Items)
 
     <div class="container mt-4">
         <div class="row">

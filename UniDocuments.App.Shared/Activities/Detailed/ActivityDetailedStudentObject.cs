@@ -7,6 +7,11 @@ public class ActivityDetailedStudentObject
     public string LastName { get; set; } = null!;
     public ActivityDetailedDocumentObject? Document { get; set; }
 
+    public bool HasLoadedDocument()
+    {
+        return Document is not null;
+    }
+
     public string GetView()
     {
         return $"{FirstName} {LastName}";

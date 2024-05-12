@@ -12,5 +12,19 @@ public class ActivityDisplayObject
     public DateTime EndDate { get; set; }
     public int StudentsCount { get; set; }
     public int DocumentsCount { get; set; }
-    [JsonIgnore] public bool IsExpired => DateTime.UtcNow > EndDate;
+
+    public string GetTermsView()
+    {
+        return $"{StartDate.ToLocalTime():MM/dd/yyyy} - {EndDate.ToLocalTime():MM/dd/yyyy}";
+    }
+    
+    public string GetCreatorView()
+    {
+        return $"{CreatorFirstName} {CreatorLastName}";
+    }
+    
+    public bool IsExpired()
+    {
+        return DateTime.UtcNow > EndDate;
+    }
 }

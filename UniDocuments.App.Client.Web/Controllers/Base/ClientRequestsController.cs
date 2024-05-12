@@ -20,7 +20,7 @@ namespace UniDocuments.App.Client.Web.Controllers.Base;
 public class ClientRequestsController : Controller
 {
     protected readonly IMapper Mapper;
-    protected readonly IClientRequestsService ClientRequestsService;
+    private readonly IClientRequestsService _clientRequestsService;
     
     private readonly IStorageService _storageService;
 
@@ -31,40 +31,40 @@ public class ClientRequestsController : Controller
     {
         Mapper = mapper;
         _storageService = storageService;
-        ClientRequestsService = clientRequestsService;
+        _clientRequestsService = clientRequestsService;
     }
 
-    protected async Task<IActionResult> AuthorizedGet<TRequest, TResponse>(
+    protected async Task<IActionResult> Get<TRequest, TResponse>(
         ClientGetRequest<TRequest, TResponse> clientGetRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
-        var serverResponse = await ClientRequestsService.GetAsync(clientGetRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
-    protected async Task<IActionResult> AuthorizedPost<TRequest, TResponse>(
+    protected async Task<IActionResult> Post<TRequest, TResponse>(
         ClientPostRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
-        var serverResponse = await ClientRequestsService.PostAsync(clientPostRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
 
-    protected async Task<IActionResult> AuthorizedPut<TRequest, TResponse>(
+    protected async Task<IActionResult> Put<TRequest, TResponse>(
         ClientPutRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onOperationFailed = null)
     {
-        var serverResponse = await ClientRequestsService.PutAsync(clientPostRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
     }
     
-    protected async Task<IActionResult> AuthorizedDownloadFile<TRequest>(
+    protected async Task<IActionResult> DownloadFile<TRequest>(
         ClientGetFileRequest<TRequest> clientGetRequest)
     {
-        var serverResponse = await ClientRequestsService.DownloadFileAsync(clientGetRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, JwtToken());
         var fileData = serverResponse.GetData()!;
         return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
     }
