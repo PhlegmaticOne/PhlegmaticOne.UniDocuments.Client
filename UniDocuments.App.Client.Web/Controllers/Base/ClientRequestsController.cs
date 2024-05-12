@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Models;
 using PhlegmaticOne.ApiRequesting.Models.Requests;
 using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.LocalStorage;
 using PhlegmaticOne.OperationResults;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Helpers;
@@ -19,15 +18,15 @@ namespace UniDocuments.App.Client.Web.Controllers.Base;
 
 public class ClientRequestsController : Controller
 {
+    private const string Jwt = "jwt";
+    
     private readonly IClientRequestsService _clientRequestsService;
-    private readonly IStorageService _storageService;
     
     protected readonly IMapper Mapper;
 
-    public ClientRequestsController(IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper)
+    public ClientRequestsController(IClientRequestsService clientRequestsService, IMapper mapper)
     {
         Mapper = mapper;
-        _storageService = storageService;
         _clientRequestsService = clientRequestsService;
     }
 
@@ -114,31 +113,25 @@ public class ClientRequestsController : Controller
     protected Task AuthenticateAsync(ProfileObject profileObject)
     {
         var claimsPrincipal = ClaimsPrincipalGenerator.GenerateClaimsPrincipal(profileObject);
-        return SignInAsync(profileObject.Id, claimsPrincipal, profileObject.JwtToken);
+        return SignInAsync(claimsPrincipal, profileObject.JwtToken);
     }
 
     protected Task SignOutAsync()
     {
-        SetJwtToken(User.Id(), JwtTokenObject.Empty);
+        HttpContext.Response.Cookies.Delete(Jwt);
         return HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
-    private Task SignInAsync(Guid id, ClaimsPrincipal claimsPrincipal, JwtTokenObject jwtToken)
+    private Task SignInAsync(ClaimsPrincipal claimsPrincipal, JwtTokenObject jwtToken)
     {
-        SetJwtToken(id, jwtToken);
+        HttpContext.Response.Cookies.Append(Jwt, jwtToken.Token!);
         return HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
     }
 
     private string? JwtToken()
     {
         var id = User.IdString();
-        return id is null ? null : _storageService.GetValue<JwtTokenObject>(id)?.Token;
-    }
-
-    private void SetJwtToken(Guid id, JwtTokenObject jwtToken)
-    {
-        var time = TimeSpan.FromMinutes(jwtToken.ExpirationInMinutes);
-        _storageService.SetValue(id.ToString(), jwtToken, time);
+        return id is null ? null : HttpContext.Request.Cookies[Jwt];
     }
 
     private IActionResult LoginView()

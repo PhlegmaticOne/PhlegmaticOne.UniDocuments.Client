@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Nuget\PhlegmaticOne.ApiRequesting\PhlegmaticOne.ApiRequesting.csproj" />
-      <ProjectReference Include="..\Nuget\PhlegmaticOne.LocalStorage\PhlegmaticOne.LocalStorage.csproj" />
       <ProjectReference Include="..\UniDocuments.App.Shared\UniDocuments.App.Shared.csproj" />
     </ItemGroup>
 

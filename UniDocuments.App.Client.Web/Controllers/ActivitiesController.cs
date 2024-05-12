@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.LocalStorage;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
@@ -17,8 +16,8 @@ namespace UniDocuments.App.Client.Web.Controllers;
 public class ActivitiesController : ClientRequestsController
 {
     public ActivitiesController(
-        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper) : 
-        base(clientRequestsService, storageService, mapper) { }
+        IClientRequestsService clientRequestsService, IMapper mapper) : 
+        base(clientRequestsService, mapper) { }
     
     [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]

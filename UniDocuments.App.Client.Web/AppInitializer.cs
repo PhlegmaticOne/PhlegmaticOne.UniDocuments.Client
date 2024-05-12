@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PhlegmaticOne.ApiRequesting.Extensions;
-using PhlegmaticOne.LocalStorage.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
@@ -19,8 +18,6 @@ public static class AppInitializer
         builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
         builder.Services.AddAutoMapper(_ => { }, typeof(Program).Assembly);
-        
-        builder.Services.AddStorage();
         
         builder.Services.AddClientRequestsService("http://localhost:5109/api/", a =>
         {

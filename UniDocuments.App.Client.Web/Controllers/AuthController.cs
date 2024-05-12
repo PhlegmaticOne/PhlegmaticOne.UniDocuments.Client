@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.LocalStorage;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Account;
@@ -17,9 +16,9 @@ public class AuthController : ClientRequestsController
     private readonly IValidator<RegisterViewModel> _registerValidator;
 
     public AuthController(
-        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper,
+        IClientRequestsService clientRequestsService, IMapper mapper,
         IValidator<RegisterViewModel> registerValidator) :
-        base(clientRequestsService, storageService, mapper)
+        base(clientRequestsService, mapper)
     {
         _registerValidator = registerValidator;
     }

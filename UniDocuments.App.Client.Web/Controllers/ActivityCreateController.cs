@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.LocalStorage;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
@@ -25,9 +24,9 @@ public class ActivityCreateController : ClientRequestsController
     private readonly IValidator<ActivityCreateViewModel> _validator;
 
     public ActivityCreateController(
-        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper,
+        IClientRequestsService clientRequestsService, IMapper mapper,
         IValidator<ActivityCreateViewModel> validator) : 
-        base(clientRequestsService, storageService, mapper)
+        base(clientRequestsService, mapper)
     {
         _validator = validator;
     }

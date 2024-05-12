@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.LocalStorage;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
@@ -18,9 +17,9 @@ public class ProfileController : ClientRequestsController
     private readonly IValidator<UpdateAccountViewModel> _updateAccountViewModel;
 
     public ProfileController(
-        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper,
+        IClientRequestsService clientRequestsService, IMapper mapper,
         IValidator<UpdateAccountViewModel> updateAccountViewModel) :
-        base(clientRequestsService, storageService, mapper)
+        base(clientRequestsService, mapper)
     {
         _updateAccountViewModel = updateAccountViewModel;
     }
