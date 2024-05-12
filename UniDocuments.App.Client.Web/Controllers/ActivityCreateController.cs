@@ -55,16 +55,14 @@ public class ActivityCreateController : ClientRequestsController
         
         var activityCreateObject = Mapper.Map<ActivityCreateObject>(viewModel);
         
-        return Post(new RequestCreateActivity(activityCreateObject), result =>
-        {
-            IActionResult view = View("~/Views/Activities/Detailed.cshtml", result);
-            return Task.FromResult(view);
-        }, onFailed: result =>
-        {
-            var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorMessage!)!;
-            ProcessViewModelOnError(viewModel, errorStudents);
-            return View(viewModel);
-        });
+        return Post(new RequestCreateActivity(activityCreateObject), 
+            result => View("~/Views/Activities/Detailed.cshtml", result), 
+            result => 
+            { 
+                var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorMessage!)!; 
+                ProcessViewModelOnError(viewModel, errorStudents); 
+                return View(viewModel); 
+            });
     }
 
     [HttpPost]

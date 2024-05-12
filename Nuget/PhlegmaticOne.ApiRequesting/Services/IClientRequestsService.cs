@@ -19,4 +19,7 @@ public interface IClientRequestsService
 
     Task<ServerResponse<FileResponse>> DownloadFileAsync<TRequest>(
         ClientGetFileRequest<TRequest> request, string? jwtToken);
+
+    Task<ServerResponse<TResponse>> PostFormAsync<TRequest, TResponse>(
+        ClientFormDataRequest<TRequest, TResponse> request, string? jwtToken);
 }

@@ -29,11 +29,13 @@ public static class AppInitializer
             a.ConfigureRequest<RequestUpdateProfile>("Profiles/Update");
             
             a.ConfigureRequest<RequestGetActivitiesTeacher>("Activities/GetForTeacher");
+            a.ConfigureRequest<RequestGetActivitiesStudent>("Activities/GetForStudent");
             a.ConfigureRequest<RequestGetDetailedActivity>("Activities/GetDetailed");
             a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
             
             a.ConfigureRequest<RequestDownloadDocument>("Documents/GetFileById");
             a.ConfigureRequest<RequestCheckDocument>("Documents/GetFileById");
+            a.ConfigureRequest<RequestUploadDocument>("Documents/Upload");
         });
 
         builder.Services

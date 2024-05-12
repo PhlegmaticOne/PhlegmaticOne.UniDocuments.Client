@@ -1,13 +1,15 @@
 ﻿using PhlegmaticOne.ApiRequesting.Models;
 using PhlegmaticOne.ApiRequesting.Models.Requests;
-using UniDocuments.App.Shared.Activities.Created;
+using UniDocuments.App.Shared.Activities.My;
 using UniDocuments.App.Shared.Shared;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 
-public class RequestGetActivitiesTeacher : ClientGetRequest<PagedListData, ActivityCreatedList>
+public class RequestGetActivitiesStudent : ClientGetRequest<PagedListData, ActivityMyList>
 {
-    public RequestGetActivitiesTeacher(PagedListData requestData) : base(requestData) { }
+    public RequestGetActivitiesStudent(PagedListData requestData) : base(requestData)
+    {
+    }
 
     public override string BuildQueryString()
     {

@@ -30,7 +30,7 @@
                         {
                             case StudyRole.Student:
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Мои активности</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Activities" asp-action="MyActivities">Мои активности</a>
                                 </li>
                                 break;
                             case StudyRole.Teacher:
@@ -96,7 +96,7 @@
     </main>
 </div>
 
-<footer class="footer text-muted">
+<footer class="footer text-muted text-center">
     <div class="container">
         &copy; @DateTime.Now.Year - Александр Кротов
     </div>

@@ -51,11 +51,13 @@ public class AuthController : ClientRequestsController
 
         var registerObject = Mapper.Map<RegisterObject>(registerViewModel);
 
-        return Post(new RequestRegister(registerObject), async profile =>
-        {
-            await AuthenticateAsync(profile);
-            return RedirectToAction("Details", "Profile", profile);
-        }, result => ViewWithErrorsFromOperationResult(result, nameof(Register), registerViewModel));
+        return Post(new RequestRegister(registerObject), 
+            async profile => 
+            { 
+                await AuthenticateAsync(profile); 
+                return RedirectToAction("Details", "Profile", profile); 
+            }, 
+            result => ViewWithErrorsFromOperationResult(result, nameof(Register), registerViewModel));
     }
 
     [HttpPost]
@@ -63,13 +65,15 @@ public class AuthController : ClientRequestsController
     {
         var loginObject = Mapper.Map<LoginObject>(loginViewModel);
         
-        return Post(new RequestLogin(loginObject), async profile =>
-        {
-            await AuthenticateAsync(profile);
-            
-            return loginViewModel.ReturnUrl is null
-                ? RedirectToAction("Details", "Profile", profile)
-                : LocalRedirect(loginViewModel.ReturnUrl);
-        }, result => ViewWithErrorsFromOperationResult(result, nameof(Login), loginViewModel));
+        return Post(new RequestLogin(loginObject), 
+            async profile => 
+            { 
+                await AuthenticateAsync(profile);
+                
+                return loginViewModel.ReturnUrl is null 
+                    ? RedirectToAction("Details", "Profile", profile) 
+                    : LocalRedirect(loginViewModel.ReturnUrl); 
+            }, 
+            result => ViewWithErrorsFromOperationResult(result, nameof(Login), loginViewModel));
     }
 }

@@ -1,19 +1,19 @@
-@model PagedList<ActivityCreatedObject>
+@model PagedList<ActivityMyObject>
 
 @{
-    ViewData["Title"] = "Активности";
+    ViewData["Title"] = "Мои активности";
     var pageSize = (int)ViewData["PageSize"]!;
 }
 
 @if (Model.Items.Count == 0)
 {
-    @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Вы не создали ни одной активности!")
+    @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "У вас нет ни одной активности!")
 }
 else
 {
     @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Активности")
 
-    @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityCreatedItemsList.cshtml", Model.Items)
+    @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityMyItemsList.cshtml", Model.Items)
 
     <div class="container mt-4">
         <div class="row">
@@ -22,7 +22,7 @@ else
                        asp-paged-list-page-index="@Model.PageIndex"
                        asp-paged-list-page-size="@Model.PageSize"
                        asp-paged-list-total-count="@Model.TotalCount"
-                       asp-paged-list-url="CreatedActivities"
+                       asp-paged-list-url="MyActivities"
                        asp-route-data="@(new { pageSize })"
                        asp-route-parameter="pageIndex">
                 </pager>

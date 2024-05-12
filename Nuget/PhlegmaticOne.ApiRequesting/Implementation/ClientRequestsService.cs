@@ -108,6 +108,25 @@ public class ClientRequestsService : IClientRequestsService
         }
     }
 
+    public async Task<ServerResponse<TResponse>> PostFormAsync<TRequest, TResponse>(
+        ClientFormDataRequest<TRequest, TResponse> request, string? jwtToken)
+    {
+        var requestUrl = GetRequestUrl(request);
+        var httpClient = CreateHttpClientWithToken(jwtToken);
+
+        try
+        {
+            var formData = new FormData();
+            request.FillFormData(formData);
+            var httpResponseMessage = await httpClient.PostAsync(requestUrl, formData.FormDataContent);
+            return await GetServerResponse<TResponse>(httpResponseMessage);
+        }
+        catch (HttpRequestException httpRequestException)
+        {
+            return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+        }
+    }
+
     private HttpClient CreateHttpClientWithToken(string? jwtToken)
     {
         var httpClient = _httpClientFactory.CreateClient(_httpClientName);

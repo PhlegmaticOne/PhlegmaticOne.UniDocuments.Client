@@ -1,0 +1,62 @@
+@model ActivityMyObject
+
+@{
+    var uploadText = Model.HasLoadedDocument() ? "Заменить" : "Загрузить";
+}
+
+<form asp-action="Upload" asp-controller="Activities" method="post" enctype="multipart/form-data">
+    <input hidden asp-for="Id"/>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-8 col-sm-6 col-6 pet-info text-dark"
+                 style="background: wheat !important; border-radius: 0.7rem">
+                <div class="row mt-2">
+                    <h4 class="h4 text-center">@(Model.Name)</h4>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-8">
+                        <h4 class="my-3 h4">Данные</h4>
+                        <h6 class="h6">Создатель: @Model.GetTitle()</h6>
+                        <h6 class="h6">Сроки: @Model.GetTerms()</h6>
+                        <h6 class="h6">Описание: @Model.Description</h6>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="my-3 h4">Документ</h4>
+
+                        @if (Model.HasLoadedDocument())
+                        {
+                            <h6 class="h6">Название: @Model.Document!.Name</h6>
+                            <h6 class="h6">Загружен: @Model.Document.GetDateLoadedView()</h6>
+                        }
+
+                        <div class="row mb-0">
+                            <div class="col-8">
+                                <input class="form-control btn-outline-dark form-select-sm"
+                                       type="file"
+                                       value="Выбрать"
+                                       name="file"
+                                       accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/><br>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control btn-outline-dark form-select-sm" type="submit" value="@uploadText"/>
+                            </div>
+                        </div>
+
+                        @if (Model.HasLoadedDocument())
+                        {
+                            <div class="row mx-4">
+                                <a class="btn btn-outline-dark btn-lg"
+                                   asp-controller="Activities"
+                                   asp-action="Download"
+                                   asp-route-documentId="@Model.Document!.Id">
+                                    Скачать
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

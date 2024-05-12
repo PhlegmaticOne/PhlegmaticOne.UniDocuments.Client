@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace UniDocuments.App.Shared.Activities.Created;
 
-namespace UniDocuments.App.Shared.Activities.Display;
-
-public class ActivityDisplayObject
+public class ActivityCreatedObject
 {
     public Guid Id { get; set; }
     public string CreatorFirstName { get; set; } = null!;

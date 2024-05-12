@@ -109,7 +109,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="wwwroot\css\activity_detailed.css" />
+      <None Include="wwwroot\css\Activities\detailed.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Infrastructure\ViewModels\Documents\" />
     </ItemGroup>
 
 </Project>

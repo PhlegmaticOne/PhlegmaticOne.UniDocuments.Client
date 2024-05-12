@@ -1,4 +1,4 @@
-class .vgr-cards .card {
+.vgr-cards .card {
     display: flex;
     flex: 100%;
     flex-flow: row;
@@ -41,7 +41,6 @@ class .vgr-cards .card {
         width: 100%;
     }
 }
-
 
 .card-body {
     border-radius: 0.3rem;

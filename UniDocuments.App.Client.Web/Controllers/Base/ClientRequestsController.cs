@@ -37,6 +37,15 @@ public class ClientRequestsController : Controller
         Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
+        return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
+    }
+    
+    protected async Task<IActionResult> Get<TRequest, TResponse>(
+        ClientGetRequest<TRequest, TResponse> clientGetRequest,
+        Func<TResponse, IActionResult> onSuccess,
+        Func<OperationResult, IActionResult>? onFailed = null)
+    {
+        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
 
@@ -46,6 +55,24 @@ public class ClientRequestsController : Controller
         Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
+        return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
+    }
+    
+    protected async Task<IActionResult> Post<TRequest, TResponse>(
+        ClientPostRequest<TRequest, TResponse> clientPostRequest,
+        Func<TResponse, IActionResult> onSuccess,
+        Func<OperationResult, IActionResult>? onFailed = null)
+    {
+        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
+        return await HandleResponse(serverResponse, onSuccess, onFailed);
+    }
+    
+    protected async Task<IActionResult> PostForm<TRequest, TResponse>(
+        ClientFormDataRequest<TRequest, TResponse> clientPostRequest,
+        Func<TResponse, IActionResult> onSuccess,
+        Func<OperationResult, IActionResult>? onFailed = null)
+    {
+        var serverResponse = await _clientRequestsService.PostFormAsync(clientPostRequest, JwtToken());
         return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
 
@@ -55,7 +82,7 @@ public class ClientRequestsController : Controller
         Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onFailed);
+        return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
     protected async Task<IActionResult> DownloadFile<TRequest>(ClientGetFileRequest<TRequest> clientGetRequest)
@@ -123,8 +150,32 @@ public class ClientRequestsController : Controller
     {
         return RedirectToAction("Error", "Home", new { errorMessage });
     }
-
+    
     private async Task<IActionResult> HandleResponse<TResponse>(
+        ServerResponse<TResponse> serverResponse,
+        Func<TResponse, IActionResult> onSuccess,
+        Func<OperationResult, IActionResult>? onFailed = null)
+    {
+        if (serverResponse.IsUnauthorized)
+        {
+            await SignOutAsync();
+            return LoginView();
+        }
+
+        var operationResult = serverResponse.OperationResult!;
+        
+        if (serverResponse.IsSuccess == false)
+        {
+            return onFailed is not null
+                ? onFailed(operationResult!)
+                : ErrorView(operationResult.ErrorMessage!);
+        }
+
+        var data = serverResponse.GetData()!;
+        return onSuccess(data);
+    }
+
+    private async Task<IActionResult> HandleResponseAsync<TResponse>(
         ServerResponse<TResponse> serverResponse,
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)

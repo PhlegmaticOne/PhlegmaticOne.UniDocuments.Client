@@ -77,12 +77,14 @@ public class ProfileController : ClientRequestsController
 
         var updateProfileObject = Mapper.Map<UpdateProfileObject>(updateAccountViewModel);
 
-        return Post(new RequestUpdateProfile(updateProfileObject), async profile =>
-        {
-            await SignOutAsync();
-            await AuthenticateAsync(profile);
-            return RedirectToAction(nameof(Details), profile);
-        }, result => ViewWithErrorsFromOperationResult(result, nameof(Update), updateAccountViewModel));
+        return Post(new RequestUpdateProfile(updateProfileObject), 
+            async profile => 
+            { 
+                await SignOutAsync(); 
+                await AuthenticateAsync(profile); 
+                return RedirectToAction(nameof(Details), profile); 
+            },
+            result => ViewWithErrorsFromOperationResult(result, nameof(Update), updateAccountViewModel));
     }
 
     [HttpGet]

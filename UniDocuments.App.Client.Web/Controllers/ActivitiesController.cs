@@ -7,6 +7,7 @@ using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
+using UniDocuments.App.Shared.Documents;
 using UniDocuments.App.Shared.Shared;
 using UniDocuments.App.Shared.Users.Enums;
 
@@ -32,19 +33,7 @@ public class ActivitiesController : ClientRequestsController
         return Get(new RequestGetActivitiesTeacher(pageData), result =>
         {
             ViewData["PageSize"] = pageData.PageSize;
-            IActionResult view = View(result.Activities);
-            return Task.FromResult(view);
-        });
-    }
-
-    [HttpGet]
-    [RequireStudyRoles(StudyRole.Teacher)]
-    public Task<IActionResult> Detailed(Guid activityId)
-    {
-        return Get(new RequestGetDetailedActivity(activityId), result =>
-        {
-            IActionResult view = View(result);
-            return Task.FromResult(view);
+            return View(result.Activities);
         });
     }
 
@@ -52,7 +41,32 @@ public class ActivitiesController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Student)]
     public Task<IActionResult> MyActivities(int? pageIndex, int? pageSize)
     {
-        return null;
+        var pageData = new PagedListData
+        {
+            PageIndex = pageIndex is null ? 0 : pageIndex.Value - 1,
+            PageSize = pageSize ?? 15
+        };
+        
+        return Get(new RequestGetActivitiesStudent(pageData), result =>
+        {
+            ViewData["PageSize"] = pageData.PageSize;
+            return View(result.Activities);
+        });
+    }
+
+    [HttpGet]
+    [RequireStudyRoles(StudyRole.Teacher)]
+    public Task<IActionResult> Detailed(Guid activityId)
+    {
+        return Get(new RequestGetDetailedActivity(activityId), View);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequireStudyRoles(StudyRole.Student)]
+    public Task<IActionResult> Upload([FromForm] DocumentUploadObject viewModel)
+    {
+        return PostForm(new RequestUploadDocument(viewModel), _ => RedirectToAction("MyActivities"));
     }
 
     public Task<IActionResult> Download(Guid documentId)
