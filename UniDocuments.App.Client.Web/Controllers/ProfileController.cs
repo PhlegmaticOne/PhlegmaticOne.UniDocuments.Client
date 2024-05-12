@@ -17,8 +17,8 @@ public class ProfileController : ClientRequestsController
 {
     private readonly IValidator<UpdateAccountViewModel> _updateAccountViewModel;
 
-    public ProfileController(IClientRequestsService clientRequestsService,
-        IStorageService storageService, IMapper mapper,
+    public ProfileController(
+        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper,
         IValidator<UpdateAccountViewModel> updateAccountViewModel) :
         base(clientRequestsService, storageService, mapper)
     {
@@ -65,22 +65,23 @@ public class ProfileController : ClientRequestsController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(UpdateAccountViewModel updateAccountViewModel)
+    public Task<IActionResult> Update(UpdateAccountViewModel updateAccountViewModel)
     {
-        var validationResult = await _updateAccountViewModel.ValidateAsync(updateAccountViewModel);
+        var validationResult = _updateAccountViewModel.Validate(updateAccountViewModel);
 
         if (validationResult.IsValid == false)
         {
-            return ViewWithErrorsFromValidationResult(validationResult, nameof(Update), updateAccountViewModel);
+            var view = ViewWithErrorsFromValidationResult(validationResult, nameof(Update), updateAccountViewModel);
+            return Task.FromResult(view);
         }
 
         var updateProfileObject = Mapper.Map<UpdateProfileObject>(updateAccountViewModel);
 
-        return await Post(new RequestUpdateProfile(updateProfileObject), async profile =>
+        return Post(new RequestUpdateProfile(updateProfileObject), async profile =>
         {
             await SignOutAsync();
             await AuthenticateAsync(profile);
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(Details), profile);
         }, result => ViewWithErrorsFromOperationResult(result, nameof(Update), updateAccountViewModel));
     }
 

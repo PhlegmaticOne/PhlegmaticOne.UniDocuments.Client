@@ -19,15 +19,12 @@ namespace UniDocuments.App.Client.Web.Controllers.Base;
 
 public class ClientRequestsController : Controller
 {
-    protected readonly IMapper Mapper;
     private readonly IClientRequestsService _clientRequestsService;
-    
     private readonly IStorageService _storageService;
+    
+    protected readonly IMapper Mapper;
 
-    public ClientRequestsController(
-        IClientRequestsService clientRequestsService, 
-        IStorageService storageService,
-        IMapper mapper)
+    public ClientRequestsController(IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper)
     {
         Mapper = mapper;
         _storageService = storageService;
@@ -37,46 +34,35 @@ public class ClientRequestsController : Controller
     protected async Task<IActionResult> Get<TRequest, TResponse>(
         ClientGetRequest<TRequest, TResponse> clientGetRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null)
+        Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
+        return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
 
     protected async Task<IActionResult> Post<TRequest, TResponse>(
         ClientPostRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null)
+        Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
+        return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
 
     protected async Task<IActionResult> Put<TRequest, TResponse>(
         ClientPutRequest<TRequest, TResponse> clientPostRequest,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null)
+        Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, JwtToken());
-        return await HandleResponse(serverResponse, onSuccess, onOperationFailed);
+        return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
     
-    protected async Task<IActionResult> DownloadFile<TRequest>(
-        ClientGetFileRequest<TRequest> clientGetRequest)
+    protected async Task<IActionResult> DownloadFile<TRequest>(ClientGetFileRequest<TRequest> clientGetRequest)
     {
         var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, JwtToken());
         var fileData = serverResponse.GetData()!;
         return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
-    }
-
-    protected IActionResult LoginView()
-    {
-        return Redirect("/Auth/Login");
-    }
-
-    protected IActionResult ErrorView(string errorMessage)
-    {
-        return RedirectToAction("Error", "Home", new { errorMessage });
     }
 
     protected IActionResult HomeView()
@@ -119,25 +105,29 @@ public class ClientRequestsController : Controller
     private string? JwtToken()
     {
         var id = User.IdString();
-
-        if (id is null)
-        {
-            return null;
-        }
-        
-        var token = _storageService.GetValue<JwtTokenObject>(id);
-        return token?.Token;
+        return id is null ? null : _storageService.GetValue<JwtTokenObject>(id)?.Token;
     }
 
     private void SetJwtToken(Guid id, JwtTokenObject jwtToken)
     {
-        _storageService.SetValue(id.ToString(), jwtToken, TimeSpan.FromMinutes(jwtToken.ExpirationInMinutes));
+        var time = TimeSpan.FromMinutes(jwtToken.ExpirationInMinutes);
+        _storageService.SetValue(id.ToString(), jwtToken, time);
+    }
+
+    private IActionResult LoginView()
+    {
+        return Redirect("/Auth/Login");
+    }
+
+    private IActionResult ErrorView(string errorMessage)
+    {
+        return RedirectToAction("Error", "Home", new { errorMessage });
     }
 
     private async Task<IActionResult> HandleResponse<TResponse>(
         ServerResponse<TResponse> serverResponse,
         Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onOperationFailed = null)
+        Func<OperationResult, IActionResult>? onFailed = null)
     {
         if (serverResponse.IsUnauthorized)
         {
@@ -149,8 +139,8 @@ public class ClientRequestsController : Controller
         
         if (serverResponse.IsSuccess == false)
         {
-            return onOperationFailed is not null
-                ? onOperationFailed(operationResult!)
+            return onFailed is not null
+                ? onFailed(operationResult!)
                 : ErrorView(operationResult.ErrorMessage!);
         }
 

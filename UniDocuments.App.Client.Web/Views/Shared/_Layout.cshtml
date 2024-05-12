@@ -1,5 +1,4 @@
-﻿@using UniDocuments.App.Shared.Users.Enums
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -9,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     @await RenderSectionAsync("Styles", false)
 </head>
+
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -98,12 +98,12 @@
 
 <footer class="footer text-muted">
     <div class="container">
-        &copy; @DateTime.UtcNow.Year - Александр Кротов
+        &copy; @DateTime.Now.Year - Александр Кротов
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/layout.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap-dropdown.min.js"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>
 </html>

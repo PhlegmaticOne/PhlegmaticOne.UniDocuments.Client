@@ -16,10 +16,8 @@ namespace UniDocuments.App.Client.Web.Controllers;
 public class ActivitiesController : ClientRequestsController
 {
     public ActivitiesController(
-        IClientRequestsService clientRequestsService,
-        IStorageService storageService, 
-        IMapper mapper) : base(clientRequestsService, storageService, mapper) { }
-
+        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper) : 
+        base(clientRequestsService, storageService, mapper) { }
     
     [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]

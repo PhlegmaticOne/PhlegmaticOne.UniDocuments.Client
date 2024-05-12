@@ -19,12 +19,14 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class ActivityCreateController : ClientRequestsController
 {
+    private const string StudentNotFoundErrorMessage = "Студент не найден!";
+    private const string StudentErrorExpression = "Students[{0}].UserName";
+    
     private readonly IValidator<ActivityCreateViewModel> _validator;
 
     public ActivityCreateController(
-        IClientRequestsService clientRequestsService, 
-        IStorageService storageService, 
-        IMapper mapper, IValidator<ActivityCreateViewModel> validator) : 
+        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper,
+        IValidator<ActivityCreateViewModel> validator) : 
         base(clientRequestsService, storageService, mapper)
     {
         _validator = validator;
@@ -57,7 +59,7 @@ public class ActivityCreateController : ClientRequestsController
         {
             IActionResult view = View("~/Views/Activities/Detailed.cshtml", result);
             return Task.FromResult(view);
-        }, onOperationFailed: result =>
+        }, onFailed: result =>
         {
             var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorMessage!)!;
             ProcessViewModelOnError(viewModel, errorStudents);
@@ -71,7 +73,7 @@ public class ActivityCreateController : ClientRequestsController
     public IActionResult AddStudent([Bind("Students")] ActivityCreateViewModel activity)
     {
         activity.Students.Add(new ActivityCreateStudentViewModel());
-        return PartialView("ActivityCreateStudentsList", activity);
+        return PartialView("~/Views/ActivityCreate/PartialViews/ActivityCreateStudentsList.cshtml", activity);
     }
     
     [HttpPost]
@@ -80,7 +82,7 @@ public class ActivityCreateController : ClientRequestsController
     public IActionResult RemoveStudent([Bind("Students")] ActivityCreateViewModel activity)
     {
         activity.Students.RemoveLast();
-        return PartialView("ActivityCreateStudentsList", activity);
+        return PartialView("~/Views/ActivityCreate/PartialViews/ActivityCreateStudentsList.cshtml", activity);
     }
 
     private void ProcessViewModelOnError(ActivityCreateViewModel viewModel, List<string> errorData)
@@ -90,11 +92,11 @@ public class ActivityCreateController : ClientRequestsController
 
         foreach (var index in indexes)
         {
-            var key = $"Students[{index}].UserName";
-            ModelState.AddModelError(key, "Студент не найден!");
+            var key = string.Format(StudentErrorExpression, index);
+            ModelState.AddModelError(key, StudentNotFoundErrorMessage);
         }
     }
-
+    
     private void Validate(ActivityCreateViewModel viewModel)
     {
         var validationResult = _validator.Validate(viewModel);

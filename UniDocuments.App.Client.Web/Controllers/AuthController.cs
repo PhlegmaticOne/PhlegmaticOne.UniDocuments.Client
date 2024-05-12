@@ -17,9 +17,7 @@ public class AuthController : ClientRequestsController
     private readonly IValidator<RegisterViewModel> _registerValidator;
 
     public AuthController(
-        IClientRequestsService clientRequestsService, 
-        IStorageService storageService,
-        IMapper mapper,
+        IClientRequestsService clientRequestsService, IStorageService storageService, IMapper mapper,
         IValidator<RegisterViewModel> registerValidator) :
         base(clientRequestsService, storageService, mapper)
     {
@@ -41,21 +39,22 @@ public class AuthController : ClientRequestsController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+    public Task<IActionResult> Register(RegisterViewModel registerViewModel)
     {
-        var validationResult = await _registerValidator.ValidateAsync(registerViewModel);
+        var validationResult = _registerValidator.Validate(registerViewModel);
 
         if (validationResult.IsValid == false)
         {
-            return ViewWithErrorsFromValidationResult(validationResult, nameof(Register), registerViewModel);
+            var view = ViewWithErrorsFromValidationResult(validationResult, nameof(Register), registerViewModel);
+            return Task.FromResult(view);
         }
 
         var registerObject = Mapper.Map<RegisterObject>(registerViewModel);
 
-        return await Post(new RequestRegister(registerObject), async profile =>
+        return Post(new RequestRegister(registerObject), async profile =>
         {
             await AuthenticateAsync(profile);
-            return RedirectToAction("Details", "Profile");
+            return RedirectToAction("Details", "Profile", profile);
         }, result => ViewWithErrorsFromOperationResult(result, nameof(Register), registerViewModel));
     }
 
