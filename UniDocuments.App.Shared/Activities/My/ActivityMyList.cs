@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.PagedLists.Implementation;
+﻿using PhlegmaticOne.PagedLists;
 
 namespace UniDocuments.App.Shared.Activities.My;
 

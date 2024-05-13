@@ -10,13 +10,12 @@ namespace PhlegmaticOne.ApiRequesting.Implementation;
 public class ClientRequestsService : IClientRequestsService
 {
     private const string PreQueryPart = "/?";
+    
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly string _httpClientName;
     private readonly Dictionary<Type, string> _requestUrls;
+    private readonly string _httpClientName;
 
-    public ClientRequestsService(IHttpClientFactory httpClientFactory,
-        Dictionary<Type, string> requestUrls,
-        string httpClientName)
+    public ClientRequestsService(IHttpClientFactory httpClientFactory, Dictionary<Type, string> requestUrls, string httpClientName)
     {
         _httpClientFactory = httpClientFactory;
         _httpClientName = httpClientName;
@@ -36,7 +35,7 @@ public class ClientRequestsService : IClientRequestsService
         }
         catch (HttpRequestException httpRequestException)
         {
-            return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+            return ServerResponse.Error<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
     }
 
@@ -53,7 +52,7 @@ public class ClientRequestsService : IClientRequestsService
         }
         catch (HttpRequestException httpRequestException)
         {
-            return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+            return ServerResponse.Error<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
     }
 
@@ -70,7 +69,7 @@ public class ClientRequestsService : IClientRequestsService
         }
         catch (HttpRequestException httpRequestException)
         {
-            return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+            return ServerResponse.Error<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
     }
 
@@ -87,7 +86,7 @@ public class ClientRequestsService : IClientRequestsService
         }
         catch (HttpRequestException httpRequestException)
         {
-            return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+            return ServerResponse.Error<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
     }
 
@@ -104,7 +103,7 @@ public class ClientRequestsService : IClientRequestsService
         }
         catch (HttpRequestException httpRequestException)
         {
-            return ServerResponse.FromError<FileResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+            return ServerResponse.Error<FileResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
     }
 
@@ -123,7 +122,7 @@ public class ClientRequestsService : IClientRequestsService
         }
         catch (HttpRequestException httpRequestException)
         {
-            return ServerResponse.FromError<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
+            return ServerResponse.Error<TResponse>(httpRequestException.StatusCode, httpRequestException.Message);
         }
     }
 
@@ -157,7 +156,7 @@ public class ClientRequestsService : IClientRequestsService
 
         if (response.IsSuccessStatusCode == false)
         {
-            return ServerResponse.FromError<FileResponse>(httpStatusCode, reasonPhrase);
+            return ServerResponse.Error<FileResponse>(httpStatusCode, reasonPhrase);
         }
         
         var operationResult = OperationResult.Successful(new FileResponse
@@ -167,7 +166,7 @@ public class ClientRequestsService : IClientRequestsService
             ContentType = response.Content.Headers.ContentType!
         });
         
-        return ServerResponse.FromSuccess(operationResult, httpStatusCode, reasonPhrase);
+        return ServerResponse.Success(operationResult, httpStatusCode, reasonPhrase);
     }
 
     private static async Task<ServerResponse<TResponse>> GetServerResponse<TResponse>(HttpResponseMessage response)
@@ -178,9 +177,9 @@ public class ClientRequestsService : IClientRequestsService
         
         if (response.IsSuccessStatusCode == false)
         {
-            return ServerResponse.FromError(httpStatusCode, reasonPhrase, result);
+            return ServerResponse.Error(httpStatusCode, reasonPhrase, result);
         }
         
-        return ServerResponse.FromSuccess(result!, httpStatusCode, reasonPhrase);
+        return ServerResponse.Success(result!, httpStatusCode, reasonPhrase);
     }
 }

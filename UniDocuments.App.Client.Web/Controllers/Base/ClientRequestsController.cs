@@ -99,7 +99,7 @@ public class ClientRequestsController : Controller
     protected IActionResult ViewWithErrorsFromOperationResult(
         OperationResult operationResult, string viewName, ErrorHaving viewModel)
     {
-        viewModel.ErrorMessage = operationResult.ErrorMessage;
+        viewModel.ErrorMessage = operationResult.ErrorData;
         return View(viewName, viewModel);
     }
 
@@ -161,7 +161,7 @@ public class ClientRequestsController : Controller
         {
             return onFailed is not null
                 ? onFailed(operationResult!)
-                : ErrorView(operationResult.ErrorMessage!);
+                : ErrorView(operationResult.ErrorData!);
         }
 
         var data = serverResponse.GetData()!;
@@ -185,7 +185,7 @@ public class ClientRequestsController : Controller
         {
             return onFailed is not null
                 ? onFailed(operationResult!)
-                : ErrorView(operationResult.ErrorMessage!);
+                : ErrorView(operationResult.ErrorData!);
         }
 
         var data = serverResponse.GetData()!;

@@ -11,9 +11,9 @@ public class ServerResponse
     public bool IsSuccess { get; init; }
     public bool IsUnauthorized => StatusCode == HttpStatusCode.Unauthorized;
 
-    public static ServerResponse<T> FromError<T>(HttpStatusCode? statusCode, string? reasonPhrase, OperationResult<T>? result = null)
+    public static ServerResponse<T> Error<T>(HttpStatusCode? statusCode, string? reasonPhrase, OperationResult<T>? result = null)
     {
-        return new()
+        return new ServerResponse<T>
         {
             ReasonPhrase = reasonPhrase ?? string.Empty,
             StatusCode = statusCode,
@@ -22,10 +22,9 @@ public class ServerResponse
         };
     }
 
-    public static ServerResponse<T> FromSuccess<T>(OperationResult<T> result, HttpStatusCode? statusCode,
-        string? reasonPhrase)
+    public static ServerResponse<T> Success<T>(OperationResult<T> result, HttpStatusCode? statusCode, string? reasonPhrase)
     {
-        return new()
+        return new ServerResponse<T>
         {
             ReasonPhrase = reasonPhrase ?? string.Empty,
             StatusCode = statusCode,

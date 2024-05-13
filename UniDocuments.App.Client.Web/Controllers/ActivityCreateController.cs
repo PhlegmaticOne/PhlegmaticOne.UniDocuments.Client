@@ -58,7 +58,7 @@ public class ActivityCreateController : ClientRequestsController
             result => View("~/Views/Activities/Detailed.cshtml", result), 
             result => 
             { 
-                var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorMessage!)!; 
+                var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorData!)!; 
                 ProcessViewModelOnError(viewModel, errorStudents); 
                 return View(viewModel); 
             });

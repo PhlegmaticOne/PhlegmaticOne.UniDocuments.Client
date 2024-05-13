@@ -1,8 +1,6 @@
 ﻿namespace PhlegmaticOne.ApiRequesting.Models.Requests;
 
-public abstract class ClientRequest
-{
-}
+public abstract class ClientRequest { }
 
 public abstract class ClientRequest<TRequest, TResponse> : ClientRequest
 {

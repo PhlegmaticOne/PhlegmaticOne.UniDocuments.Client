@@ -2,9 +2,7 @@
 
 public abstract class ClientQueryBuildableRequest<TRequest, TResponse> : ClientRequest<TRequest, TResponse>
 {
-    protected ClientQueryBuildableRequest(TRequest requestData) : base(requestData)
-    {
-    }
+    protected ClientQueryBuildableRequest(TRequest requestData) : base(requestData) { }
 
     public abstract string BuildQueryString();
 
