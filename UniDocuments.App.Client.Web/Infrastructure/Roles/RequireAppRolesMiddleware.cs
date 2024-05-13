@@ -27,7 +27,8 @@ public class RequireAppRolesMiddleware
 
             if (appRolesAttribute is not null && appRolesAttribute.AppRoles.Contains(appRole) == false)
             {
-                context.Response.Redirect("/Home/UserUnauthorized");
+                context.Response.Redirect("/Home/RestrictedPage");
+                return;
             }
         }
         

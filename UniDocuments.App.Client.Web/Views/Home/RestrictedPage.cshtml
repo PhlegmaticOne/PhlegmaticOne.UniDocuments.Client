@@ -1,0 +1,6 @@
+﻿@{
+    ViewData["Title"] = "Ошибка авторизации";
+}
+
+@await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Страница для вас недоступна")
+@await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", $"Информация: {User.StudyRole()}, {User.AppRole()}")

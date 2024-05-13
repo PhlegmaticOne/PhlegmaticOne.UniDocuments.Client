@@ -25,7 +25,8 @@ public class RequireStudyRolesMiddleware
 
             if (studyRolesAttribute is not null && studyRolesAttribute.StudyRoles.Contains(studyRole) == false)
             {
-                context.Response.Redirect("/Home/UserUnauthorized");
+                context.Response.Redirect("/Home/RestrictedPage");
+                return;
             }
         }
         
