@@ -31,8 +31,10 @@ public static class AppInitializer
             a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
             
             a.ConfigureRequest<RequestDownloadDocument>("Documents/GetFileById");
-            a.ConfigureRequest<RequestCheckDocument>("Documents/GetFileById");
+            a.ConfigureRequest<RequestDefaultCheckDocument>("Documents/GetFileById");
             a.ConfigureRequest<RequestUploadDocument>("Documents/Upload");
+            
+            a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildExistingDocument");
         });
 
         builder.Services

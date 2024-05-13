@@ -6,6 +6,7 @@ using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
+using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document;
 using UniDocuments.App.Shared.Documents;
 using UniDocuments.App.Shared.Shared;
 using UniDocuments.App.Shared.Users.Enums;
@@ -21,7 +22,7 @@ public class ActivitiesController : ClientRequestsController
     
     [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]
-    public Task<IActionResult> CreatedActivities(int? pageIndex, int? pageSize)
+    public Task<IActionResult> Created(int? pageIndex, int? pageSize)
     {
         var pageData = new PagedListData
         {
@@ -38,7 +39,7 @@ public class ActivitiesController : ClientRequestsController
 
     [HttpGet]
     [RequireStudyRoles(StudyRole.Student)]
-    public Task<IActionResult> MyActivities(int? pageIndex, int? pageSize)
+    public Task<IActionResult> My(int? pageIndex, int? pageSize)
     {
         var pageData = new PagedListData
         {
@@ -58,28 +59,5 @@ public class ActivitiesController : ClientRequestsController
     public Task<IActionResult> Detailed(Guid activityId)
     {
         return Get(new RequestGetDetailedActivity(activityId), View);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [RequireStudyRoles(StudyRole.Student)]
-    public Task<IActionResult> Upload([FromForm] DocumentUploadObject viewModel)
-    {
-        return PostForm(new RequestUploadDocument(viewModel), _ => RedirectToAction("MyActivities"));
-    }
-
-    public Task<IActionResult> Download(Guid documentId)
-    {
-        return DownloadFile(new RequestDownloadDocument(documentId));
-    }
-
-    public Task<IActionResult> Check(Guid documentId)
-    {
-        return DownloadFile(new RequestCheckDocument(documentId));
-    }
-
-    public IActionResult DetailedCheck()
-    {
-        throw new NotImplementedException();
     }
 }

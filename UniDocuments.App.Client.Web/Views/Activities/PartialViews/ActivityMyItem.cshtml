@@ -4,7 +4,7 @@
     var uploadText = Model.HasLoadedDocument() ? "Заменить" : "Загрузить";
 }
 
-<form asp-action="Upload" asp-controller="Activities" method="post" enctype="multipart/form-data">
+<form asp-action="Upload" asp-controller="Documents" method="post" enctype="multipart/form-data">
     <input hidden asp-for="Id"/>
     <div class="container mt-4">
         <div class="row justify-content-center">
@@ -47,7 +47,7 @@
                         {
                             <div class="row mx-4">
                                 <a class="btn btn-outline-dark btn-lg"
-                                   asp-controller="Activities"
+                                   asp-controller="Documents"
                                    asp-action="Download"
                                    asp-route-documentId="@Model.Document!.Id">
                                     Скачать

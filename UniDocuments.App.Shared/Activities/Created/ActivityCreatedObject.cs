@@ -9,7 +9,6 @@ public class ActivityCreatedObject
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public int StudentsCount { get; set; }
-    public int DocumentsCount { get; set; }
 
     public string GetTermsView()
     {

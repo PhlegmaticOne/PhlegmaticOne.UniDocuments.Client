@@ -10,6 +10,6 @@ public class ActivityDocumentObject
 
     public string GetDateLoadedView()
     {
-        return DateLoaded.ToLocalTime().ToString("f", CultureInfo.CurrentUICulture);
+        return DateLoaded.ToLocalTime().ToString("f", CultureInfo.CurrentCulture);
     }
 }

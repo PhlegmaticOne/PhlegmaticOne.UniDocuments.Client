@@ -3,9 +3,9 @@ using PhlegmaticOne.ApiRequesting.Models.Requests;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 
-public class RequestCheckDocument : ClientGetFileRequest<Guid>
+public class RequestDefaultCheckDocument : ClientGetFileRequest<Guid>
 {
-    public RequestCheckDocument(Guid requestData) : base(requestData) { }
+    public RequestDefaultCheckDocument(Guid requestData) : base(requestData) { }
 
     public override string BuildQueryString()
     {
