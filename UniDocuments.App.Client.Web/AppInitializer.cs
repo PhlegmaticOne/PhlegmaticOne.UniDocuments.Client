@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using PhlegmaticOne.ApiRequesting.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
+using UniDocuments.App.Client.Web.Infrastructure.Requests.Admin;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
 using UniDocuments.App.Client.Web.Infrastructure.TagHelpers.PagedList.Helpers;
@@ -24,6 +25,7 @@ public static class AppInitializer
             a.ConfigureRequest<RequestRegister>("Auth/Register");
             a.ConfigureRequest<RequestLogin>("Auth/Login");
             a.ConfigureRequest<RequestUpdateProfile>("Profiles/Update");
+            a.ConfigureRequest<RequestMakeAdmin>("Profiles/MakeAdmin");
             
             a.ConfigureRequest<RequestGetActivitiesTeacher>("Activities/GetForTeacher");
             a.ConfigureRequest<RequestGetActivitiesStudent>("Activities/GetForStudent");
@@ -31,10 +33,12 @@ public static class AppInitializer
             a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
             
             a.ConfigureRequest<RequestDownloadDocument>("Documents/GetFileById");
-            a.ConfigureRequest<RequestDefaultCheckDocument>("Documents/GetFileById");
             a.ConfigureRequest<RequestUploadDocument>("Documents/Upload");
             
+            a.ConfigureRequest<RequestTrainModel>("NeuralModel/Train");
+            
             a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildExistingDocument");
+            a.ConfigureRequest<RequestDefaultCheckDocument>("Reports/BuildExistingDocumentDefault");
         });
 
         builder.Services

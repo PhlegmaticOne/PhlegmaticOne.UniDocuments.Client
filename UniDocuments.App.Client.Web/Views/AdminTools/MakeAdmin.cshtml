@@ -1,0 +1,56 @@
+@model AdminMakeAdminViewModel
+
+@{
+    Layout = "_Column_Layout";
+    ViewData["Title"] = "Сделать админом";
+}
+
+<section>
+    <div class="container my-4">
+        <div class="row d-flex justify-content-center align-items-center ">
+            <div class="col-12 col-md-8">
+                <div class="card bg-dark text-white m-3" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center box">
+                        <div class="mb-md-2 mt-md-2">
+                            <h2 class="fw-bold text-uppercase mb-3">Сделать админом</h2>
+
+                            <form asp-action="MakeAdmin" asp-controller="AdminTools" asp-anti-forgery="true" enctype="multipart/form-data">
+                                <div class="validation" asp-validation-summary="ModelOnly"></div>
+                                <div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="UserName" class="mb-2">Введите ник</label><br/>
+                                        <input type="text" asp-for="UserName" class="form-control form-control-lg"/>
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label class="mb-2">Статус</label><br/>
+                                        <select asp-for="Role" asp-items="Model.Roles" class="form-select-lg"></select>
+                                    </div>
+                                    <div>
+                                        <h5 class="h5 text-danger">@Model?.ErrorMessage</h5>
+                                        <button class="btn btn-outline-light btn-lg my-4" type="submit">Сделать</button>
+                                        
+                                        @if (Model?.SuccessMessage is not null)
+                                        {
+                                            <h5 class="h5 text-success">@Model.SuccessMessage</h5>
+                                        }
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section ColumnContent
+{
+    @await Html.PartialAsync("~/Views/AdminTools/PartialViews/AdminToolsNavigation.cshtml")
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+}

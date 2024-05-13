@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-lg-10">
+        @RenderBody()
+    </div>
+    <div class="col-lg-2">
+        @await RenderSectionAsync("ColumnContent")
+    </div>
+</div>
+
+@section Scripts
+{
+    @await RenderSectionAsync("Scripts", false)
+}
+
+@section Styles
+{
+    @await RenderSectionAsync("Styles", false)
+}
