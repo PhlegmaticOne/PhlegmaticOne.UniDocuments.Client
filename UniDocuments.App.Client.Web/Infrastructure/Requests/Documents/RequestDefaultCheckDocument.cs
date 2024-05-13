@@ -9,6 +9,7 @@ public class RequestDefaultCheckDocument : ClientGetFileRequest<Guid>
 
     public override string BuildQueryString()
     {
-        return WithOneQueryParameter(new GetRequestQueryParameter("documentId", RequestData));
+        return WithOneQueryParameter(
+            new GetRequestQueryParameter("documentId", RequestData));
     }
 }

@@ -22,14 +22,6 @@ public static class ClaimPrincipalExtensions
 
         return claim is null ? Guid.Empty : Guid.Parse(claim.Value);
     }
-
-    public static string? IdString(this ClaimsPrincipal claimsPrincipal)
-    {
-        var claim = claimsPrincipal.Claims
-            .FirstOrDefault(x => x.Type == ProfileClaimsConstants.IdClaimName);
-
-        return claim?.Value;
-    }
     
     public static DateTime JoinDate(this ClaimsPrincipal claimsPrincipal)
     {

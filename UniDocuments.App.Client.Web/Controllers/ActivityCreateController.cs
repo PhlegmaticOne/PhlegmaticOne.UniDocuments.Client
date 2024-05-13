@@ -56,10 +56,10 @@ public class ActivityCreateController : ClientRequestsController
         
         return Post(new RequestCreateActivity(activityCreateObject), 
             result => View("~/Views/Activities/Detailed.cshtml", result), 
-            result => 
-            { 
-                var errorStudents = JsonConvert.DeserializeObject<List<string>>(result.ErrorData!)!; 
-                ProcessViewModelOnError(viewModel, errorStudents); 
+            result =>
+            {
+                var errorData = result.GetErrorDataAs<List<string>>();
+                ProcessViewModelOnError(viewModel, errorData!); 
                 return View(viewModel); 
             });
     }

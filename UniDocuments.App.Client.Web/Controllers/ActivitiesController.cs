@@ -24,11 +24,7 @@ public class ActivitiesController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Teacher)]
     public Task<IActionResult> Created(int? pageIndex, int? pageSize)
     {
-        var pageData = new PagedListData
-        {
-            PageIndex = pageIndex is null ? 0 : pageIndex.Value - 1,
-            PageSize = pageSize ?? 15
-        };
+        var pageData = PagedListData.FromQueryData(pageIndex, pageSize);
         
         return Get(new RequestGetActivitiesTeacher(pageData), result =>
         {
@@ -41,11 +37,7 @@ public class ActivitiesController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Student)]
     public Task<IActionResult> My(int? pageIndex, int? pageSize)
     {
-        var pageData = new PagedListData
-        {
-            PageIndex = pageIndex is null ? 0 : pageIndex.Value - 1,
-            PageSize = pageSize ?? 15
-        };
+        var pageData = PagedListData.FromQueryData(pageIndex, pageSize);
         
         return Get(new RequestGetActivitiesStudent(pageData), result =>
         {

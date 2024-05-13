@@ -14,6 +14,9 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class AdminToolsController : ClientRequestsController
 {
+    private const string AdminSuccessFormat = "Пользователь {0} теперь админ!";
+    private const string UserNotFoundMessage = "Пользователь не найден";
+    
     public AdminToolsController(
         IClientRequestsService clientRequestsService, IMapper mapper) :
         base(clientRequestsService, mapper) { }
@@ -48,12 +51,12 @@ public class AdminToolsController : ClientRequestsController
         return Post(new RequestMakeAdmin(data),
             _ =>
             {
-                viewModel.SuccessMessage = $"Пользователь {viewModel.UserName} теперь админ!";
+                viewModel.SuccessMessage = string.Format(AdminSuccessFormat, viewModel.UserName);
                 return View(viewModel);
             },
             _ =>
             {
-                ModelState.AddModelError("UserName", "Пользователь не найден!");
+                ModelState.AddModelError(nameof(AdminMakeAdminViewModel.UserName), UserNotFoundMessage);
                 return View(viewModel);
             });
     }

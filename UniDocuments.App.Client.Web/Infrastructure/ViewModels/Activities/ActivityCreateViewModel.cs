@@ -20,7 +20,7 @@ public class ActivityCreateViewModel
     [Required]
     [Display(Name = "Окончание активности:")]
     public DateTime EndDate { get; set; } = DateTime.Now;
-    [Display(Name = "Студенты")]
+    [Display(Name = "Студенты:")]
     public List<ActivityCreateStudentViewModel> Students { get; set; }
 
     public ActivityCreateViewModel()

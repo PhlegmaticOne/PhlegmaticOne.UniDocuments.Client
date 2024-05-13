@@ -56,7 +56,10 @@ public class AuthController : ClientRequestsController
                 await AuthenticateAsync(profile); 
                 return RedirectToAction("Details", "Profile", profile); 
             }, 
-            result => ViewWithErrorsFromOperationResult(result, nameof(Register), registerViewModel));
+            result =>
+            {
+                return ViewWithErrorsFromOperationResult(result, nameof(Register), registerViewModel);
+            });
     }
 
     [HttpPost]
@@ -73,6 +76,9 @@ public class AuthController : ClientRequestsController
                     ? RedirectToAction("Details", "Profile", profile) 
                     : LocalRedirect(loginViewModel.ReturnUrl); 
             }, 
-            result => ViewWithErrorsFromOperationResult(result, nameof(Login), loginViewModel));
+            result =>
+            {
+                return ViewWithErrorsFromOperationResult(result, nameof(Login), loginViewModel);
+            });
     }
 }

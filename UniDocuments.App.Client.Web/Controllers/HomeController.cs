@@ -7,16 +7,19 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [AllowAnonymous]
 public class HomeController : Controller
 {
+    [HttpGet]
     public IActionResult Index()
     {
         return View();
     }
 
+    [HttpGet]
     public IActionResult RestrictedPage()
     {
         return View();
     }
 
+    [HttpGet]
     public IActionResult Error(string errorMessage)
     {
         return View(new ErrorViewModel { ErrorMessage = errorMessage });

@@ -83,7 +83,10 @@ public class ProfileController : ClientRequestsController
                 await AuthenticateAsync(profile); 
                 return RedirectToAction(nameof(Details), profile); 
             },
-            result => ViewWithErrorsFromOperationResult(result, nameof(Update), updateAccountViewModel));
+            result =>
+            {
+                return ViewWithErrorsFromOperationResult(result, nameof(Update), updateAccountViewModel);
+            });
     }
 
     [HttpGet]
