@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using PhlegmaticOne.ApiRequesting.Models;
 using PhlegmaticOne.ApiRequesting.Models.Requests;
@@ -173,13 +174,23 @@ public class ClientRequestsService : IClientRequestsService
     {
         var httpStatusCode = response.StatusCode;
         var reasonPhrase = response.ReasonPhrase;
-        var result = await response.Content.ReadFromJsonAsync<OperationResult<TResponse>>();
-        
-        if (response.IsSuccessStatusCode == false)
+
+        if (httpStatusCode == HttpStatusCode.Unauthorized)
         {
-            return ServerResponse.Error(httpStatusCode, reasonPhrase, result);
+            return ServerResponse.Error<TResponse>(httpStatusCode, reasonPhrase);
         }
-        
-        return ServerResponse.Success(result!, httpStatusCode, reasonPhrase);
+
+        try
+        {
+            var result = await response.Content.ReadFromJsonAsync<OperationResult<TResponse>>();
+            
+            return response.IsSuccessStatusCode == false ? 
+                ServerResponse.Error(httpStatusCode, reasonPhrase, result) :
+                ServerResponse.Success(result!, httpStatusCode, reasonPhrase);
+        }
+        catch
+        {
+            return ServerResponse.Error<TResponse>(httpStatusCode, reasonPhrase);
+        }
     }
 }

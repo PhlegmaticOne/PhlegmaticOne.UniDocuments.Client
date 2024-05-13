@@ -35,7 +35,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)
     {
-        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, GetJwtToken());
         return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
@@ -44,7 +44,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, IActionResult> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)
     {
-        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, GetJwtToken());
         return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
 
@@ -53,7 +53,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)
     {
-        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, GetJwtToken());
         return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
@@ -62,7 +62,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, IActionResult> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)
     {
-        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.PostAsync(clientPostRequest, GetJwtToken());
         return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
     
@@ -71,7 +71,7 @@ public class ClientRequestsController : Controller
         Func<TResponse, IActionResult> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)
     {
-        var serverResponse = await _clientRequestsService.PostFormAsync(clientPostRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.PostFormAsync(clientPostRequest, GetJwtToken());
         return await HandleResponse(serverResponse, onSuccess, onFailed);
     }
 
@@ -80,13 +80,13 @@ public class ClientRequestsController : Controller
         Func<TResponse, Task<IActionResult>> onSuccess,
         Func<OperationResult, IActionResult>? onFailed = null)
     {
-        var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, GetJwtToken());
         return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
     protected async Task<IActionResult> DownloadFile<TRequest>(ClientGetFileRequest<TRequest> clientGetRequest)
     {
-        var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, JwtToken());
+        var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, GetJwtToken());
         var fileData = serverResponse.GetData()!;
         return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
     }
@@ -118,7 +118,7 @@ public class ClientRequestsController : Controller
 
     protected Task SignOutAsync()
     {
-        HttpContext.Response.Cookies.Delete(Jwt);
+        RemoveJwtToken();
         return HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
@@ -128,10 +128,14 @@ public class ClientRequestsController : Controller
         return HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
     }
 
-    private string? JwtToken()
+    private string? GetJwtToken()
     {
-        var id = User.IdString();
-        return id is null ? null : HttpContext.Request.Cookies[Jwt];
+        return HttpContext.Request.Cookies[Jwt];
+    }
+
+    private void RemoveJwtToken()
+    {
+        HttpContext.Response.Cookies.Delete(Jwt);
     }
 
     private IActionResult LoginView()
