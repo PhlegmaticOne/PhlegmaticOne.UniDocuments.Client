@@ -2,16 +2,10 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Base;
 
-namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document;
+namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document.Base;
 
 public class DocumentCheckViewModel : ErrorHaving
 {
-    public Guid DocumentId { get; set; }
-    public string Name { get; set; } = null!;
-    public DateTime DateLoaded { get; set; }
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-
     [Range(1, 10)]
     public int TopCount { get; set; }
     

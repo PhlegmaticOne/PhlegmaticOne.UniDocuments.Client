@@ -30,7 +30,7 @@ public class DocumentsController : ClientRequestsController
     public IActionResult DetailedCheck(
         Guid documentId, string documentName, DateTime dateLoaded, string firstName, string lastName)
     {
-        var viewModel = new DocumentCheckViewModel
+        var viewModel = new DocumentCheckExistingViewModel
         {
             Name = documentName,
             DocumentId = documentId,
@@ -42,12 +42,28 @@ public class DocumentsController : ClientRequestsController
         return View(viewModel);
     }
 
+    [HttpGet]
+    [RequireStudyRoles(StudyRole.Teacher)]
+    public IActionResult DetailedCheckDocument()
+    {
+        return View(new DocumentCheckNewViewModel());
+    }
+
     [HttpPost]
     [RequireStudyRoles(StudyRole.Teacher)]
-    public Task<IActionResult> DetailedCheck(DocumentCheckViewModel viewModel)
+    public Task<IActionResult> DetailedCheck(DocumentCheckExistingViewModel existingViewModel)
     {
-        var map = Mapper.Map<DocumentDetailedCheckObject>(viewModel);
+        var map = Mapper.Map<DocumentDetailedCheckObject>(existingViewModel);
         return DownloadFile(new RequestDetailedCheckDocument(map));
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequireStudyRoles(StudyRole.Teacher)]
+    public Task<IActionResult> DetailedCheckDocument(DocumentCheckNewViewModel viewModel)
+    {
+        var map = Mapper.Map<DocumentDetailedCheckDocumentObject>(viewModel);
+        return DownloadFile(new RequestDetailedCheckDocumentNew(map));
     }
     
     [HttpPost]

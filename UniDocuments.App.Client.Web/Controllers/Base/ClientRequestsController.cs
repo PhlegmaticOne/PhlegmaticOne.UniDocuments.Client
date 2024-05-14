@@ -9,7 +9,6 @@ using PhlegmaticOne.ApiRequesting.Models;
 using PhlegmaticOne.ApiRequesting.Models.Requests;
 using PhlegmaticOne.ApiRequesting.Services;
 using PhlegmaticOne.OperationResults;
-using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Helpers;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Base;
 using UniDocuments.App.Shared.Users;
@@ -85,6 +84,13 @@ public class ClientRequestsController : Controller
     }
     
     protected async Task<IActionResult> DownloadFile<TRequest>(ClientGetFileRequest<TRequest> clientGetRequest)
+    {
+        var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, GetJwtToken());
+        var fileData = serverResponse.GetData()!;
+        return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
+    }
+    
+    protected async Task<IActionResult> DownloadFile<TRequest>(ClientFormDataRequest<TRequest, FileResponse> clientGetRequest)
     {
         var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, GetJwtToken());
         var fileData = serverResponse.GetData()!;

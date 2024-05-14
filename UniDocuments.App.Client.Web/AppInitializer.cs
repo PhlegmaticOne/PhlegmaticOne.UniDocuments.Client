@@ -32,12 +32,13 @@ public static class AppInitializer
             a.ConfigureRequest<RequestGetDetailedActivity>("Activities/GetDetailed");
             a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
             
-            a.ConfigureRequest<RequestDownloadDocument>("Documents/GetFileById");
+            a.ConfigureRequest<RequestDownloadDocument>("Documents/Download");
             a.ConfigureRequest<RequestUploadDocument>("Documents/Upload");
             
             a.ConfigureRequest<RequestTrainModel>("NeuralModel/Train");
             
-            a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildExistingDocument");
+            a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildForExistingDocument");
+            a.ConfigureRequest<RequestDetailedCheckDocumentNew>("Reports/BuildForDocument");
             a.ConfigureRequest<RequestDefaultCheckDocument>("Reports/BuildExistingDocumentDefault");
         });
 

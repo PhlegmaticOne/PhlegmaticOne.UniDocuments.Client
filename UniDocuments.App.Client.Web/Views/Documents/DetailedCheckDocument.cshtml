@@ -1,4 +1,4 @@
-@model DocumentCheckExistingViewModel
+﻿@model DocumentCheckNewViewModel
 
 @{
     ViewData["Title"] = "Проверка";
@@ -12,15 +12,13 @@
                     <div class="card-body p-5 text-center box">
                         <div class="mb-md-2 mt-md-2">
                             <h2 class="fw-bold text-uppercase">Проверка документа</h2>
-                            <h3 class="fw-bold">@Model.Name</h3>
-                            <h5 class="fw-bold mb-5">Загрузил: @Model.FirstName @Model.LastName</h5>
 
-                            <form asp-action="DetailedCheck" asp-controller="Documents" asp-anti-forgery="true" enctype="multipart/form-data">
+                            <form asp-action="DetailedCheckDocument" 
+                                  asp-controller="Documents"
+                                  method="post" 
+                                  asp-anti-forgery="true" 
+                                  enctype="multipart/form-data">
                                 <div class="validation" asp-validation-summary="ModelOnly"></div>
-                                <input asp-for="DocumentId" hidden/>
-                                <input asp-for="FirstName" hidden/>
-                                <input asp-for="LastName" hidden/>
-                                <input asp-for="Name" hidden/>
                                 <div>
                                     <div class="form-outline form-white mb-2">
                                         <label asp-for="InferEpochs" class="mb-2">Количество эпох</label><br/>
@@ -36,9 +34,17 @@
                                         <label class="mb-2">Метрика</label><br/>
                                         <select asp-for="BaseMetric" asp-items="Model.BaseMetrics" class="form-select-sm"></select>
                                     </div>
-                                     <div class="form-outline form-white mb-2">
+                                    <div class="form-outline form-white mb-2">
                                         <label class="mb-2">Модель</label><br/>
                                         <select asp-for="ModelName" asp-items="Model.ModelNames" class="form-select-sm"></select>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label class="mb-2">Файл</label><br/>
+                                        <input class="form-control btn-outline-dark form-select-sm"
+                                               type="file"
+                                               value="Выбрать"
+                                               asp-for="File"
+                                               accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/><br>
                                     </div>
                                     <div>
                                         <h5 class="h5 text-danger">@Model?.ErrorMessage</h5>

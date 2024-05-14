@@ -8,6 +8,7 @@ public class DocumentMapperConfiguration : Profile
 {
     public DocumentMapperConfiguration()
     {
-        CreateMap<DocumentCheckViewModel, DocumentDetailedCheckObject>();
+        CreateMap<DocumentCheckExistingViewModel, DocumentDetailedCheckObject>();
+        CreateMap<DocumentCheckNewViewModel, DocumentDetailedCheckDocumentObject>();
     }
 }
