@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Admin;
+using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
+using UniDocuments.App.Client.Web.Infrastructure.Requests.Neural;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Admin;
+using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Neural;
 using UniDocuments.App.Shared.Admin;
+using UniDocuments.App.Shared.Neural;
 using UniDocuments.App.Shared.Users.Enums;
 
 namespace UniDocuments.App.Client.Web.Controllers;
@@ -30,9 +34,32 @@ public class AdminToolsController : ClientRequestsController
     
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]
-    public IActionResult TrainModel()
+    public Task<IActionResult> TrainKerasModel()
     {
-        return View(new AdminTrainModelViewModel());
+        return Get(new RequestGetGlobalData(), data =>
+        {
+            var viewModel = new NeuralTrainKerasViewModel
+            {
+                GlobalData = data
+            };
+
+            return View(viewModel);
+        });
+    }
+    
+    [HttpGet]
+    [RequireAppRoles(AppRole.Admin)]
+    public Task<IActionResult> TrainDoc2VecModel()
+    {
+        return Get(new RequestGetGlobalData(), data =>
+        {
+            var viewModel = new NeuralTrainDoc2VecViewModel()
+            {
+                GlobalData = data
+            };
+
+            return View(viewModel);
+        });
     }
 
     [HttpPost]
@@ -64,11 +91,25 @@ public class AdminToolsController : ClientRequestsController
     [HttpPost]
     [ValidateAntiForgeryToken]
     [RequireAppRoles(AppRole.Admin)]
-    public Task<IActionResult> TrainModel(AdminTrainModelViewModel viewModel)
+    public Task<IActionResult> TrainKerasModel(NeuralTrainKerasViewModel viewModel)
     {
-        var data = Mapper.Map<AdminTrainModelObject>(viewModel);
+        var data = Mapper.Map<NeuralTrainOptionsKeras>(viewModel);
         
-        return Post(new RequestTrainModel(data), result =>
+        return Post(new RequestTrainKeras(data), result =>
+        {
+            viewModel.TrainResult = result;
+            return View(viewModel);
+        });
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequireAppRoles(AppRole.Admin)]
+    public Task<IActionResult> TrainDoc2VecModel(NeuralTrainDoc2VecViewModel viewModel)
+    {
+        var data = Mapper.Map<NeuralTrainOptionsDoc2Vec>(viewModel);
+        
+        return Post(new RequestTrainDoc2Vec(data), result =>
         {
             viewModel.TrainResult = result;
             return View(viewModel);

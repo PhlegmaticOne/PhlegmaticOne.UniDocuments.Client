@@ -1,0 +1,114 @@
+@model NeuralTrainDoc2VecViewModel
+
+@{
+    Layout = "_Column_Layout";
+    ViewData["Title"] = "Обучение doc2vec";
+    var trainResult = Model.TrainResult;
+}
+
+<section>
+    <div class="container my-4">
+        <div class="row d-flex justify-content-center align-items-center ">
+            <div class="col-12 col-md-8">
+                <div class="card bg-dark text-white m-3" style="border-radius: 1rem;">
+                    <div class="card-body p-4 text-center box">
+                        <div class="mb-md-2 mt-md-2">
+                            <h2 class="fw-bold text-uppercase mb-3">Обучить doc2vec</h2>
+                            <h5 class="fw-bold mb-3">Всего документов: @Model.GlobalData.DocumentsCount</h5>
+                            <h5 class="fw-bold mb-3">Среднее кол-во параграфов: @Model.GlobalData.AverageParagraphsCount.ToString("F")</h5>
+
+                            <form asp-action="TrainDoc2VecModel" asp-controller="AdminTools" asp-anti-forgery="true" enctype="multipart/form-data">
+                                <div class="validation" asp-validation-summary="ModelOnly"></div>
+                                <input asp-for="GlobalData.DocumentsCount" hidden=""/>
+                                <input asp-for="GlobalData.AverageParagraphsCount" hidden=""/>
+                                <div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="EmbeddingSize" class="mb-2">Размер вектора:</label><br/>
+                                        <input type="number" asp-for="EmbeddingSize" class="form-control form-control-sm text-center"/>
+                                        <span asp-validation-for="EmbeddingSize" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="Epochs" class="mb-2">Количество эпох:</label><br/>
+                                        <input type="number" asp-for="Epochs" class="form-control form-control-sm text-center"/>
+                                        <span asp-validation-for="Epochs" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="LearningRate" class="mb-2">Alpha:</label><br/>
+                                        <input type="text" asp-for="LearningRate" class="form-control form-control-sm text-center"/>
+                                        <span asp-validation-for="LearningRate" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="MinAlpha" class="mb-2">Min alpha:</label><br/>
+                                        <input type="text" asp-for="MinAlpha" class="form-control form-control-sm text-center"/>
+                                        <span asp-validation-for="MinAlpha" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline form-white  mb-2">
+                                        <label class="mb-2">Тип:</label><br/>
+                                        <select asp-for="Dm" asp-items="Model.ModelTypes" class="form-select-sm"></select>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="WorkersCount" class="mb-2">Количество потоков (workers):</label><br/>
+                                        <input type="number" asp-for="WorkersCount" class="form-control form-control-sm text-center"/>
+                                        <span asp-validation-for="WorkersCount" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-outline form-white mb-2">
+                                        <label asp-for="MinWordsCount" class="mb-2">Минимальное количество слов для учета:</label><br/>
+                                        <input type="number" asp-for="MinWordsCount" class="form-control form-control-sm text-center"/>
+                                        <span asp-validation-for="MinWordsCount" class="text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-outline-light btn-lg my-4" type="submit">Обучить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if (trainResult is not null)
+    {
+        <div class="container my-4">
+            <div class="row d-flex justify-content-center align-items-center ">
+                <div class="col-12 col-md-8">
+                    <div class="card bg-dark text-white m-3" style="border-radius: 1rem;">
+                        <div class="card-body p-4 text-center box">
+                            <div class="mb-md-2 mt-md-2">
+                                <h2 class="fw-bold text-uppercase mb-3">Результат обучения:</h2>
+                                <h4 class="fw-bold mb-3">Модель: @trainResult.Name</h4>
+                                <h4 class="fw-bold mb-3">Количество эпох: @trainResult.Epochs</h4>
+                                <h4 class="fw-bold mb-3">Размер вектора документа: @trainResult.EmbeddingSize</h4>
+                                <h4 class="fw-bold mb-3">Dm: @trainResult.Dm</h4>
+                                <h4 class="fw-bold mb-3">Alpha: @trainResult.LearningRate</h4>
+                                <h4 class="fw-bold mb-3">MinAlpha: @trainResult.MinAlpha</h4>
+                                <h4 class="fw-bold mb-3">Минимальное количество слов для учета: @trainResult.MinWordsCount</h4>
+                                <h4 class="fw-bold mb-3">Количество потоков: @trainResult.WorkersCount</h4>
+                                
+                                @if (trainResult.IsError())
+                                {
+                                    <h4 class="fw-bold mb-3 text-danger">Ошибка: @trainResult.ErrorMessage</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="fw-bold mb-3 text-success">Время: @trainResult.TrainTime.ToString("g")</h4>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+@section ColumnContent
+{
+    @await Html.PartialAsync("~/Views/AdminTools/PartialViews/AdminToolsNavigation.cshtml")
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+}
