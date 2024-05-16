@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
+using PhlegmaticOne.OperationResults;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
-using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
-using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document;
-using UniDocuments.App.Shared.Documents;
+using UniDocuments.App.Client.Web.Infrastructure.ViewModels;
 using UniDocuments.App.Shared.Shared;
 using UniDocuments.App.Shared.Users.Enums;
 
@@ -16,6 +15,8 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class ActivitiesController : ClientRequestsController
 {
+    private const string ErrorMessageActivityNotFound = "Активность не найдена!";
+    
     public ActivitiesController(
         IClientRequestsService clientRequestsService, IMapper mapper) : 
         base(clientRequestsService, mapper) { }
@@ -50,6 +51,11 @@ public class ActivitiesController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Teacher)]
     public Task<IActionResult> Detailed(Guid activityId)
     {
-        return Get(new RequestGetDetailedActivity(activityId), View);
+        return Get(new RequestGetDetailedActivity(activityId), View, RedirectToErrorPageNotFound);
+    }
+
+    private IActionResult RedirectToErrorPageNotFound(OperationResult _)
+    {
+        return RedirectToAction("Error", "Home", new ErrorViewModel(ErrorMessageActivityNotFound));
     }
 }

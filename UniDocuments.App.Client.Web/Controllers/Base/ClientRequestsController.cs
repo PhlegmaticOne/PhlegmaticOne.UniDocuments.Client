@@ -1,7 +1,5 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
-using FluentValidation.AspNetCore;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +8,6 @@ using PhlegmaticOne.ApiRequesting.Models.Requests;
 using PhlegmaticOne.ApiRequesting.Services;
 using PhlegmaticOne.OperationResults;
 using UniDocuments.App.Client.Web.Infrastructure.Helpers;
-using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Base;
 using UniDocuments.App.Shared.Users;
 
 namespace UniDocuments.App.Client.Web.Controllers.Base;
@@ -83,18 +80,25 @@ public class ClientRequestsController : Controller
         return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
-    protected async Task<IActionResult> DownloadFile<TRequest>(ClientGetFileRequest<TRequest> clientGetRequest)
+    protected async Task<IActionResult> DownloadFile<TRequest>(
+        ClientGetFileRequest<TRequest> clientGetRequest, 
+        Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, GetJwtToken());
-        var fileData = serverResponse.GetData()!;
-        return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
+
+        return await HandleResponse(serverResponse, 
+            fileData => File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName), 
+            onFailed);
     }
     
-    protected async Task<IActionResult> DownloadFile<TRequest>(ClientFormDataRequest<TRequest, FileResponse> clientGetRequest)
+    protected async Task<IActionResult> DownloadFile<TRequest>(
+        ClientFormDataRequest<TRequest, FileResponse> clientGetRequest, 
+        Func<OperationResult, IActionResult>? onFailed = null)
     {
         var serverResponse = await _clientRequestsService.DownloadFileAsync(clientGetRequest, GetJwtToken());
-        var fileData = serverResponse.GetData()!;
-        return File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName);
+        return await HandleResponse(serverResponse, 
+            fileData => File(fileData.Stream, fileData.ContentType.MediaType!, fileData.FileName), 
+            onFailed);
     }
 
     protected IActionResult HomeView()
@@ -102,18 +106,9 @@ public class ClientRequestsController : Controller
         return Redirect("/");
     }
 
-    protected IActionResult ViewWithErrorsFromOperationResult(
-        OperationResult operationResult, string viewName, ErrorHaving viewModel)
+    protected IActionResult ErrorView(string errorMessage)
     {
-        viewModel.ErrorMessage = operationResult.ErrorData;
-        return View(viewName, viewModel);
-    }
-
-    protected IActionResult ViewWithErrorsFromValidationResult(
-        ValidationResult validationResult, string viewName, ErrorHaving viewModel)
-    {
-        validationResult.AddToModelState(ModelState);
-        return View(viewName, viewModel);
+        return RedirectToAction("Error", "Home", new { errorMessage });
     }
 
     protected Task AuthenticateAsync(ProfileObject profileObject)
@@ -149,11 +144,6 @@ public class ClientRequestsController : Controller
         return Redirect("/Auth/Login");
     }
 
-    private IActionResult ErrorView(string errorMessage)
-    {
-        return RedirectToAction("Error", "Home", new { errorMessage });
-    }
-    
     private async Task<IActionResult> HandleResponse<TResponse>(
         ServerResponse<TResponse> serverResponse,
         Func<TResponse, IActionResult> onSuccess,

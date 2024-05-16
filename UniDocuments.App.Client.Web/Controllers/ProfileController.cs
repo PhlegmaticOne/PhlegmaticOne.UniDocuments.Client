@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
@@ -14,6 +15,8 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class ProfileController : ClientRequestsController
 {
+    private const string ErrorMessageUpdate = "Проверьте коррекность введенных данных!";
+    
     private readonly IValidator<UpdateAccountViewModel> _updateAccountViewModel;
 
     public ProfileController(
@@ -66,12 +69,11 @@ public class ProfileController : ClientRequestsController
     [HttpPost]
     public Task<IActionResult> Update(UpdateAccountViewModel updateAccountViewModel)
     {
-        var validationResult = _updateAccountViewModel.Validate(updateAccountViewModel);
+        ValidateUpdateViewModel(updateAccountViewModel);
 
-        if (validationResult.IsValid == false)
+        if (ModelState.IsValid == false)
         {
-            var view = ViewWithErrorsFromValidationResult(validationResult, nameof(Update), updateAccountViewModel);
-            return Task.FromResult(view);
+            return Task.FromResult<IActionResult>(View(updateAccountViewModel));
         }
 
         var updateProfileObject = Mapper.Map<UpdateProfileObject>(updateAccountViewModel);
@@ -83,10 +85,7 @@ public class ProfileController : ClientRequestsController
                 await AuthenticateAsync(profile); 
                 return RedirectToAction(nameof(Details), profile); 
             },
-            result =>
-            {
-                return ViewWithErrorsFromOperationResult(result, nameof(Update), updateAccountViewModel);
-            });
+            _ => ErrorView(ErrorMessageUpdate));
     }
 
     [HttpGet]
@@ -94,5 +93,15 @@ public class ProfileController : ClientRequestsController
     {
         await SignOutAsync();
         return HomeView();
+    }
+
+    private void ValidateUpdateViewModel(UpdateAccountViewModel viewModel)
+    {
+        var validationResult = _updateAccountViewModel.Validate(viewModel);
+
+        if (validationResult.IsValid == false)
+        {
+            validationResult.AddToModelState(ModelState);
+        }
     }
 }

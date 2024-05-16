@@ -8,7 +8,6 @@ public class NeuralModelTrainResult
     public int Epochs { get; set; }
     public float LearningRate { get; set; }
     public TimeSpan TrainTime { get; set; }
-
     public string? ErrorMessage { get; set; }
 
     public bool IsError()

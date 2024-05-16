@@ -1,0 +1,39 @@
+@model NeuralTrainResultKeras
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "keras";
+}
+
+<section>
+    <div class="container my-4">
+        <div class="row d-flex justify-content-center align-items-center ">
+            <div class="col-12 col-md-8">
+                <div class="card bg-dark text-white m-3" style="border-radius: 1rem;">
+                    <div class="card-body p-4 text-center box">
+                        <div class="mb-md-2 mt-md-2">
+                            <h2 class="fw-bold text-uppercase mb-3">Результат обучения:</h2>
+                            <h4 class="fw-bold mb-3">Модель: @Model.Name</h4>
+                            <h4 class="fw-bold mb-3">Количество эпох: @Model.Epochs</h4>
+                            <h4 class="fw-bold mb-3">Размер вектора документа: @Model.EmbeddingSize</h4>
+                            <h4 class="fw-bold mb-3">Learning rate: @Model.LearningRate</h4>
+                            <h4 class="fw-bold mb-3">Размер окна: @Model.WindowSize</h4>
+                            <h4 class="fw-bold mb-3">Размер батча: @Model.BatchSize</h4>
+                            <h3 class="fw-bold mb-3 text-success">Время: @Model.TrainTime.ToString("g")</h3>
+                            
+                            @if (Model.IsError())
+                            {
+                                <h4 class="fw-bold mb-3 text-danger">Ошибка: @Model.ErrorMessage</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+}

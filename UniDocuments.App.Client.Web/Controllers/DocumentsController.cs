@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
+using PhlegmaticOne.OperationResults;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
@@ -14,6 +15,8 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class DocumentsController : ClientRequestsController
 {
+    private const string ErrorMessageFileNotFound = "Файл не найден!";
+    
     public DocumentsController(
         IClientRequestsService clientRequestsService, IMapper mapper) : 
         base(clientRequestsService, mapper) { }
@@ -22,7 +25,7 @@ public class DocumentsController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Teacher)]
     public Task<IActionResult> DefaultCheck(Guid documentId)
     {
-        return DownloadFile(new RequestDefaultCheckDocument(documentId));
+        return DownloadFile(new RequestDefaultCheckDocument(documentId), ErrorResultFileNotFound);
     }
 
     [HttpGet]
@@ -51,10 +54,15 @@ public class DocumentsController : ClientRequestsController
 
     [HttpPost]
     [RequireStudyRoles(StudyRole.Teacher)]
-    public Task<IActionResult> DetailedCheck(DocumentCheckExistingViewModel existingViewModel)
+    public Task<IActionResult> DetailedCheck(DocumentCheckExistingViewModel viewModel)
     {
-        var map = Mapper.Map<DocumentDetailedCheckObject>(existingViewModel);
-        return DownloadFile(new RequestDetailedCheckDocument(map));
+        if (!ModelState.IsValid)
+        {
+            return Task.FromResult<IActionResult>(View(viewModel));
+        }
+        
+        var map = Mapper.Map<DocumentDetailedCheckObject>(viewModel);
+        return DownloadFile(new RequestDetailedCheckDocument(map), ErrorResultFileNotFound);
     }
     
     [HttpPost]
@@ -62,8 +70,13 @@ public class DocumentsController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Teacher)]
     public Task<IActionResult> DetailedCheckDocument(DocumentCheckNewViewModel viewModel)
     {
+        if (!ModelState.IsValid)
+        {
+            return Task.FromResult<IActionResult>(View(viewModel));
+        }
+        
         var map = Mapper.Map<DocumentDetailedCheckDocumentObject>(viewModel);
-        return DownloadFile(new RequestDetailedCheckDocumentNew(map));
+        return DownloadFile(new RequestDetailedCheckDocumentNew(map), ErrorResultFileNotFound);
     }
     
     [HttpPost]
@@ -76,6 +89,11 @@ public class DocumentsController : ClientRequestsController
 
     public Task<IActionResult> Download(Guid documentId)
     {
-        return DownloadFile(new RequestDownloadDocument(documentId));
+        return DownloadFile(new RequestDownloadDocument(documentId), ErrorResultFileNotFound);
+    }
+
+    private IActionResult ErrorResultFileNotFound(OperationResult _)
+    {
+        return ErrorView(ErrorMessageFileNotFound);
     }
 }

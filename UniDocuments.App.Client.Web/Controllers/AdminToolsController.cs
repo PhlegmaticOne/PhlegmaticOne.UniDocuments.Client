@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhlegmaticOne.ApiRequesting.Services;
@@ -21,9 +23,18 @@ public class AdminToolsController : ClientRequestsController
     private const string AdminSuccessFormat = "Пользователь {0} теперь админ!";
     private const string UserNotFoundMessage = "Пользователь не найден";
     
+    private readonly IValidator<NeuralTrainDoc2VecViewModel> _doc2VecValidator;
+    private readonly IValidator<NeuralTrainKerasViewModel> _kerasValidator;
+    
     public AdminToolsController(
-        IClientRequestsService clientRequestsService, IMapper mapper) :
-        base(clientRequestsService, mapper) { }
+        IClientRequestsService clientRequestsService, IMapper mapper,
+        IValidator<NeuralTrainDoc2VecViewModel> doc2VecValidator,
+        IValidator<NeuralTrainKerasViewModel> kerasValidator) :
+        base(clientRequestsService, mapper)
+    {
+        _doc2VecValidator = doc2VecValidator;
+        _kerasValidator = kerasValidator;
+    }
 
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]
@@ -36,30 +47,14 @@ public class AdminToolsController : ClientRequestsController
     [RequireAppRoles(AppRole.Admin)]
     public Task<IActionResult> TrainKerasModel()
     {
-        return Get(new RequestGetGlobalData(), data =>
-        {
-            var viewModel = new NeuralTrainKerasViewModel
-            {
-                GlobalData = data
-            };
-
-            return View(viewModel);
-        });
+        return Get(new RequestGetGlobalData(), data => View(new NeuralTrainKerasViewModel { GlobalData = data }));
     }
     
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]
     public Task<IActionResult> TrainDoc2VecModel()
     {
-        return Get(new RequestGetGlobalData(), data =>
-        {
-            var viewModel = new NeuralTrainDoc2VecViewModel()
-            {
-                GlobalData = data
-            };
-
-            return View(viewModel);
-        });
+        return Get(new RequestGetGlobalData(), data => View(new NeuralTrainDoc2VecViewModel { GlobalData = data }));
     }
 
     [HttpPost]
@@ -69,8 +64,7 @@ public class AdminToolsController : ClientRequestsController
     {
         if (ModelState.IsValid == false)
         {
-            IActionResult view = View(viewModel);
-            return Task.FromResult(view);
+            return Task.FromResult<IActionResult>(View(viewModel));
         }
         
         var data = Mapper.Map<AdminCreateObject>(viewModel);
@@ -93,13 +87,18 @@ public class AdminToolsController : ClientRequestsController
     [RequireAppRoles(AppRole.Admin)]
     public Task<IActionResult> TrainKerasModel(NeuralTrainKerasViewModel viewModel)
     {
+        ValidateKerasViewModel(viewModel);
+        
+        if (!ModelState.IsValid)
+        {
+            return Task.FromResult<IActionResult>(View(viewModel));
+        }
+        
         var data = Mapper.Map<NeuralTrainOptionsKeras>(viewModel);
         
-        return Post(new RequestTrainKeras(data), result =>
-        {
-            viewModel.TrainResult = result;
-            return View(viewModel);
-        });
+        return Post(new RequestTrainKeras(data), 
+            result => View("TrainKerasResult", result),
+            result => View("TrainKerasResult", result.GetErrorDataAs<NeuralTrainResultKeras>()));
     }
     
     [HttpPost]
@@ -107,12 +106,37 @@ public class AdminToolsController : ClientRequestsController
     [RequireAppRoles(AppRole.Admin)]
     public Task<IActionResult> TrainDoc2VecModel(NeuralTrainDoc2VecViewModel viewModel)
     {
-        var data = Mapper.Map<NeuralTrainOptionsDoc2Vec>(viewModel);
+        ValidateDoc2VecViewModel(viewModel);
         
-        return Post(new RequestTrainDoc2Vec(data), result =>
+        if (!ModelState.IsValid)
         {
-            viewModel.TrainResult = result;
-            return View(viewModel);
-        });
+            return Task.FromResult<IActionResult>(View(viewModel));
+        }
+        
+        var data = Mapper.Map<NeuralTrainOptionsDoc2Vec>(viewModel);
+
+        return Post(new RequestTrainDoc2Vec(data),
+            result => View("TrainDoc2VecResult", result),
+            result => View("TrainDoc2VecResult", result.GetErrorDataAs<NeuralTrainResultDoc2Vec>()));
+    }
+    
+    private void ValidateDoc2VecViewModel(NeuralTrainDoc2VecViewModel viewModel)
+    {
+        var validationResult = _doc2VecValidator.Validate(viewModel);
+
+        if (validationResult.IsValid == false)
+        {
+            validationResult.AddToModelState(ModelState);
+        }
+    }
+    
+    private void ValidateKerasViewModel(NeuralTrainKerasViewModel viewModel)
+    {
+        var validationResult = _kerasValidator.Validate(viewModel);
+
+        if (validationResult.IsValid == false)
+        {
+            validationResult.AddToModelState(ModelState);
+        }
     }
 }

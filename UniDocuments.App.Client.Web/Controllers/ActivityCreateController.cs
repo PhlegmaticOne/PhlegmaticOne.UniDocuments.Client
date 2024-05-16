@@ -3,7 +3,6 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PhlegmaticOne.ApiRequesting.Services;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
@@ -44,12 +43,11 @@ public class ActivityCreateController : ClientRequestsController
     public Task<IActionResult> Create(
         [Bind("TeacherId,Name,Description,StartDate,EndDate,Students")] ActivityCreateViewModel viewModel)
     {
-        Validate(viewModel);
+        ValidateCreateViewModel(viewModel);
         
         if (ModelState.IsValid == false)
         {
-            IActionResult view = View(viewModel);
-            return Task.FromResult(view);
+            return Task.FromResult<IActionResult>(View(viewModel));
         }
         
         var activityCreateObject = Mapper.Map<ActivityCreateObject>(viewModel);
@@ -94,7 +92,7 @@ public class ActivityCreateController : ClientRequestsController
         }
     }
     
-    private void Validate(ActivityCreateViewModel viewModel)
+    private void ValidateCreateViewModel(ActivityCreateViewModel viewModel)
     {
         var validationResult = _validator.Validate(viewModel);
 

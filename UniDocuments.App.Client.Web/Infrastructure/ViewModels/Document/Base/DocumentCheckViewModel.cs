@@ -11,7 +11,9 @@ public class DocumentCheckViewModel : ErrorHaving
     
     [Range(1, 50)]
     public int InferEpochs { get; set; }
+    [Required]
     public string BaseMetric { get; set; } = null!;
+    [Required]
     public string ModelName { get; set; } = null!;
 
     public List<SelectListItem> BaseMetrics { get; set; } = new()
