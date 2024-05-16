@@ -35,6 +35,13 @@ public class AdminToolsController : ClientRequestsController
         _doc2VecValidator = doc2VecValidator;
         _kerasValidator = kerasValidator;
     }
+    
+    [HttpGet]
+    [RequireAppRoles(AppRole.Admin)]
+    public IActionResult Index()
+    {
+        return View("MakeAdmin", new AdminMakeAdminViewModel());
+    }
 
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]

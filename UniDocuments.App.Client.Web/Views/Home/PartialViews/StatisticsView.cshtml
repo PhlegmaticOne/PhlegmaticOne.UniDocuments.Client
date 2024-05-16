@@ -1,0 +1,56 @@
+@model StatisticsData
+
+<div class="container-fluid text-white">
+    <section>
+        <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h5 class="text-uppercase ps-2">Статистика</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-6 col-sm-6 col-12 mb-4">
+                @await Html.PartialAsync("~/Views/Home/PartialViews/StatisticsCard.cshtml", new StatisticsCardViewModel
+                {
+                    Value = Model.ActivitiesCount.ToString(),
+                    Description = "Создано активностей",
+                    FontAwesomeClasses = "fa-solid fa-people-group text-warning fa-3x"
+                })
+            </div>
+            <div class="col-xl-3 col-lg-6 col-sm-6 col-12 mb-4">
+                @await Html.PartialAsync("~/Views/Home/PartialViews/StatisticsCard.cshtml", new StatisticsCardViewModel
+                {
+                    Value = Model.DocumentsLoaded.ToString(),
+                    Description = "Загружено документов",
+                    FontAwesomeClasses = "fa-solid fa-file text-success fa-3x"
+                })
+            </div>
+            <div class="col-xl-3 col-lg-6 col-sm-6 col-12 mb-4">
+                @await Html.PartialAsync("~/Views/Home/PartialViews/StatisticsCard.cshtml", new StatisticsCardViewModel
+                {
+                    Value = Model.StudentsCount.ToString(),
+                    Description = "Студентов",
+                    FontAwesomeClasses = "fa-solid fa-user-group text-warning fa-3x"
+                })
+            </div>
+            <div class="col-xl-3 col-lg-6 col-sm-6 col-12 mb-4">
+                @await Html.PartialAsync("~/Views/Home/PartialViews/StatisticsCard.cshtml", new StatisticsCardViewModel
+                {
+                    Value = Model.TeachersCount.ToString(),
+                    Description = "Преподавателей",
+                    FontAwesomeClasses = "fa-solid fa-user-graduate text-warning fa-3x"
+                })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mb-4">
+                @await Html.PartialAsync("~/Views/Home/PartialViews/StatisticsCard.cshtml", new StatisticsCardViewModel
+                {
+                    Value = Model.GetPlatformActiveTime(),
+                    Description = "Платформа активна",
+                    FontAwesomeClasses = "fa-solid fa-heart text-danger fa-3x fa-pencil-alt"
+                })
+            </div>
+        </div>
+    </section>
+</div>

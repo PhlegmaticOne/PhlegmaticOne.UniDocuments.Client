@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PhlegmaticOne.ApiRequesting.Extensions;
+using UniDocuments.App.Client.Web.Infrastructure.Requests;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Admin;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Neural;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
+using UniDocuments.App.Client.Web.Infrastructure.Services.Navigation;
 using UniDocuments.App.Client.Web.Infrastructure.TagHelpers.PagedList.Helpers;
 
 namespace UniDocuments.App.Client.Web;
@@ -43,6 +45,8 @@ public static class AppInitializer
             a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildForExistingDocument");
             a.ConfigureRequest<RequestDetailedCheckDocumentNew>("Reports/BuildForDocument");
             a.ConfigureRequest<RequestDefaultCheckDocument>("Reports/BuildExistingDocumentDefault");
+            
+            a.ConfigureRequest<RequestGetStatistics>("Statistics/GetStatistics");
         });
 
         builder.Services
@@ -53,6 +57,7 @@ public static class AppInitializer
             });
         
         builder.Services.AddScoped<IPagedListPagesGenerator, PagedListPagesGenerator>();
+        builder.Services.AddSingleton<INavigationCreator, NavigationCreator>();
         
         return builder.Build();
     }

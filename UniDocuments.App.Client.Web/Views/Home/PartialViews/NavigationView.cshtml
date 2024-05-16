@@ -1,0 +1,38 @@
+@model List<NavigationCardViewModel>
+
+@{
+    var isOdd = Model.Count % 2 == 1;
+}
+
+<div class="container-fluid text-white">
+    <section>
+        <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h5 class="text-uppercase ps-2">Навигация</h5>
+            </div>
+        </div>
+        
+        @for (var i = 0; i < Model.Count; i += 2)
+        {
+            if (isOdd && i == Model.Count - 1)
+            {
+                <div class="row mt-2">
+                    <div class="col-12 mb-4">
+                        @await Html.PartialAsync("~/Views/Home/PartialViews/NavigationCard.cshtml", Model[i])
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row mt-2">
+                    <div class="col-xl-6 col-sm-6 col-12 mb-4">
+                        @await Html.PartialAsync("~/Views/Home/PartialViews/NavigationCard.cshtml", Model[i])
+                    </div>
+                    <div class="col-xl-6 col-sm-6 col-12 mb-4">
+                        @await Html.PartialAsync("~/Views/Home/PartialViews/NavigationCard.cshtml", Model[i + 1])
+                    </div>
+                </div>
+            }
+        }
+    </section>
+</div>

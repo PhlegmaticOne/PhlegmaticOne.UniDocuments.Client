@@ -1,0 +1,16 @@
+@model NavigationCardViewModel
+
+<div class="card text-white bg-dark">
+    <div class="card-body">
+        <div class="d-flex justify-content-between px-md-1">
+            <div class="align-self-center">
+                <i class="@Model.IconClasses"></i>
+            </div>
+            <div class="text-end">
+                <h5 class="h5">@Model.Title</h5>
+                <a class="btn btn-grad mt-2 text-center"
+                   asp-action="@Model.Action" asp-controller="@Model.Controller">@Model.ActionName</a>
+            </div>
+        </div>
+    </div>
+</div>
