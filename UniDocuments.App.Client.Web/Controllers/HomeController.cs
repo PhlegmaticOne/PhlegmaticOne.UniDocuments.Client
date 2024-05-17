@@ -40,6 +40,12 @@ public class HomeController : ClientRequestsController
     {
         return View();
     }
+    
+    [HttpGet]
+    public IActionResult ServerShutdown()
+    {
+        return View();
+    }
 
     [HttpGet]
     public IActionResult Error(string errorMessage)

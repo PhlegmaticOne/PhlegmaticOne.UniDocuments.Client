@@ -159,9 +159,17 @@ public class ClientRequestsController : Controller
         
         if (serverResponse.IsSuccess == false)
         {
-            return onFailed is not null
-                ? onFailed(operationResult!)
-                : ErrorView(operationResult.ErrorData!);
+            if (onFailed is not null)
+            {
+                return onFailed(operationResult);
+            }
+
+            if (operationResult?.ErrorData is not null)
+            {
+                return ErrorView(operationResult.ErrorData);
+            }
+
+            return RedirectToAction("ServerShutdown", "Home");
         }
 
         var data = serverResponse.GetData()!;
@@ -183,9 +191,17 @@ public class ClientRequestsController : Controller
         
         if (serverResponse.IsSuccess == false)
         {
-            return onFailed is not null
-                ? onFailed(operationResult!)
-                : ErrorView(operationResult.ErrorData!);
+            if (onFailed is not null)
+            {
+                return onFailed(operationResult);
+            }
+
+            if (operationResult?.ErrorData is not null)
+            {
+                return ErrorView(operationResult.ErrorData);
+            }
+
+            return RedirectToAction("ServerShutdown", "Home");
         }
 
         var data = serverResponse.GetData()!;
