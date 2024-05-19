@@ -1,19 +1,28 @@
 @model ActivityCreatedObject
 
 @{
-    var resultColor = !Model.IsExpired() ? "#f5deb3" : "#9e8b65";
+    var badgeClass = !Model.IsExpired() ? "bg-success" : "bg-danger";
+    var badgeText = !Model.IsExpired() ? "Активна" : "Окончена";
 }
 
 <div class="row mt-4 ms-2 me-2 pet-card">
-    <div class="card-body" style="background: @resultColor">
-        <input class="pet_id" hidden asp-for="Id"/>
-        <h4 class="card-title pt-1">@Model.Name</h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+                <h4 class="card-title pt-1">@Model.Name</h4>
+            </div>
+            <div class="col-4">
+                <div class="row justify-content-center mt-2">
+                    <span class="badge @badgeClass">@badgeText</span>
+                </div>
+            </div>
+        </div>
         <div>
             <label><b>Создатель:</b> @Model.GetCreatorView()</label><br/>
             <label><b>Сроки:</b> @Model.GetTermsView()</label><br/>
             <label><b>Студентов:</b> @Model.StudentsCount</label><br/>
         </div>
-        
+
         <div class="mt-3 mb-1 body-links d-flex justify-content-center">
             <a asp-controller="Activities" asp-action="Detailed" asp-route-activityId="@Model.Id"
                class="btn btn-outline-secondary btn-dark">

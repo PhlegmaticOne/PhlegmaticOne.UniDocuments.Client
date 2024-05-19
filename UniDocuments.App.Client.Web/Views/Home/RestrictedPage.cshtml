@@ -3,4 +3,4 @@
 }
 
 @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Страница для вас недоступна")
-@await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", $"Информация: {User.StudyRole()}, {User.AppRole()}")
+@await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", $"Информация о вас: {User.StudyRole()}, {User.AppRole()}")

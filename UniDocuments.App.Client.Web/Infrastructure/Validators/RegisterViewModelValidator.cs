@@ -7,6 +7,8 @@ public class RegisterViewModelValidator : AbstractValidator<RegisterViewModel>
 {
     public RegisterViewModelValidator()
     {
+        RuleFor(x => x.Password).SetValidator(new PasswordValidator());
+        
         RuleFor(x => x.ConfirmPassword)
             .Equal(x => x.Password)
             .WithMessage("Пароли не совпадают!");

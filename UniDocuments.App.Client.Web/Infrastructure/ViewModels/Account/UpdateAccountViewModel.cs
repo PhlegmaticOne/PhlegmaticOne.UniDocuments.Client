@@ -10,9 +10,14 @@ public class UpdateAccountViewModel : RoleViewsHaving
     public string OldLastName { get; set; } = null!;
     public string? LastName { get; set; }
     public string OldUserName { get; set; } = null!;
-    public string? UserName { get; set; }
-    public DateTime JoinDate { get; set; }
-    [DataType(DataType.Password)] public string? OldPassword { get; set; }
-    [DataType(DataType.Password)] public string? NewPassword { get; set; }
-    [DataType(DataType.Password)] public string? NewPasswordConfirm { get; set; }
+
+    [DataType(DataType.Password)]
+    [Required(ErrorMessage = "Для изменения данных подтвердите пароль")]
+    public string OldPassword { get; set; } = null!;
+    
+    [DataType(DataType.Password)] 
+    public string? NewPassword { get; set; }
+    
+    [DataType(DataType.Password)] 
+    public string? NewPasswordConfirm { get; set; }
 }

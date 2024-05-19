@@ -39,32 +39,38 @@ public class AuthController : ClientRequestsController
     }
 
     [HttpPost]
-    public Task<IActionResult> Register(RegisterViewModel registerViewModel)
+    public Task<IActionResult> Register(RegisterViewModel viewModel)
     {
-        ValidateRegister(registerViewModel);
+        ValidateRegister(viewModel);
 
         if (ModelState.IsValid == false)
         {
-            return Task.FromResult<IActionResult>(View(registerViewModel));
+            return Task.FromResult<IActionResult>(View(viewModel));
         }
 
-        var registerObject = Mapper.Map<RegisterObject>(registerViewModel);
+        var registerObject = Mapper.Map<RegisterObject>(viewModel);
 
-        return Post(new RequestRegister(registerObject), async profile => 
-        { 
-            await AuthenticateAsync(profile); 
-            return RedirectToAction("Details", "Profile", profile); 
-        });
+        return Post(new RequestRegister(registerObject),
+            async profile => 
+            { 
+                await AuthenticateAsync(profile); 
+                return RedirectToAction("Details", "Profile", profile); 
+            },
+            _ =>
+            {
+                ModelState.AddModelError(nameof(RegisterViewModel.UserName), "Пользователь с таким ником уже существует!");
+                return View(viewModel);
+            });
     }
 
     [HttpPost]
-    public Task<IActionResult> Login(LoginViewModel loginViewModel)
+    public Task<IActionResult> Login(LoginViewModel viewModel)
     {
-        var loginObject = Mapper.Map<LoginObject>(loginViewModel);
+        var loginObject = Mapper.Map<LoginObject>(viewModel);
         
         if (ModelState.IsValid == false)
         {
-            return Task.FromResult<IActionResult>(View(loginViewModel));
+            return Task.FromResult<IActionResult>(View(viewModel));
         }
         
         return Post(new RequestLogin(loginObject), 
@@ -72,14 +78,14 @@ public class AuthController : ClientRequestsController
             { 
                 await AuthenticateAsync(profile);
                 
-                return loginViewModel.ReturnUrl is null 
+                return viewModel.ReturnUrl is null 
                     ? RedirectToAction("Details", "Profile", profile) 
-                    : LocalRedirect(loginViewModel.ReturnUrl); 
+                    : LocalRedirect(viewModel.ReturnUrl); 
             }, 
             _ =>
             {
                 ModelState.AddModelError(nameof(LoginViewModel.UserName), ErrorMessageUserNotFound);
-                return View(loginViewModel);
+                return View(viewModel);
             });
     }
 

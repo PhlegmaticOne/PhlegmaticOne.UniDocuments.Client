@@ -15,8 +15,6 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class ProfileController : ClientRequestsController
 {
-    private const string ErrorMessageUpdate = "Проверьте коррекность введенных данных!";
-    
     private readonly IValidator<UpdateAccountViewModel> _updateAccountViewModel;
 
     public ProfileController(
@@ -45,9 +43,9 @@ public class ProfileController : ClientRequestsController
     }
 
     [HttpPost]
-    public IActionResult Details(ProfileViewModel profileObject)
+    public IActionResult Details(ProfileViewModel viewModel)
     {
-        return View(nameof(Details), profileObject);
+        return View(nameof(Details), viewModel);
     }
     
     [HttpGet]
@@ -60,23 +58,22 @@ public class ProfileController : ClientRequestsController
             OldUserName = User.Username(),
             AppRole = User.AppRole(),
             Role = User.StudyRole(),
-            JoinDate = User.JoinDate()
         };
 
         return View(nameof(Update), viewModel);
     }
 
     [HttpPost]
-    public Task<IActionResult> Update(UpdateAccountViewModel updateAccountViewModel)
+    public Task<IActionResult> Update(UpdateAccountViewModel viewModel)
     {
-        ValidateUpdateViewModel(updateAccountViewModel);
+        ValidateUpdateViewModel(viewModel);
 
         if (ModelState.IsValid == false)
         {
-            return Task.FromResult<IActionResult>(View(updateAccountViewModel));
+            return Task.FromResult<IActionResult>(View(viewModel));
         }
 
-        var updateProfileObject = Mapper.Map<UpdateProfileObject>(updateAccountViewModel);
+        var updateProfileObject = Mapper.Map<UpdateProfileObject>(viewModel);
 
         return Post(new RequestUpdateProfile(updateProfileObject), 
             async profile => 
@@ -85,7 +82,11 @@ public class ProfileController : ClientRequestsController
                 await AuthenticateAsync(profile); 
                 return RedirectToAction(nameof(Details), profile); 
             },
-            _ => ErrorView(ErrorMessageUpdate));
+            _ =>
+            {
+                ModelState.AddModelError(nameof(UpdateAccountViewModel.OldPassword), "Введен некорректный старый пароль!");
+                return View(viewModel);
+            });
     }
 
     [HttpGet]
@@ -102,6 +103,15 @@ public class ProfileController : ClientRequestsController
         if (validationResult.IsValid == false)
         {
             validationResult.AddToModelState(ModelState);
+        }
+
+        if (string.IsNullOrEmpty(viewModel.FirstName) &&
+            string.IsNullOrEmpty(viewModel.LastName) &&
+            string.IsNullOrEmpty(viewModel.NewPassword))
+        {
+            ModelState.AddModelError(
+                nameof(UpdateAccountViewModel.OldPassword),
+                "Для обновления информации измените имя, фамилию или пароль");
         }
     }
 }
