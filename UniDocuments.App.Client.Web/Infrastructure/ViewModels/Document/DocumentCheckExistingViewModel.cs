@@ -4,6 +4,7 @@ namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document;
 
 public class DocumentCheckExistingViewModel : DocumentCheckViewModel
 {
+    public Guid ActivityId { get; set; }
     public Guid DocumentId { get; set; }
     public string Name { get; set; } = null!;
     public DateTime DateLoaded { get; set; }

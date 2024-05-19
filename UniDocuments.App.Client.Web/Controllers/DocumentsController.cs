@@ -31,7 +31,7 @@ public class DocumentsController : ClientRequestsController
     [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]
     public IActionResult DetailedCheck(
-        Guid documentId, string documentName, DateTime dateLoaded, string firstName, string lastName)
+        Guid activityId, Guid documentId, string documentName, DateTime dateLoaded, string firstName, string lastName)
     {
         var viewModel = new DocumentCheckExistingViewModel
         {
@@ -40,6 +40,7 @@ public class DocumentsController : ClientRequestsController
             DateLoaded = dateLoaded,
             FirstName = firstName,
             LastName = lastName,
+            ActivityId = activityId
         };
         
         return View(viewModel);

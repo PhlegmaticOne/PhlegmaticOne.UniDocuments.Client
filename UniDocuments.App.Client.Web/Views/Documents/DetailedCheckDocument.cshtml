@@ -17,7 +17,8 @@
                                   asp-controller="Documents"
                                   method="post" 
                                   asp-anti-forgery="true" 
-                                  enctype="multipart/form-data">
+                                  enctype="multipart/form-data"
+                                  class="activity-upload-file-form">
                                 <div class="validation" asp-validation-summary="ModelOnly"></div>
                                 <div>
                                     <div class="form-outline form-white mb-2">
@@ -40,7 +41,7 @@
                                     </div>
                                     <div class="form-outline form-white mb-2">
                                         <label class="mb-2">Файл</label><br/>
-                                        <input class="form-control btn-outline-dark form-select-sm"
+                                        <input class="form-control btn-outline-dark form-select-sm activity-file-input"
                                                type="file"
                                                value="Выбрать"
                                                asp-for="File"
@@ -48,7 +49,9 @@
                                     </div>
                                     <div>
                                         <h5 class="h5 text-danger">@Model?.ErrorMessage</h5>
-                                        <button class="btn btn-outline-light btn-lg mt-3" type="submit">Проверить</button>
+                                        <button class="btn btn-outline-light btn-lg mt-3 activity-submit"
+                                                disabled 
+                                                type="submit">Проверить</button>
                                     </div>
                                 </div>
                             </form>
@@ -63,4 +66,9 @@
 @section Styles
 {
     <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+}
+
+@section Scripts
+{
+    <script src="~/js/activities_upload.js"></script>
 }

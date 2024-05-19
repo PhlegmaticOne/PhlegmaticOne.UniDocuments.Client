@@ -44,7 +44,7 @@ public static class AppInitializer
             
             a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildForExistingDocument");
             a.ConfigureRequest<RequestDetailedCheckDocumentNew>("Reports/BuildForDocument");
-            a.ConfigureRequest<RequestDefaultCheckDocument>("Reports/BuildExistingDocumentDefault");
+            a.ConfigureRequest<RequestDefaultCheckDocument>("Reports/BuildForExistingDocumentDefault");
             
             a.ConfigureRequest<RequestGetStatistics>("Statistics/GetStatistics");
         });

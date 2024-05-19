@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Активность";
+    ViewData["ActivityId"] = Model.Id;
 }
 
 @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", Model.Name)
@@ -26,7 +27,7 @@
                 </div>
             </div>
             <div class="mt-1">
-                @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityDetailedStudentsList.cshtml", Model.Students);
+                @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityDetailedStudentsList.cshtml", Model.Students, ViewData);
             </div>
         </div>
     </div>

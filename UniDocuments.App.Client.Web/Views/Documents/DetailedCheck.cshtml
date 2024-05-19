@@ -21,6 +21,7 @@
                                 <input asp-for="FirstName" hidden/>
                                 <input asp-for="LastName" hidden/>
                                 <input asp-for="Name" hidden/>
+                                <input asp-for="ActivityId" hidden/>
                                 <div>
                                     <div class="form-outline form-white mb-2">
                                         <label asp-for="InferEpochs" class="mb-2">Количество эпох</label><br/>
@@ -36,7 +37,7 @@
                                         <label class="mb-2">Метрика</label><br/>
                                         <select asp-for="BaseMetric" asp-items="Model.BaseMetrics" class="form-select-sm"></select>
                                     </div>
-                                     <div class="form-outline form-white mb-2">
+                                    <div class="form-outline form-white mb-2">
                                         <label class="mb-2">Модель</label><br/>
                                         <select asp-for="ModelName" asp-items="Model.ModelNames" class="form-select-sm"></select>
                                     </div>
@@ -49,6 +50,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-outline-light btn-lg"
+                   asp-controller="Activities"
+                   asp-action="Detailed"
+                   asp-route-activityId="@Model.ActivityId">
+                    Назад
+                </a> 
             </div>
         </div>
     </div>
