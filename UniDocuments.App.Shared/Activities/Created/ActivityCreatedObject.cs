@@ -1,6 +1,8 @@
-﻿namespace UniDocuments.App.Shared.Activities.Created;
+﻿using UniDocuments.App.Shared.Activities.Shared;
 
-public class ActivityCreatedObject
+namespace UniDocuments.App.Shared.Activities.Created;
+
+public class ActivityCreatedObject : IHaveActivityStatus
 {
     public Guid Id { get; set; }
     public string CreatorFirstName { get; set; } = null!;
@@ -19,9 +21,21 @@ public class ActivityCreatedObject
     {
         return $"{CreatorFirstName} {CreatorLastName}";
     }
-    
-    public bool IsExpired()
+
+    public ActivityState GetActivityState()
     {
-        return DateTime.UtcNow > EndDate;
+        var now = DateTime.UtcNow;
+
+        if (now < StartDate)
+        {
+            return ActivityState.Pending;
+        }
+
+        if (now >= StartDate && now <= EndDate)
+        {
+            return ActivityState.Active;
+        }
+
+        return ActivityState.Ended;
     }
 }

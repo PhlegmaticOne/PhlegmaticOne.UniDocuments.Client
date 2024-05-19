@@ -1,9 +1,5 @@
 @model ActivityMyObject
 
-@{
-    var uploadText = Model.HasLoadedDocument() ? "Заменить" : "Загрузить";
-}
-
 <form asp-action="Upload" asp-controller="Documents" method="post" enctype="multipart/form-data">
     <input hidden asp-for="Id"/>
     <div class="container mt-4">
@@ -13,47 +9,26 @@
                 <div class="row mt-2">
                     <h4 class="h4 text-center">@(Model.Name)</h4>
                 </div>
+                <div class="row mt-2">
+                    <div class="container d-flex justify-content-center">
+                        @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityStatus.cshtml", Model)
+                    </div>
+                    <div class="container d-flex justify-content-center">
+                        <div style="font-weight: bold">
+                            @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityTime.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row mb-2">
                     <div class="col-lg-8 col-md-12">
                         <h4 class="my-3 h4">Данные</h4>
                         <h6 class="h6">Создатель: @Model.GetTitle()</h6>
                         <h6 class="h6">Сроки: @Model.GetTerms()</h6>
-                        <h6 class="h6">Описание: @Model.Description</h6>
+                        <h6 class="h6">@Model.Description</h6>
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        <h4 class="my-3 h4">Документ</h4>
-
-                        @if (Model.HasLoadedDocument())
-                        {
-                            <h6 class="h6">Название: @Model.Document!.Name</h6>
-                            <h6 class="h6">Загружен: @Model.Document.GetDateLoadedView()</h6>
-                        }
-
-                        <div class="row mb-0">
-                            <div class="col-8">
-                                <input class="form-control btn-outline-dark form-select-sm"
-                                       type="file"
-                                       value="Выбрать"
-                                       name="file"
-                                       accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/><br>
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control btn-outline-dark form-select-sm" type="submit" value="@uploadText"/>
-                            </div>
-                        </div>
-
-                        @if (Model.HasLoadedDocument())
-                        {
-                            <div class="row mx-4">
-                                <a class="btn btn-outline-dark btn-lg"
-                                   asp-controller="Documents"
-                                   asp-action="Download"
-                                   asp-route-documentId="@Model.Document!.Id">
-                                    Скачать
-                                </a>
-                            </div>
-                        }
+                        @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityMyDocument.cshtml", Model)
                     </div>
                 </div>
             </div>

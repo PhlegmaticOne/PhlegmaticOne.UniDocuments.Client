@@ -1,0 +1,18 @@
+@model IHaveActivityTime
+
+<div>
+    <i class="fa fa-clock mt-3"></i>
+    
+    @switch (Model.GetActivityState())
+    {
+        case ActivityState.Pending:
+            <span>Начнется через: @Model.GetPendingTime()</span><br/>
+            break;
+        case ActivityState.Active:
+            <span>Окончится через: @Model.GetEndTimeForward()</span><br/>
+            break;
+        case ActivityState.Ended:
+            <span>Окончилась назад: @Model.GetEndTimeBack()</span><br/>
+            break;
+    }
+</div>

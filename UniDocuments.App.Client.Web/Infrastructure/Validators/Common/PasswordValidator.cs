@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace UniDocuments.App.Client.Web.Infrastructure.Validators;
+namespace UniDocuments.App.Client.Web.Infrastructure.Validators.Common;
 
 public class PasswordValidator : AbstractValidator<string>
 {

@@ -6,14 +6,14 @@ namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document.Base;
 
 public class DocumentCheckViewModel : ErrorHaving
 {
-    [Range(1, 10)]
+    [Range(1, 10, ErrorMessage = "Число параграфом должно быть между 1 и 10")]
     public int TopCount { get; set; }
     
-    [Range(1, 50)]
+    [Range(1, 50, ErrorMessage = "Число эпох должно быть между 1 и 50")]
     public int InferEpochs { get; set; }
-    [Required]
+    [Required(ErrorMessage = "Метрика не может быть пустой")]
     public string BaseMetric { get; set; } = null!;
-    [Required]
+    [Required(ErrorMessage = "Имя модели не может быть пустым")]
     public string ModelName { get; set; } = null!;
 
     public List<SelectListItem> BaseMetrics { get; set; } = new()

@@ -1,0 +1,21 @@
+@model IHaveActivityStatus
+
+@{
+    var state = Model.GetActivityState();
+    
+    var badgeClass = state switch
+    {
+        ActivityState.Pending => "bg-warning",
+        ActivityState.Active => "bg-success",
+        ActivityState.Ended => "bg-danger",
+    };
+
+    var badgeText = state switch
+    {
+        ActivityState.Pending => "Не начата",
+        ActivityState.Active => "Активна",
+        ActivityState.Ended => "Окончена",
+    };
+}
+
+<span class="badge @badgeClass">@badgeText</span>

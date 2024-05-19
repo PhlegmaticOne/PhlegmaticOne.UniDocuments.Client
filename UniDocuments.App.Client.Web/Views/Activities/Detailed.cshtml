@@ -17,30 +17,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center activity text-white">
-                
-                @if (Model.IsEnd())
-                {
-                    <div>
-                        <span class="ml-2" style="color: green">Активность завершена</span>
-                    </div>
-                }
-                else if (Model.IsStarted())
-                {
-                    <div>
-                        <i class="fa fa-clock"></i>
-                        <span class="ml-2 me-2">Идет: @Model.GetLastTime()</span><br/>
-                        
-                        <i class="fa fa-clock"></i>
-                        <span class="ml-2 me-2">Осталось: @Model.GetRemainTime()</span>
-                    </div>
-                }
-                else
-                {
-                    <div>
-                        <span class="ml-2" style="color: indianred">Активность не начата</span>
-                    </div>
-                }
-
+                <div>
+                    @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityStatus.cshtml", Model)
+                    @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityTime.cshtml", Model)
+                </div>
                 <div>
                     <span class="activity-done">Активность студентов</span>
                 </div>

@@ -1,0 +1,56 @@
+@model ActivityMyObject
+
+@{
+    var state = Model.GetActivityState();
+    var uploadText = Model.HasLoadedDocument() ? "Заменить" : "Загрузить";
+}
+
+<h4 class="my-3 h4 text-center">Документ</h4>
+
+@if (Model.HasLoadedDocument())
+{
+    <h6 class="h6">Название: @Model.Document!.Name</h6>
+    <h6 class="h6">Загружен: @Model.Document.GetDateLoadedView()</h6>
+}
+
+@if (state == ActivityState.Active)
+{
+    <div class="row mb-0">
+        <div class="col-8">
+            <input class="form-control btn-outline-dark form-select-sm"
+                   type="file"
+                   value="Выбрать"
+                   name="file"
+                   accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/><br>
+        </div>
+        <div class="col-4">
+            <input class="form-control btn-outline-dark form-select-sm" type="submit" value="@uploadText"/>
+        </div>
+    </div>
+}
+
+@if (Model.HasLoadedDocument())
+{
+    <div class="row mx-4">
+        <a class="btn btn-outline-dark btn-lg"
+           asp-controller="Documents"
+           asp-action="Download"
+           asp-route-documentId="@Model.Document!.Id">
+            Скачать
+        </a>
+    </div>
+}
+else
+{
+    <div class="container d-flex justify-content-center">
+        @switch (state)
+            {
+                case ActivityState.Pending:
+                    <span class="bg-warning badge text-black">Дождитесь начала активности</span>
+                    break;
+                case ActivityState.Ended:
+                    <span class="bg-danger badge">Документ не был загружен вовремя</span>
+                    break;
+            }
+    </div>
+}

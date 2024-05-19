@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
+using UniDocuments.App.Shared.Activities.Shared;
 
 namespace UniDocuments.App.Shared.Activities.Detailed;
 
-public class ActivityDetailedObject
+public class ActivityDetailedObject : IHaveActivityTime
 {
     public Guid Id { get; set; }
     public string CreatorFirstName { get; set; } = null!;
@@ -29,25 +30,37 @@ public class ActivityDetailedObject
         var time = CreationDate.ToLocalTime();
         return time.ToString("f", CultureInfo.CurrentCulture);
     }
-    
-    public bool IsStarted()
+
+    public string GetPendingTime()
     {
-        return DateTime.UtcNow > StartDate;
-    }
-    
-    public bool IsEnd()
-    {
-        return DateTime.UtcNow > EndDate;
-    }
-    
-    public string GetLastTime()
-    {
-        return FormatTime(DateTime.Now - StartDate.ToLocalTime());
+        return FormatTime(StartDate.ToLocalTime() - DateTime.Now);
     }
 
-    public string GetRemainTime()
+    public string GetEndTimeForward()
     {
         return FormatTime(EndDate.ToLocalTime() - DateTime.Now);
+    }
+
+    public string GetEndTimeBack()
+    {
+        return FormatTime(DateTime.Now - EndDate.ToLocalTime());
+    }
+
+    public ActivityState GetActivityState()
+    {
+        var now = DateTime.UtcNow;
+
+        if (now < StartDate)
+        {
+            return ActivityState.Pending;
+        }
+
+        if (now >= StartDate && now <= EndDate)
+        {
+            return ActivityState.Active;
+        }
+
+        return ActivityState.Ended;
     }
 
     private static string FormatTime(TimeSpan timeSpan)
