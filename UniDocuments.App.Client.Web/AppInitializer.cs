@@ -41,6 +41,7 @@ public static class AppInitializer
             
             a.ConfigureRequest<RequestTrainDoc2Vec>("NeuralModel/TrainDoc2Vec");
             a.ConfigureRequest<RequestTrainKeras>("NeuralModel/TrainKeras");
+            a.ConfigureRequest<RequestRebuildFingerprints>("NeuralModel/RebuildFingerprints");
             
             a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildForExistingDocument");
             a.ConfigureRequest<RequestDetailedCheckDocumentNew>("Reports/BuildForDocument");

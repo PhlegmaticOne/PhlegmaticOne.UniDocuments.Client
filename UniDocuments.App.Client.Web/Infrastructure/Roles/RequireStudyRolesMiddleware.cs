@@ -20,7 +20,7 @@ public class RequireStudyRolesMiddleware
 
         if (endpoint is not null)
         {
-            var endpointActionData = context.GetEndpoint()!.Metadata.GetRequiredMetadata<ControllerActionDescriptor>();
+            var endpointActionData = endpoint.Metadata.GetRequiredMetadata<ControllerActionDescriptor>();
             var studyRolesAttribute = endpointActionData.MethodInfo.GetCustomAttribute<RequireStudyRolesAttribute>();
 
             if (studyRolesAttribute is not null && studyRolesAttribute.StudyRoles.Contains(studyRole) == false)

@@ -1,0 +1,36 @@
+@model NeuralTrainDoc2VecViewModel
+
+@{
+    Layout = "_Column_Layout";
+    ViewData["Title"] = "Обновление \"печатей\"";
+}
+
+<section>
+    <div class="container my-4">
+        <div class="row d-flex justify-content-center align-items-center ">
+            <div class="col-12 col-md-8">
+                <div class="card bg-dark text-white m-3" style="border-radius: 1rem;">
+                    <div class="card-body p-4 text-center box">
+                        <div class="col text-center">
+                            <a class="btn btn-outline-light btn-lg"
+                               asp-controller="AdminTools"
+                               asp-action="RebuildFingerprintsExecute">
+                                Обновить
+                            </a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section ColumnContent
+{
+    @await Html.PartialAsync("~/Views/AdminTools/PartialViews/AdminToolsNavigation.cshtml")
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+}

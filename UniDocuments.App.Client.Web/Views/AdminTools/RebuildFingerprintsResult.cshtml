@@ -1,0 +1,41 @@
+@model FingerprintsUpdateObject
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Обновление печатей";
+}
+
+<section>
+    <div class="container my-4">
+        <div class="row d-flex justify-content-center align-items-center ">
+            <div class="col-12 col-md-8">
+                <div class="card bg-dark text-white m-3" style="border-radius: 1rem;">
+                    <div class="card-body p-4 text-center box">
+                        <div class="mb-md-2 mt-md-2">
+                            <h2 class="fw-bold text-uppercase mb-3">Результат:</h2>
+                            <h4 class="fw-bold mb-3">Обновлено "печатей": @Model.Count</h4>
+                            <h4 class="fw-bold mb-3">Время: @Model.Time.ToString("g")</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-outline-light btn-lg"
+                   asp-controller="Home"
+                   asp-action="Index">
+                    На главную
+                </a> 
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+}

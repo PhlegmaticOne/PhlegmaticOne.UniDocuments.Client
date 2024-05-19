@@ -64,6 +64,13 @@ public class AdminToolsController : ClientRequestsController
         return Get(new RequestGetGlobalData(), data => View(new NeuralTrainDoc2VecViewModel { GlobalData = data }));
     }
 
+    [HttpGet]
+    [RequireAppRoles(AppRole.Admin)]
+    public IActionResult RebuildFingerprints()
+    {
+        return View();
+    }
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     [RequireAppRoles(AppRole.Admin)]
@@ -125,6 +132,13 @@ public class AdminToolsController : ClientRequestsController
         return Post(new RequestTrainDoc2Vec(data),
             result => View("TrainDoc2VecResult", result),
             result => View("TrainDoc2VecResult", result.GetErrorDataAs<NeuralTrainResultDoc2Vec>()));
+    }
+    
+    [HttpGet]
+    [RequireAppRoles(AppRole.Admin)]
+    public Task<IActionResult> RebuildFingerprintsExecute()
+    {
+        return Post(new RequestRebuildFingerprints(), result => View("RebuildFingerprintsResult", result));
     }
     
     private void ValidateDoc2VecViewModel(NeuralTrainDoc2VecViewModel viewModel)
