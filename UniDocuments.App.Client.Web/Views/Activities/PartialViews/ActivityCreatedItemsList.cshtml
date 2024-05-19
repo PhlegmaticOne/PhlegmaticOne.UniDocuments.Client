@@ -3,8 +3,6 @@
 <div class="card-group vgr-cards mt-2 justify-content-around">
     @foreach (var activityDisplayObject in Model)
     {
-        <div>
-            @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityCreatedItem.cshtml", activityDisplayObject, ViewData)
-        </div>
+        @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityCreatedItem.cshtml", activityDisplayObject, ViewData)
     }
 </div>

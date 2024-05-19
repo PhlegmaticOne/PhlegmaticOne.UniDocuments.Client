@@ -1,6 +1,6 @@
 @model IList<ActivityMyObject>
 
 @foreach (var activity in Model)
-{
+{ 
     @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityMyItem.cshtml", activity) 
 }

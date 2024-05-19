@@ -8,20 +8,20 @@
     <input hidden asp-for="Id"/>
     <div class="container mt-4">
         <div class="row justify-content-center">
-            <div class="col-lg-10 col-md-8 col-sm-6 col-6 pet-info text-dark"
+            <div class="col-lg-10 col-md-8 col-sm-8 col-8 pet-info text-dark"
                  style="background: wheat !important; border-radius: 0.7rem">
                 <div class="row mt-2">
                     <h4 class="h4 text-center">@(Model.Name)</h4>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col-md-8">
+                    <div class="col-lg-8 col-md-12">
                         <h4 class="my-3 h4">Данные</h4>
                         <h6 class="h6">Создатель: @Model.GetTitle()</h6>
                         <h6 class="h6">Сроки: @Model.GetTerms()</h6>
                         <h6 class="h6">Описание: @Model.Description</h6>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4 col-md-12">
                         <h4 class="my-3 h4">Документ</h4>
 
                         @if (Model.HasLoadedDocument())
