@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.ApiRequesting.Models.Requests;
+﻿namespace UniDocuments.ApiRequesting.Models.Requests;
 
 public abstract class ClientPutRequest<TRequest, TResponse> : ClientRequest<TRequest, TResponse>
 {

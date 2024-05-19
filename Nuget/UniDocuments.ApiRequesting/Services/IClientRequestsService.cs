@@ -1,7 +1,7 @@
-﻿using PhlegmaticOne.ApiRequesting.Models;
-using PhlegmaticOne.ApiRequesting.Models.Requests;
+﻿using UniDocuments.ApiRequesting.Models;
+using UniDocuments.ApiRequesting.Models.Requests;
 
-namespace PhlegmaticOne.ApiRequesting.Services;
+namespace UniDocuments.ApiRequesting.Services;
 
 public interface IClientRequestsService
 {

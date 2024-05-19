@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.PagedLists;
+﻿namespace UniDocuments.Results;
 
 public class PagedList<T>
 {

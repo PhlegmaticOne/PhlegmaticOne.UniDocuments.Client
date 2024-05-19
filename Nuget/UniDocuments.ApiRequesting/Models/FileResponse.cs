@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace PhlegmaticOne.ApiRequesting.Models;
+namespace UniDocuments.ApiRequesting.Models;
 
 public class FileResponse
 {

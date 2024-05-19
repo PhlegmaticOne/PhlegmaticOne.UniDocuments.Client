@@ -3,7 +3,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PhlegmaticOne.ApiRequesting.Services;
+using UniDocuments.ApiRequesting.Services;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;

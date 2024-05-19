@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PhlegmaticOne.OperationResults;
+namespace UniDocuments.Results;
 
 [Serializable]
 public class OperationResult

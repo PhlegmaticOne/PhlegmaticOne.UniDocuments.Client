@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using PhlegmaticOne.ApiRequesting.Extensions;
+using UniDocuments.ApiRequesting.Extensions;
 using UniDocuments.App.Client.Web.Infrastructure.Requests;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Account;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Activities;

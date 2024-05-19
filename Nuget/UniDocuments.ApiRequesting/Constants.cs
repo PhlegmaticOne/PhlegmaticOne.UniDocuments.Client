@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.ApiRequesting;
+﻿namespace UniDocuments.ApiRequesting;
 
 internal static class Constants
 {

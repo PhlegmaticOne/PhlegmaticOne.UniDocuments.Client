@@ -6,11 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniDocuments.App.Client.Web
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{805DFBED-677E-411A-A3D2-38BA11241CE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhlegmaticOne.ApiRequesting", "Nuget\PhlegmaticOne.ApiRequesting\PhlegmaticOne.ApiRequesting.csproj", "{2E489469-28B5-4FBC-BF99-5EFAB351758F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniDocuments.ApiRequesting", "Nuget\UniDocuments.ApiRequesting\UniDocuments.ApiRequesting.csproj", "{2E489469-28B5-4FBC-BF99-5EFAB351758F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhlegmaticOne.OperationResults", "Nuget\PhlegmaticOne.OperationResults\PhlegmaticOne.OperationResults.csproj", "{B16EACEE-796F-48CE-A1C6-412B0E5B13F1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhlegmaticOne.PagedLists", "Nuget\PhlegmaticOne.PagedList\PhlegmaticOne.PagedLists.csproj", "{B3A6866D-712E-404B-90F7-69612D1EE9E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniDocuments.Results", "Nuget\UniDocuments.Results\UniDocuments.Results.csproj", "{B16EACEE-796F-48CE-A1C6-412B0E5B13F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,14 +32,9 @@ Global
 		{B16EACEE-796F-48CE-A1C6-412B0E5B13F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B16EACEE-796F-48CE-A1C6-412B0E5B13F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B16EACEE-796F-48CE-A1C6-412B0E5B13F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3A6866D-712E-404B-90F7-69612D1EE9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3A6866D-712E-404B-90F7-69612D1EE9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3A6866D-712E-404B-90F7-69612D1EE9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3A6866D-712E-404B-90F7-69612D1EE9E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2E489469-28B5-4FBC-BF99-5EFAB351758F} = {805DFBED-677E-411A-A3D2-38BA11241CE1}
 		{B16EACEE-796F-48CE-A1C6-412B0E5B13F1} = {805DFBED-677E-411A-A3D2-38BA11241CE1}
-		{B3A6866D-712E-404B-90F7-69612D1EE9E1} = {805DFBED-677E-411A-A3D2-38BA11241CE1}
 	EndGlobalSection
 EndGlobal

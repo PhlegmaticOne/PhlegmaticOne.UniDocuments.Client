@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.ApiRequesting.Models.Requests;
+﻿using UniDocuments.ApiRequesting.Models.Requests;
 using UniDocuments.App.Shared.Neural;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Neural;

@@ -1,6 +1,6 @@
-﻿using PhlegmaticOne.ApiRequesting.Models.Requests;
+﻿using UniDocuments.ApiRequesting.Models.Requests;
 
-namespace PhlegmaticOne.ApiRequesting.Builders;
+namespace UniDocuments.ApiRequesting.Builders;
 
 public class ClientRequestsBuilder
 {

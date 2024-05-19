@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace PhlegmaticOne.ApiRequesting.Models;
+namespace UniDocuments.ApiRequesting.Models;
 
 public interface IFormData
 {

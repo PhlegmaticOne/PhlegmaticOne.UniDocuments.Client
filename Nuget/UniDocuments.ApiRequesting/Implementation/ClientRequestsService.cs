@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using PhlegmaticOne.ApiRequesting.Models;
-using PhlegmaticOne.ApiRequesting.Models.Requests;
-using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.OperationResults;
+using UniDocuments.ApiRequesting.Models;
+using UniDocuments.ApiRequesting.Models.Requests;
+using UniDocuments.ApiRequesting.Services;
+using UniDocuments.Results;
 
-namespace PhlegmaticOne.ApiRequesting.Implementation;
+namespace UniDocuments.ApiRequesting.Implementation;
 
 public class ClientRequestsService : IClientRequestsService
 {

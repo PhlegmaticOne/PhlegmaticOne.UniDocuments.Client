@@ -3,12 +3,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using PhlegmaticOne.ApiRequesting.Models;
-using PhlegmaticOne.ApiRequesting.Models.Requests;
-using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.OperationResults;
+using UniDocuments.ApiRequesting.Models;
+using UniDocuments.ApiRequesting.Models.Requests;
+using UniDocuments.ApiRequesting.Services;
 using UniDocuments.App.Client.Web.Infrastructure.Helpers;
 using UniDocuments.App.Shared.Users;
+using UniDocuments.Results;
 
 namespace UniDocuments.App.Client.Web.Controllers.Base;
 
@@ -24,15 +24,6 @@ public class ClientRequestsController : Controller
     {
         Mapper = mapper;
         _clientRequestsService = clientRequestsService;
-    }
-
-    protected async Task<IActionResult> Get<TRequest, TResponse>(
-        ClientGetRequest<TRequest, TResponse> clientGetRequest,
-        Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onFailed = null)
-    {
-        var serverResponse = await _clientRequestsService.GetAsync(clientGetRequest, GetJwtToken());
-        return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
     protected async Task<IActionResult> Get<TRequest, TResponse>(
@@ -69,15 +60,6 @@ public class ClientRequestsController : Controller
     {
         var serverResponse = await _clientRequestsService.PostFormAsync(clientPostRequest, GetJwtToken());
         return await HandleResponse(serverResponse, onSuccess, onFailed);
-    }
-
-    protected async Task<IActionResult> Put<TRequest, TResponse>(
-        ClientPutRequest<TRequest, TResponse> clientPostRequest,
-        Func<TResponse, Task<IActionResult>> onSuccess,
-        Func<OperationResult, IActionResult>? onFailed = null)
-    {
-        var serverResponse = await _clientRequestsService.PutAsync(clientPostRequest, GetJwtToken());
-        return await HandleResponseAsync(serverResponse, onSuccess, onFailed);
     }
     
     protected async Task<IActionResult> DownloadFile<TRequest>(

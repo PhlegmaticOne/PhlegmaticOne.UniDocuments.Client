@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>UniDocuments.ApiRequesting</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhlegmaticOne.OperationResults\PhlegmaticOne.OperationResults.csproj" />
+    <ProjectReference Include="..\UniDocuments.Results\UniDocuments.Results.csproj" />
   </ItemGroup>
 
   <ItemGroup>

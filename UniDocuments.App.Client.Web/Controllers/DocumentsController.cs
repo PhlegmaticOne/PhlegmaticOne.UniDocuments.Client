@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PhlegmaticOne.ApiRequesting.Services;
-using PhlegmaticOne.OperationResults;
+using UniDocuments.ApiRequesting.Services;
 using UniDocuments.App.Client.Web.Controllers.Base;
 using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document;
 using UniDocuments.App.Shared.Documents;
 using UniDocuments.App.Shared.Users.Enums;
+using UniDocuments.Results;
 
 namespace UniDocuments.App.Client.Web.Controllers;
 

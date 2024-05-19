@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using PhlegmaticOne.OperationResults;
+using UniDocuments.Results;
 
-namespace PhlegmaticOne.ApiRequesting.Models;
+namespace UniDocuments.ApiRequesting.Models;
 
 [Serializable]
 public class ServerResponse

@@ -1,5 +1,5 @@
-﻿using PhlegmaticOne.ApiRequesting.Models;
-using PhlegmaticOne.ApiRequesting.Models.Requests;
+﻿using UniDocuments.ApiRequesting.Models;
+using UniDocuments.ApiRequesting.Models.Requests;
 using UniDocuments.App.Shared.Documents;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
