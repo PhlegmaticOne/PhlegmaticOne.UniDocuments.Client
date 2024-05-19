@@ -55,9 +55,19 @@
                                         <input type="number" asp-for="MinWordsCount" class="form-control form-control-sm text-center"/>
                                         <span asp-validation-for="MinWordsCount" class="text-danger"></span>
                                     </div>
-                                    <div>
-                                        <button class="btn btn-outline-light btn-lg my-4" type="submit">Обучить</button>
-                                    </div>
+                                    
+                                    @if (Model.GlobalData.DocumentsCount == 0)
+                                    {
+                                        <div>
+                                            <span class="text-warning">Модель нельзя обучить поскольку нет загруженных документов</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <button class="btn btn-outline-light btn-lg my-4" type="submit">Обучить</button>
+                                        </div>
+                                    }
                                 </div>
                             </form>
                         </div>

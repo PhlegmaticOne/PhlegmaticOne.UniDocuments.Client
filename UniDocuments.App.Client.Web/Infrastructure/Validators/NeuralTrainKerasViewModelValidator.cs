@@ -13,7 +13,7 @@ public class NeuralTrainKerasViewModelValidator : AbstractValidator<NeuralTrainK
             .WithMessage("Скорость обучения должна быть числом");
 
         RuleFor(x => x.WindowSize)
-            .Must(x => x % 2 == 0)
+            .Must(x => x % 2 == 1)
             .WithMessage("Размер окна должен быть нечетным числом");
     }
 }
