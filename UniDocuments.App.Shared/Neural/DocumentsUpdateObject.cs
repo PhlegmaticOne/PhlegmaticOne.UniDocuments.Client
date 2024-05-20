@@ -1,6 +1,6 @@
 ﻿namespace UniDocuments.App.Shared.Neural;
 
-public class FingerprintsUpdateObject
+public class DocumentsUpdateObject
 {
     public int Count { get; set; }
     public TimeSpan Time { get; set; }

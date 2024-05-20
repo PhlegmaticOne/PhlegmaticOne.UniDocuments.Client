@@ -66,7 +66,7 @@ public class AdminToolsController : ClientRequestsController
 
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]
-    public IActionResult RebuildFingerprints()
+    public IActionResult RebuildDocuments()
     {
         return View();
     }
@@ -136,9 +136,9 @@ public class AdminToolsController : ClientRequestsController
     
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]
-    public Task<IActionResult> RebuildFingerprintsExecute()
+    public Task<IActionResult> RebuildDocumentsExecute()
     {
-        return Post(new RequestRebuildFingerprints(), result => View("RebuildFingerprintsResult", result));
+        return Post(new RequestRebuildDocuments(), result => View("RebuildDocumentsResult", result));
     }
     
     private void ValidateDoc2VecViewModel(NeuralTrainDoc2VecViewModel viewModel)
