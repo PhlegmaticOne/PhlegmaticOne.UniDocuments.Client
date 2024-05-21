@@ -19,7 +19,7 @@
                                 <div class="validation" asp-validation-summary="ModelOnly"></div>
                                 <div>
                                     <div class="form-outline form-white mb-2">
-                                        <label asp-for="UserName" class="mb-2">Введите ник</label><br/>
+                                        <label asp-for="UserName" class="mb-2">Введите e-mail</label><br/>
                                         <input type="text" asp-for="UserName" class="form-control form-control-sm"/>
                                         <span asp-validation-for="UserName" class="text-danger"></span>
                                     </div>
@@ -32,10 +32,6 @@
                                         <label asp-for="LastName" class="mb-2">Введите фамилию</label><br/>
                                         <input type="text" asp-for="LastName" class="form-control form-control-sm"/>
                                         <span asp-validation-for="LastName" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-outline form-white mb-2">
-                                        <label class="mb-2">Статус</label><br/>
-                                        <select asp-for="Role" asp-items="Model.Roles" class="form-select-sm"></select>
                                     </div>
                                     <div class="form-outline form-white mb-2">
                                         <label asp-for="Password" class="mb-2">Введите пароль</label><br/>

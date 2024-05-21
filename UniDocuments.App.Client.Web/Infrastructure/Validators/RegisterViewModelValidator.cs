@@ -8,6 +8,8 @@ public class RegisterViewModelValidator : AbstractValidator<RegisterViewModel>
 {
     public RegisterViewModelValidator()
     {
+        RuleFor(x => x.UserName).EmailAddress().WithMessage("Невалидная электронная почта!");
+        
         RuleFor(x => x.Password).SetValidator(new PasswordValidator());
         
         RuleFor(x => x.ConfirmPassword)

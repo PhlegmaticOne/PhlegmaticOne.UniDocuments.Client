@@ -3,7 +3,7 @@ using UniDocuments.App.Shared.Admin;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.Requests.Admin;
 
-public class RequestMakeAdmin : ClientPostRequest<AdminCreateObject, bool>
+public class RequestMakeAdmin : ClientPostRequest<AdminUpdateRoleObject, bool>
 {
-    public RequestMakeAdmin(AdminCreateObject requestData) : base(requestData) { }
+    public RequestMakeAdmin(AdminUpdateRoleObject requestData) : base(requestData) { }
 }

@@ -20,7 +20,7 @@ namespace UniDocuments.App.Client.Web.Controllers;
 [Authorize]
 public class AdminToolsController : ClientRequestsController
 {
-    private const string AdminSuccessFormat = "Пользователь {0} теперь админ!";
+    private const string AdminSuccessFormat = "Роль пользователя {0} обновлена!";
     private const string UserNotFoundMessage = "Пользователь не найден";
     
     private readonly IValidator<NeuralTrainDoc2VecViewModel> _doc2VecValidator;
@@ -40,12 +40,12 @@ public class AdminToolsController : ClientRequestsController
     [RequireAppRoles(AppRole.Admin)]
     public IActionResult Index()
     {
-        return View("MakeAdmin", new AdminMakeAdminViewModel());
+        return View("UpdateRole", new AdminMakeAdminViewModel());
     }
 
     [HttpGet]
     [RequireAppRoles(AppRole.Admin)]
-    public IActionResult MakeAdmin()
+    public IActionResult UpdateRole()
     {
         return View(new AdminMakeAdminViewModel());
     }
@@ -74,14 +74,14 @@ public class AdminToolsController : ClientRequestsController
     [HttpPost]
     [ValidateAntiForgeryToken]
     [RequireAppRoles(AppRole.Admin)]
-    public Task<IActionResult> MakeAdmin(AdminMakeAdminViewModel viewModel)
+    public Task<IActionResult> UpdateRole(AdminMakeAdminViewModel viewModel)
     {
         if (ModelState.IsValid == false)
         {
             return Task.FromResult<IActionResult>(View(viewModel));
         }
         
-        var data = Mapper.Map<AdminCreateObject>(viewModel);
+        var data = Mapper.Map<AdminUpdateRoleObject>(viewModel);
         
         return Post(new RequestMakeAdmin(data),
             _ =>

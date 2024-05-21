@@ -12,7 +12,8 @@ public class AdminMapperConfiguration : Profile
 {
     public AdminMapperConfiguration()
     {
-        CreateMap<AdminMakeAdminViewModel, AdminCreateObject>()
+        CreateMap<AdminMakeAdminViewModel, AdminUpdateRoleObject>()
+            .ForMember(x => x.AppRole, o => o.MapFrom(x => Enum.Parse<AppRole>(x.AppRole)))
             .ForMember(x => x.StudyRole, o => o.MapFrom(x => Enum.Parse<StudyRole>(x.Role)));
 
         CreateMap<NeuralTrainKerasViewModel, NeuralTrainOptionsKeras>()

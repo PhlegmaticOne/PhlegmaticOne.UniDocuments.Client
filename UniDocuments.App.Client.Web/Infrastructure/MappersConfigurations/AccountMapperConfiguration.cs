@@ -9,11 +9,9 @@ public class AccountMapperConfiguration : Profile
 {
     public AccountMapperConfiguration()
     {
-        CreateMap<RegisterViewModel, RegisterObject>()
-            .ForMember(x => x.StudyRole, o => o.MapFrom(x => Enum.Parse<StudyRole>(x.Role)));
-        
-        CreateMap<LoginViewModel, LoginObject>()
-            .ForMember(x => x.StudyRole, o => o.MapFrom(x => Enum.Parse<StudyRole>(x.Role)));
+        CreateMap<RegisterViewModel, RegisterObject>();
+
+        CreateMap<LoginViewModel, LoginObject>();
         
         CreateMap<UpdateAccountViewModel, UpdateProfileObject>()
             .ForMember(x => x.FirstName, o => o.MapFrom(x => x.FirstName ?? string.Empty))

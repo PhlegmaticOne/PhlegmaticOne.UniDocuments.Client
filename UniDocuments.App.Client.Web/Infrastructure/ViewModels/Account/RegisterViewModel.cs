@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Account.Base;
+using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Base;
 
 namespace UniDocuments.App.Client.Web.Infrastructure.ViewModels.Account;
 
-public class RegisterViewModel : RoleListHaving
+public class RegisterViewModel : ErrorHaving
 {
     [Required(ErrorMessage = "Имя не может быть пустым")]
     [MinLength(2, ErrorMessage = "Имя должно быть не менее 2 симловов")]

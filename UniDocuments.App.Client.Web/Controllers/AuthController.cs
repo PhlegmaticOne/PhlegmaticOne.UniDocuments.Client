@@ -66,12 +66,12 @@ public class AuthController : ClientRequestsController
     [HttpPost]
     public Task<IActionResult> Login(LoginViewModel viewModel)
     {
-        var loginObject = Mapper.Map<LoginObject>(viewModel);
-        
         if (ModelState.IsValid == false)
         {
             return Task.FromResult<IActionResult>(View(viewModel));
         }
+        
+        var loginObject = Mapper.Map<LoginObject>(viewModel);
         
         return Post(new RequestLogin(loginObject), 
             async profile => 
