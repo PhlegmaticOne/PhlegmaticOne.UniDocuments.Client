@@ -1,0 +1,12 @@
+@model DocumentsSearchResult
+
+<div class="container mt-4" id="#search_result">
+    <label class="text-success text-center" style="font-size: 1.5rem">Результаты</label>
+    
+    <ul class="list list-inline mt-3">
+        @foreach (var result in Model.Entries)
+        {
+            @await Html.PartialAsync("~/Views/Documents/PartialViews/DocumentSearchResultEntry.cshtml", result)
+        }
+    </ul>
+</div>

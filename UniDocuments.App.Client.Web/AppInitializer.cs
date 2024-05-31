@@ -34,19 +34,20 @@ public static class AppInitializer
             a.ConfigureRequest<RequestGetActivitiesStudent>("Activities/GetForStudent");
             a.ConfigureRequest<RequestGetDetailedActivity>("Activities/GetDetailed");
             a.ConfigureRequest<RequestCreateActivity>("Activities/Create");
-            
+
             a.ConfigureRequest<RequestDownloadDocument>("Documents/Download");
             a.ConfigureRequest<RequestUploadDocument>("Documents/Upload");
             a.ConfigureRequest<RequestGetGlobalData>("Documents/GetGlobalData");
-            
+
             a.ConfigureRequest<RequestTrainDoc2Vec>("NeuralModel/TrainDoc2Vec");
             a.ConfigureRequest<RequestTrainKeras>("NeuralModel/TrainKeras");
             a.ConfigureRequest<RequestRebuildDocuments>("NeuralModel/RebuildDocuments");
-            
+
             a.ConfigureRequest<RequestDetailedCheckDocument>("Reports/BuildForExistingDocument");
             a.ConfigureRequest<RequestDetailedCheckDocumentNew>("Reports/BuildForDocument");
             a.ConfigureRequest<RequestDefaultCheckDocument>("Reports/BuildForExistingDocumentDefault");
-            
+            a.ConfigureRequest<RequestSearchDocument>("Reports/Search");
+
             a.ConfigureRequest<RequestGetStatistics>("Statistics/GetStatistics");
         });
 

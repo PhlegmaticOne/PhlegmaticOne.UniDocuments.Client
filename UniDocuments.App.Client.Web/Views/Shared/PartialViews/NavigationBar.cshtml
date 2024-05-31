@@ -30,6 +30,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Documents" asp-action="DetailedCheckDocument">Проверить документ</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Documents" asp-action="Search">Найти</a>
+                            </li>
                             break;
                     }
 
@@ -38,6 +41,9 @@
                         case AppRole.Admin:
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="AdminTools" asp-action="Index">Админка</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Documents" asp-action="Search">Найти</a>
                             </li>
                             break;
                     }

@@ -1,0 +1,82 @@
+﻿@model DocumentsSearchViewModel
+
+@{
+    ViewData["Title"] = "Найти";
+}
+
+<div class="d-flex justify-content-center mt-1">
+    <div class="row">
+        @await Html.PartialAsync("~/Views/Shared/PageTitle.cshtml", "Найти")
+        
+        <div class="row">
+            <label class="mt-2 text-white text-center" style="font-size: 2rem">Фраза для поиска</label><br/>
+            
+            <div class="col-12 d-flex justify-content-center">
+                <textarea class="form-control form-control-lg my-1" id="phrase" rows="8" style="resize: none"></textarea>
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-center text-white">
+                <div class="form-outline form-white mb-2">
+                    <label class="mb-2" style="font-size: 1.2rem">Максимальное количество</label><br/>
+                    <input type="number" id="count" class="form-control form-control-sm text-center"/>
+                </div>
+            </div>
+            
+            <div class="col-md-12 d-flex justify-content-center text-white">
+                <div class="form-outline form-white mb-2">
+                    <label class="mb-2">Модель</label><br/>
+                    <select asp-items="Model.ModelNames" class="form-select-sm" id="model_name"></select>
+                </div>
+            </div>
+            
+            <label class="mt-1 text-danger text-center" id="#error_label"></label>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-md-12 d-flex justify-content-center">
+                <input class="btn btn-outline-light btn-lg" id="search_button" value="Найти"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4" id="#search_result"></div>
+
+
+@section Scripts
+{
+    <script>
+        $(function (){
+            $("#search_button").click(async function () {
+                const viewModel = {
+                    Phrase: $("#phrase").val(),
+                    Count: parseInt($("#count").val()),
+                    ModelName: $("#model_name option:selected").val()
+                }
+                
+                const url = "@Url.Action("Search", "Documents")"
+                
+                const response = await window.fetch(url,
+                {
+                     method: "POST",
+                     headers: { 'Content-type': "application/json" },
+                     body: JSON.stringify(viewModel)
+                });
+                
+                if (response.ok === false){
+                    document.getElementById('#error_label').innerHTML = 'Проверьте валидность данных'
+                }
+                else{
+                    document.getElementById('#search_result').innerHTML = await response.text();
+                }
+            })
+        })
+    </script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Account/auth.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/Activities/detailed.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css"/>
+}

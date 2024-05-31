@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UniDocuments.ApiRequesting.Services;
@@ -7,6 +8,7 @@ using UniDocuments.App.Client.Web.Infrastructure.Requests.Documents;
 using UniDocuments.App.Client.Web.Infrastructure.Roles;
 using UniDocuments.App.Client.Web.Infrastructure.ViewModels.Document;
 using UniDocuments.App.Shared.Documents;
+using UniDocuments.App.Shared.Documents.Search;
 using UniDocuments.App.Shared.Users.Enums;
 using UniDocuments.Results;
 
@@ -17,9 +19,15 @@ public class DocumentsController : ClientRequestsController
 {
     private const string ErrorMessageFileNotFound = "Файл не найден!";
     
+    private readonly IValidator<DocumentsSearchViewModel> _searchValidator;
+
     public DocumentsController(
-        IClientRequestsService clientRequestsService, IMapper mapper) : 
-        base(clientRequestsService, mapper) { }
+        IClientRequestsService clientRequestsService, IMapper mapper,
+        IValidator<DocumentsSearchViewModel> searchValidator) : 
+        base(clientRequestsService, mapper)
+    {
+        _searchValidator = searchValidator;
+    }
     
     [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]
@@ -27,6 +35,28 @@ public class DocumentsController : ClientRequestsController
     {
         return DownloadFile(new RequestDefaultCheckDocument(documentId), ErrorResultFileNotFound);
     }
+
+    [HttpGet]
+    public IActionResult Search()
+    {
+        return View(new DocumentsSearchViewModel());
+    }
+
+    [HttpPost]
+    public Task<IActionResult> Search([FromBody] DocumentsSearchViewModel? viewModel)
+    {
+        if (viewModel is null || !_searchValidator.Validate(viewModel).IsValid)
+        {
+            return Task.FromResult<IActionResult>(BadRequest(viewModel));
+        }
+
+        var searchObject = Mapper.Map<DocumentsSearchObject>(viewModel);
+
+        return Post(new RequestSearchDocument(searchObject), result =>
+        {
+            return PartialView("~/Views/Documents/PartialViews/DocumentsSearchResult.cshtml", result);
+        });
+    } 
 
     [HttpGet]
     [RequireStudyRoles(StudyRole.Teacher)]
