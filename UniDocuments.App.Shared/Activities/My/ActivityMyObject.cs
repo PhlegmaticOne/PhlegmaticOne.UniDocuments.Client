@@ -12,6 +12,9 @@ public class ActivityMyObject : IHaveActivityTime
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public ActivityDocumentObject? Document { get; set; }
+    
+    public int PageSize { get; set; }
+    public int PageIndex { get; set; }
 
     public ActivityState GetActivityState()
     {

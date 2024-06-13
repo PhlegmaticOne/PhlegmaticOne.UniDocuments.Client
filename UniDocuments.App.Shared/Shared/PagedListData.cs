@@ -7,7 +7,7 @@ public class PagedListData
         return new PagedListData
         {
             PageIndex = pageIndex is null ? 0 : pageIndex.Value - 1,
-            PageSize = pageSize ?? 15
+            PageSize = pageSize ?? 5
         };
     }
     

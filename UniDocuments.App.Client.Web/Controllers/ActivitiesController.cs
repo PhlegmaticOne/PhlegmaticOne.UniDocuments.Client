@@ -42,6 +42,7 @@ public class ActivitiesController : ClientRequestsController
         
         return Get(new RequestGetActivitiesStudent(pageData), result =>
         {
+            result.SetPageData(pageData.PageIndex, pageData.PageSize);
             ViewData["PageSize"] = pageData.PageSize;
             return View(result.Activities);
         });

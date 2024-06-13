@@ -9,4 +9,7 @@ public class DocumentUploadObject
     
     [Required(ErrorMessage = "Выберите документ для загрузки")]
     public IFormFile File { get; set; } = null!;
+    
+    public int PageSize { get; set; }
+    public int PageIndex { get; set; }
 }

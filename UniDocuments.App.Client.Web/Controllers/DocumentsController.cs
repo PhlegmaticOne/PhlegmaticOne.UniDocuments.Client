@@ -115,7 +115,11 @@ public class DocumentsController : ClientRequestsController
     [RequireStudyRoles(StudyRole.Student)]
     public Task<IActionResult> Upload([FromForm] DocumentUploadObject viewModel)
     {
-        return PostForm(new RequestUploadDocument(viewModel), _ => RedirectToAction("My", "Activities"));
+        return PostForm(new RequestUploadDocument(viewModel), _ => RedirectToAction("My", "Activities", new
+        {
+            pageIndex = viewModel.PageIndex,
+            pageSize = viewModel.PageSize
+        }));
     }
 
     public Task<IActionResult> Download(Guid documentId)

@@ -2,6 +2,9 @@
 
 <form asp-action="Upload" asp-controller="Documents" method="post" enctype="multipart/form-data" class="activity-upload-file-form">
     <input hidden asp-for="Id"/>
+    <input hidden asp-for="PageSize"/>
+    <input hidden asp-for="PageIndex"/>
+    
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-md-8 col-sm-8 col-8 pet-info text-dark"
@@ -28,7 +31,7 @@
                         <h6 class="h6">@Model.Description</h6>
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityMyDocument.cshtml", Model)
+                        @await Html.PartialAsync("~/Views/Activities/PartialViews/ActivityMyDocument.cshtml", Model, ViewData)
                     </div>
                 </div>
             </div>
